@@ -12,22 +12,22 @@ const Header = () => {
   };
 
   const menuItems = [
-    <li>
+    <li key={0}>
       <Link className="Button" href="/">
         Home
       </Link>
     </li>,
-    <li>
-      <Link className="Button" href={"/tourGuide"}>
+    <li key={1}>
+      <Link className="Button" href={"/tour-guide"}>
         Tour Guides
       </Link>
     </li>,
-    <li>
+    <li key={2}>
       <Link className="Button" href="/about">
         About Us
       </Link>
     </li>,
-    <li className="hidden md:block">
+    <li className="hidden md:block" key={3}>
       <AccountDropDown />
     </li>,
   ];

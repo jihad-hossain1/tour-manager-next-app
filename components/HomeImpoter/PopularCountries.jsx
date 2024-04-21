@@ -1,3 +1,11 @@
+import React from "react";
+
+const PopularCountries = async () => {
+  return <div>PopularCountries</div>;
+};
+
+export default PopularCountries;
+
 // "use client";
 
 // import React from "react";

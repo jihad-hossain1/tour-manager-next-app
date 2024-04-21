@@ -2,11 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const AccountDropDown = () => {
-  const isClient = {
-    role: "admin",
+  const navigate = useRouter();
+  const client = {
+    role: "user",
   };
+
+  const [isClient, setClient] = useState(client);
 
   const [open, setOpen] = useState(false);
   const dropDownRef = useRef(null);
@@ -16,12 +20,12 @@ const AccountDropDown = () => {
     setClient(null);
 
     setTimeout(() => {
-      navigate("/signin");
+      navigate.push("/user-login");
     }, 1000);
   };
 
   useEffect(() => {
-    const close = (e) => {
+    const close = (e: { target: any }) => {
       if (dropDownRef.current && !dropDownRef.current.contains(e.target))
         setOpen(false);
     };
@@ -47,7 +51,7 @@ const AccountDropDown = () => {
       >
         {!isClient ? (
           <>
-            <Link href={"/signin"}>
+            <Link href={"/user-login"}>
               <li
                 className={`rounded-sm p-2 ${
                   open ? "opacity-100 duration-300" : "opacity-0"
@@ -56,7 +60,7 @@ const AccountDropDown = () => {
                 {"Login"}
               </li>
             </Link>
-            <Link href={"/signup"}>
+            <Link href={"/user-register"}>
               <li
                 className={`rounded-sm p-2 ${
                   open ? "opacity-100 duration-300" : "opacity-0"
@@ -68,8 +72,8 @@ const AccountDropDown = () => {
           </>
         ) : (
           <>
-            {isClient.role == "admin" && (
-              <Link href={"/dashboard"}>
+            {isClient.role == "user" && (
+              <Link href={"/user-dashboard"}>
                 <li
                   className={`rounded-sm p-2 ${
                     open ? "opacity-100 duration-300" : "opacity-0"
@@ -79,7 +83,7 @@ const AccountDropDown = () => {
                 </li>
               </Link>
             )}
-            <Link href={"/profile"}>
+            <Link href={"/user-dashboard/user-profile"}>
               <li
                 className={`rounded-sm p-2 ${
                   open ? "opacity-100 duration-300" : "opacity-0"
