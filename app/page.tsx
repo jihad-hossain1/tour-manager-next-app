@@ -1,14 +1,16 @@
 import Slider from "@/components/slider/Slider";
 import React from "react";
+import PopularDestination from "@/components/HomeImpoter/popularDestination";
 import PopularCountries from "@/components/HomeImpoter/PopularCountries";
-import Continents from "@/components/HomeImpoter/Continent";
+import PopularGuide from "@/components/HomeImpoter/PopularGuide";
 
 const Homepage = () => {
   return (
-    <div>
+    <div className="pb-10">
       <Slider />
+      <PopularDestination />
       <PopularCountries />
-      <Continents />
+      <PopularGuide />
     </div>
   );
 };

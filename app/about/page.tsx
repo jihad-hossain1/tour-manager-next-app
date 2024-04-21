@@ -1,7 +1,8 @@
+import PageContainer from "@/components/ui/pageContainer";
 import React from "react";
 
 const About = () => {
-  return <div>About</div>;
+  return <PageContainer>About</PageContainer>;
 };
 
 export default About;
