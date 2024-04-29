@@ -1,3 +1,4 @@
+import TourSpotReviewsSection from '@/components/tourSpots/TourSpotReviewsSection';
 import PageContainer from '@/components/ui/pageContainer';
 import { getTourSpotDetails } from '@/service/query/tourSpotQuery';
 import Image from 'next/image';
@@ -58,10 +59,10 @@ const TourSpotDetails = async ({ params }) => {
                             </p>
                         </div>
                         {/* review section  */}
-                        {/* <TourSpotReviewsSection
-                            reviews={data?.singleTourspotDetails?.reviews}
-                            id={data?.singleTourspotDetails?.id}
-                        /> */}
+                        <TourSpotReviewsSection
+                            reviews={data?.reviews}
+                            id={data?.id}
+                        />
                     </main>
                     <aside className="sticky top-20  bg-zinc-100/30 rounded-md shadow-[2px_5px_7px_rgba(0,0,0,0.25)] min-w-[392px] h-fit mx-auto ">
                         {/* new tour place section  */}
