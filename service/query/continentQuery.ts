@@ -33,6 +33,7 @@ export const getContinent = async (id: string): Promise<ContinentResponse> => {
         singleContinent(id: $id) {
           id
           name
+          photo
         }
       }
     `,

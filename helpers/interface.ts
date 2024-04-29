@@ -1,5 +1,10 @@
-import { CityType, Continent, CountryType } from "./types";
-
+import {
+  CityType,
+  Continent,
+  CountryType,
+  TourSpotDetailType,
+  TourSpotType,
+} from "./types";
 
 export interface ContinentResponse {
   [x: string]: any[];
@@ -14,4 +19,13 @@ export interface CityResponse {
 export interface CountryResponse {
   [x: string]: any[];
   data: CountryType[];
+}
+
+export interface TourSpotResponse {
+  [x: string]: any[];
+  data: TourSpotType[];
+}
+
+export interface TourSpotDetailResponse {
+  data: TourSpotDetailType;
 }
