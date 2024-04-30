@@ -1,7 +1,8 @@
+import PageContainer from "@/components/ui/pageContainer";
 import React from "react";
 
 const UserProfile = () => {
-  return <div>UserProfile</div>;
+  return <PageContainer>UserProfile</PageContainer>;
 };
 
 export default UserProfile;

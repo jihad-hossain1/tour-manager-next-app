@@ -3,25 +3,29 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 const AccountDropDown = () => {
   const navigate = useRouter();
-  const client = {
-    role: "user",
-  };
 
-  const [isClient, setClient] = useState(client);
+  const { data, status } = useSession();
+
+  let clientRole = data?.user?.role == 'client'
+  let adminRole = data?.user?.role == 'admin';
+  let userRole = data?.user?.role == 'user';
+
+  console.log(clientRole)
 
   const [open, setOpen] = useState(false);
   const dropDownRef = useRef(null);
 
   const handleLogout = () => {
-    localStorage.removeItem("client");
-    setClient(null);
-
-    setTimeout(() => {
+    signOut({ redirect: false });
+    if (clientRole) {
+      navigate.push("/client-login");
+    } else if (userRole) {
       navigate.push("/user-login");
-    }, 1000);
+    }
   };
 
   useEffect(() => {
@@ -49,59 +53,74 @@ const AccountDropDown = () => {
             : "invisible translate-y-4"
         } absolute top-12 z-50 w-full space-y-1 rounded-sm bg-sky-400`}
       >
-        {!isClient ? (
+        {status === 'authenticated' ? (
           <>
-            <Link href={"/user-login"}>
-              <li
-                className={`rounded-sm p-2 ${
-                  open ? "opacity-100 duration-300" : "opacity-0"
-                } hover:bg-sky-500`}
-              >
-                {"Login"}
-              </li>
-            </Link>
-            <Link href={"/user-register"}>
-              <li
-                className={`rounded-sm p-2 ${
-                  open ? "opacity-100 duration-300" : "opacity-0"
-                } hover:bg-sky-500`}
-              >
-                {"Register"}
-              </li>
-            </Link>
-          </>
-        ) : (
-          <>
-            {isClient.role == "user" && (
+            {userRole && (
               <Link href={"/user-dashboard"}>
                 <li
-                  className={`rounded-sm p-2 ${
-                    open ? "opacity-100 duration-300" : "opacity-0"
-                  } hover:bg-sky-500`}
+                  className={`rounded-sm p-2 ${open ? "opacity-100 duration-300" : "opacity-0"
+                    } hover:bg-sky-500`}
                 >
                   {"Deshboard"}
                 </li>
               </Link>
             )}
-            <Link href={"/user-dashboard/user-profile"}>
-              <li
-                className={`rounded-sm p-2 ${
-                  open ? "opacity-100 duration-300" : "opacity-0"
-                } hover:bg-sky-500`}
-              >
-                {"Profile"}
-              </li>
-            </Link>
+            {
+              clientRole && (
+                <Link href={"/client-dashboard"}>
+                  <li
+                    className={`rounded-sm p-2 ${open ? "opacity-100 duration-300" : "opacity-0"
+                      } hover:bg-sky-500`}
+                  >
+                    {"Dashboard"}
+                  </li>
+                </Link>
+              )
+            }
 
             <li
               onClick={handleLogout}
-              className={`rounded-sm p-2 cursor-pointer ${
-                open ? "opacity-100 duration-300" : "opacity-0"
-              } hover:bg-sky-500`}
+              className={`rounded-sm p-2 cursor-pointer ${open ? "opacity-100 duration-300" : "opacity-0"
+                } hover:bg-sky-500`}
             >
               {"Logout"}
             </li>
           </>
+        ) : (
+            <>
+              <Link href={"/user-login"}>
+                <li
+                  className={`rounded-sm p-2 ${open ? "opacity-100 duration-300" : "opacity-0"
+                    } hover:bg-sky-500`}
+                >
+                  {"User Login"}
+                </li>
+              </Link>
+              <Link href={"/user-register"}>
+                <li
+                  className={`rounded-sm p-2 ${open ? "opacity-100 duration-300" : "opacity-0"
+                    } hover:bg-sky-500`}
+                >
+                  {"User Register"}
+                </li>
+              </Link>
+              <Link href={"/client-login"}>
+                <li
+                  className={`rounded-sm p-2 ${open ? "opacity-100 duration-300" : "opacity-0"
+                    } hover:bg-sky-500`}
+                >
+                  {"Client Login"}
+                </li>
+              </Link>
+              <Link href={"/client-register"}>
+                <li
+                  className={`rounded-sm p-2 ${open ? "opacity-100 duration-300" : "opacity-0"
+                    } hover:bg-sky-500`}
+                >
+                  {"Client Register"}
+                </li>
+              </Link>
+            </>
         )}
       </ul>
     </div>

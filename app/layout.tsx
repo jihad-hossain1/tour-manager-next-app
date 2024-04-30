@@ -3,6 +3,8 @@ import "./globals.css";
 // import Provider from "@/config/context";
 import Footer from "@/components/shared/footer/Footer";
 import Header from "@/components/shared/navbar/Header";
+import AuthProvider from "@/config/context";
+import Toaster from "@/components/ui/toaster"
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,9 +19,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <main>
-          <Header />
-          <div>{children}</div>
-          <Footer />
+          <AuthProvider>
+            <Header />
+            <div>{children}</div>
+            <Footer />
+            <Toaster />
+          </AuthProvider>
         </main>
       </body>
     </html>
