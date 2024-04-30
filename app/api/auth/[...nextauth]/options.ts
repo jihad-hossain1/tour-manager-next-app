@@ -105,14 +105,9 @@ export const options: NextAuthOptions = {
         }
 
         try {
-          // await mongooseConnection();
-
-          console.log(credentials);
-
           const foundClient = await Client.findOne({
             email: email,
           });
-          console.log(foundClient);
 
           const user = {
             email: foundClient?.email,
@@ -167,6 +162,7 @@ export const options: NextAuthOptions = {
       return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
   // pages: {
   //   signIn: ["/admin/login", "/login"],
   // },
