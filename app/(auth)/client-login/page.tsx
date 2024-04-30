@@ -6,11 +6,14 @@ import Link from "next/link";
 import PageContainer from "@/components/ui/pageContainer";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 const ClientLoginPage = () => {
+  const { data } = useSession()
+  let adminRole = data?.user?.role == 'admin'
+  let clientRole = data?.user?.role == 'client'
   const router = useRouter()
   const [loading, setloading] = useState<boolean>(false);
   const [errors, setErrors] = useState<string | null>('');
@@ -54,7 +57,11 @@ const ClientLoginPage = () => {
       }
       setloading(false)
       router.refresh();
-      router.push("/client-dashboard");
+      if (adminRole) {
+        router.push("/super-admin-dashboard")
+      } else if (clientRole) {
+        router.push("/client-dashboard")
+      }
     } catch (error) {
       console.log(error)
     }

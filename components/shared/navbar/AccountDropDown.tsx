@@ -77,6 +77,18 @@ const AccountDropDown = () => {
                 </Link>
               )
             }
+            {
+              adminRole && (
+                <Link href={"/super-admin-dashboard"}>
+                  <li
+                    className={`rounded-sm p-2 ${open ? "opacity-100 duration-300" : "opacity-0"
+                      } hover:bg-sky-500`}
+                  >
+                    {"Dashboard"}
+                  </li>
+                </Link>
+              )
+            }
 
             <li
               onClick={handleLogout}
@@ -96,14 +108,7 @@ const AccountDropDown = () => {
                   {"User Login"}
                 </li>
               </Link>
-              <Link href={"/user-register"}>
-                <li
-                  className={`rounded-sm p-2 ${open ? "opacity-100 duration-300" : "opacity-0"
-                    } hover:bg-sky-500`}
-                >
-                  {"User Register"}
-                </li>
-              </Link>
+
               <Link href={"/client-login"}>
                 <li
                   className={`rounded-sm p-2 ${open ? "opacity-100 duration-300" : "opacity-0"
@@ -112,14 +117,7 @@ const AccountDropDown = () => {
                   {"Client Login"}
                 </li>
               </Link>
-              <Link href={"/client-register"}>
-                <li
-                  className={`rounded-sm p-2 ${open ? "opacity-100 duration-300" : "opacity-0"
-                    } hover:bg-sky-500`}
-                >
-                  {"Client Register"}
-                </li>
-              </Link>
+
             </>
         )}
       </ul>

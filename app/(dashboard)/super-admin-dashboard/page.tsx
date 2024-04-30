@@ -1,7 +1,8 @@
+import PageContainer from "@/components/ui/pageContainer";
 import React from "react";
 
 const SuperAdminDashboardpage = () => {
-  return <div>SuperAdminDashboardpage</div>;
+  return <PageContainer>SuperAdminDashboardpage</PageContainer>;
 };
 
 export default SuperAdminDashboardpage;
