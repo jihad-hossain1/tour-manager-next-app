@@ -1,8 +1,6 @@
 import { gql } from "graphql-request";
 import { getClient } from "@/service/graphqlClient";
-// import { getClient } from "@/service/graphqlClient";
 
-// Function to perform mutation
 export const createCity = async (cityData) => {
   const client = getClient(false);
   const gqlResponse = await client.request(
@@ -38,5 +36,42 @@ export const createCity = async (cityData) => {
 
   return {
     data: gqlResponse?.addCity || null,
+  };
+};
+
+
+export const createCountry = async (countryData) => {
+  const client = getClient(false);
+  const gqlResponse = await client.request(
+    gql`
+      mutation addCountry(
+        $name: String
+        $description: String
+        $continentId: ID
+        $photo: String
+      ) {
+        addCountry(
+          name: $name
+          description: $description
+          continentId: $continentId
+          photo: $photo
+        ) {
+          id
+          name
+          photo
+          description
+        }
+      }
+    `,
+    {
+      name: countryData.name,
+      description: countryData.description,
+      continetId: countryData.continentId,
+      photo: countryData.photo,
+    }
+  );
+
+  return {
+    data: gqlResponse?.addCountry || null,
   };
 };

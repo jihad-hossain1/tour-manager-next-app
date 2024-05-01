@@ -26,7 +26,7 @@ export type CountryType = {
   id: string;
   name: string;
   photo: string;
-  code: string;
+  description: string;
   createdAt: string;
   updatedAt: string;
   cities: CityType[];

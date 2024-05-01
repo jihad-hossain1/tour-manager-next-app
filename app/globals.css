@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.link{
+    @apply hover:underline hover:font-semibold text-blue-800 hover:text-blue-600 ;
+}

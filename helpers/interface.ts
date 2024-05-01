@@ -29,3 +29,8 @@ export interface TourSpotResponse {
 export interface TourSpotDetailResponse {
   data: TourSpotDetailType;
 }
+
+
+export interface CountryTypeResponse {
+  data: CountryType;
+}
