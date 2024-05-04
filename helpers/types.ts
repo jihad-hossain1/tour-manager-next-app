@@ -29,6 +29,7 @@ export type CountryType = {
   description: string;
   createdAt: string;
   updatedAt: string;
+  continentId: string;
   cities: CityType[];
 };
 

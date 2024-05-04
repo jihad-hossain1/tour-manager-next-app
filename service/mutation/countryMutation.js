@@ -66,7 +66,7 @@ export const createCountry = async (countryData) => {
     {
       name: countryData.name,
       description: countryData.description,
-      continetId: countryData.continentId,
+      continentId: countryData.continentId,
       photo: countryData.photo,
     }
   );
@@ -75,3 +75,44 @@ export const createCountry = async (countryData) => {
     data: gqlResponse?.addCountry || null,
   };
 };
+
+
+export const updateCountry = async (countryData) => {
+  const client = getClient(false);
+  const gqlResponse = await client.request(
+    gql`
+      mutation updateCountry(
+        $id: ID
+        $name: String
+        $description: String
+        $continentId: ID
+        $photo: String
+      ) {
+        updateCountry(
+          id: $id
+          name: $name
+          description: $description
+          continentId: $continentId
+          photo: $photo
+        ) {
+          id
+          name
+          photo
+          description
+          continentId
+        }
+      }
+    `,
+    {
+      id: countryData.id,
+      name: countryData.name,
+      description: countryData.description,
+      continentId: countryData.continentId,
+      photo: countryData.photo,
+    }
+  );
+
+  return {
+    data: gqlResponse?.updateCountry || null,
+  }
+}

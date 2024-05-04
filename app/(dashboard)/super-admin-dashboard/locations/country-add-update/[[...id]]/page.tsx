@@ -4,7 +4,7 @@ import PageContainer from '@/components/ui/pageContainer'
 import { getAllContinents } from '@/service/query/continentQuery'
 import { Button, MenuItem, Select, TextField } from '@mui/material'
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { createCountry } from '@/service/mutation/countryMutation'
+import { createCountry, updateCountry } from '@/service/mutation/countryMutation'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { getCountry } from '@/service/query/countryQuery'
@@ -16,18 +16,16 @@ const AddwithUpdatepage = ({ params }) => {
     const [errors, setErrors] = useState('')
     const [success, setSuccess] = useState('')
     const [isEdit, setIsEdit] = useState(false);
-    const [userId, setUserId] = useState(null);
     const router = useRouter()
     const [formData, setFormData] = useState({
         name: "",
         description: "",
+        photo: ""
     })
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
-
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,33 +38,53 @@ const AddwithUpdatepage = ({ params }) => {
 
     useEffect(() => {
         if (params?.id) {
-            fetchCountryData(params?.id);
+            fetchCountryData(params?.id[0]);
             setIsEdit(true);
-            // setUserId(params?.id);
         }
     }, [params?.id]);
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log({ ...formData, continentId })
 
         try {
 
-            setLoading(true)
+            if (params?.id) {
+                setLoading(true)
+                const result = await updateCountry({ ...formData, continentId, id: params?.id[0] });
 
-            const result = await createCountry({ ...formData, continentId });
+                setLoading(false);
 
-            console.log(result)
+                if (result?.data?.id) {
+                    setLoading(false)
+                    setSuccess(result?.data?.name)
+                    toast.success("Country update successfully")
+                } else {
+                    setLoading(false)
+                // toast.error("Something went wrong")
+                    console.log(result)
+                    toast.error(result?.error)
+                }
+            } else {
+                setLoading(true)
+                const result = await createCountry({ ...formData, continentId });
 
-            setLoading(false);
-
-            if (result?.data?.id) {
-                setLoading(false)
-                setSuccess(result?.data?.name)
-                toast.success("Country created successfully")
+                if (result?.data?.id) {
+                    setLoading(false)
+                    setSuccess(result?.data?.name)
+                    toast.success("Country created successfully")
+                } else {
+                    setLoading(false)
+                    // toast.error("Something went wrong")
+                    console.log(result)
+                    toast.error(result?.error)
+                }
             }
+
+            setLoading(false)
+
         } catch (error) {
+            setLoading(false)
             console.log(error);
         }
 
@@ -76,13 +94,12 @@ const AddwithUpdatepage = ({ params }) => {
         try {
             const response = await getCountry(id);
 
-            console.log(response?.data)
-
             setFormData({
                 name: response?.data?.name || "",
                 description: response?.data?.description || "",
-
+                photo: response?.data?.photo || "" 
             });
+            setContinentId(response?.data?.continentId || '')
 
         } catch (error) {
             console.error("Error fetching country information:", error);
@@ -94,6 +111,7 @@ const AddwithUpdatepage = ({ params }) => {
         setFormData({
             name: "",
             description: "",
+            photo: ""
         })
         setContinentId("")
     }
@@ -114,9 +132,13 @@ const AddwithUpdatepage = ({ params }) => {
                         ))}
                     </Select>
                     <div className='flex gap-4'>
-                        <Button variant="contained" color="primary" disabled={loading} className=' bg-blue-500 hover:bg-blue-600' type="submit">
+                        {params?.id ? (
+                            <Button variant="contained" color="primary" disabled={loading} className=' bg-blue-500 hover:bg-blue-600' type="submit">
+                                {loading ? "Loading..." : "Update"}
+                            </Button>
+                        ) : <Button variant="contained" color="primary" disabled={loading} className=' bg-blue-500 hover:bg-blue-600' type="submit">
                             {loading ? "Loading..." : "Submit"}
-                        </Button>
+                        </Button>}
                         <Button variant="contained" color="error" className=' bg-red-500 hover:bg-red-600' onClick={handleClear}>
                             Clear
                         </Button>

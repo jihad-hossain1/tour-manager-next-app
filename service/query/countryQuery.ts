@@ -37,6 +37,7 @@ export const getCountry = async (id: string): Promise<CountryTypeResponse> => {
           name
           description
           photo
+          continentId
         }
       }
     `,
