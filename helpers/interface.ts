@@ -2,6 +2,7 @@ import {
   CityType,
   Continent,
   CountryType,
+  DivisionType,
   TourSpotDetailType,
   TourSpotType,
 } from "./types";
@@ -30,7 +31,11 @@ export interface TourSpotDetailResponse {
   data: TourSpotDetailType;
 }
 
-
 export interface CountryTypeResponse {
   data: CountryType;
+}
+
+export interface DivisionResponse {
+  [x: string]: any[];
+  data: DivisionType[];
 }

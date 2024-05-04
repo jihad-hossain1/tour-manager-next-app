@@ -81,3 +81,11 @@ export type ReplyType = {
   createdAt: string;
   content: string;
 };
+
+export type DivisionType = {
+  id: string;
+  name: string;
+  photo: string;
+  description: string;
+  countryId: string;
+};
