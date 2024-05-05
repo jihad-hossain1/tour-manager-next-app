@@ -10,14 +10,12 @@ export const createCity = async (cityData) => {
         $description: String
         $divisionId: ID
         $photo: String
-        $countryId: ID
       ) {
         addCity(
           name: $name
           description: $description
           divisionId: $divisionId
           photo: $photo
-          countryId: $countryId
         ) {
           id
           name
@@ -29,7 +27,6 @@ export const createCity = async (cityData) => {
       name: cityData.name,
       description: cityData.description,
       photo: cityData.photo,
-      countryId: cityData.countryId,
       divisionId: cityData.divisionId,
     }
   );
