@@ -1,0 +1,1 @@
+sidebar link: https://codesandbox.io/p/sandbox/framer-motion-side-menu-mx2rw?file=%2Fsrc%2Fuse-dimensions.ts&from-embed=

@@ -1,24 +1,25 @@
 "use client";
 
 import PageContainer from "@/components/ui/pageContainer";
-import { getCountries } from "@/service/query/countryQuery";
-import { getDivisions } from "@/service/query/divisionQuery";
+import { createCity } from "@/service/mutation/countryMutation";
 import {
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   TextField,
 } from "@mui/material";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 
+
 const CityForm = ({ divisions, countries, id }) => {
-  // const [divisions, setDivisions] = useState([]);
-  // const [countries, setCountries] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const router = useRouter()
   const [divisionId, setDivisionId] = useState("");
   const [countryId, setCountryId] = useState("");
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -33,29 +34,57 @@ const CityForm = ({ divisions, countries, id }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    try {
+      if (id) {
+        setLoading(true);
+        console.log(formData)
+        setLoading(false);
+      } else {
+        setLoading(true);
+        console.log(formData)
+
+        const result = await createCity({
+          ...formData,
+          divisionId,
+          countryId,
+        })
+
+        if (result?.data?.id) {
+          console.log(result)
+          setLoading(false);
+          router.refresh();
+          toast.success("City added successfully");
+        }
+        if (result?.error) {
+          console.log(result)
+          setLoading(false);
+          toast.error(result?.error)
+        }
+        setLoading(false);
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
   };
 
-  // useEffect(() => {
-  //   async function fetchDivisions() {
-  //     const response = await getDivisions();
-  //     setDivisions(response?.data);
-  //   }
-  //   fetchDivisions();
-  // }, []);
 
-  // useEffect(() => {
-  //   async function fetchCountry() {
-  //     const response = await getCountries();
-  //     setCountries(response?.data);
-  //   }
-
-  //   fetchCountry();
-  // }, []);
 
   const divisionFilter = (cid: string) => {
     let result = divisions?.filter((item) => item?.countryId == cid);
     return result;
   };
+
+  function handleClear() {
+    setFormData({
+      name: "",
+      description: "",
+      photo: "",
+    });
+    setDivisionId("");
+    setCountryId("");
+  }
 
   return (
     <PageContainer>
@@ -80,7 +109,7 @@ const CityForm = ({ divisions, countries, id }) => {
             value={formData.description}
             onChange={handleChange}
           />
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <FormControl sx={{ minWidth: 120 }}>
             <InputLabel id="dem2">Select Country</InputLabel>
             <Select
               labelId="dem2"
@@ -100,7 +129,7 @@ const CityForm = ({ divisions, countries, id }) => {
             </Select>
           </FormControl>
 
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <FormControl sx={{ minWidth: 120 }}>
             <InputLabel id="dem1">Select Divisions</InputLabel>
             <Select
               labelId="dem1"
@@ -125,6 +154,39 @@ const CityForm = ({ divisions, countries, id }) => {
               ))}
             </Select>
           </FormControl>
+
+          <div className="flex gap-4">
+            {id ? (
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={loading}
+                className=" bg-blue-500 hover:bg-blue-600"
+                type="submit"
+              >
+                {loading ? "Loading..." : "Update"}
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={loading}
+                className=" bg-blue-500 hover:bg-blue-600"
+                type="submit"
+              >
+                {loading ? "Loading..." : "Submit"}
+              </Button>
+            )}
+
+            <Button
+              variant="contained"
+              color="error"
+              className=" bg-red-500 hover:bg-red-600"
+              onClick={handleClear}
+            >
+              Clear
+            </Button>
+          </div>
         </div>
       </form>
     </PageContainer>
