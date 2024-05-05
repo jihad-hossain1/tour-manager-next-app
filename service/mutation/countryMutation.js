@@ -10,12 +10,14 @@ export const createCity = async (cityData) => {
         $description: String
         $divisionId: ID
         $photo: String
+        $countryId: ID
       ) {
         addCity(
           name: $name
           description: $description
           divisionId: $divisionId
           photo: $photo
+         countryId: $countryId
         ) {
           id
           name
@@ -28,6 +30,7 @@ export const createCity = async (cityData) => {
       description: cityData.description,
       photo: cityData.photo,
       divisionId: cityData.divisionId,
+      countryId: cityData.countryId
     }
   );
 
@@ -35,6 +38,50 @@ export const createCity = async (cityData) => {
     data: gqlResponse?.addCity || null,
   };
 };
+
+export const updataCity = async (cityData) => {
+  const client = getClient();
+  const gqlResponse = await client.request(
+    gql`
+      mutation updateCity(
+        $id: ID
+        $name: String
+        $description: String
+        $divisionId: ID
+        $countryId: ID
+        $photo: String
+      ){
+        updateCity(
+          id: $id
+          name: $name
+          description: $description
+          divisionId: $divisionId
+          photo: $photo
+          countryId: $countryId
+        ) {
+          id
+          name
+          photo
+          description
+          divisionId
+          countryId
+        }
+
+      }
+    `,
+    {
+      id: cityData.id,
+      divisionId: cityData.divisionId,
+      name: cityData.name,
+      photo: cityData.photo,
+      description: cityData.description,
+      countryId: cityData.countryId
+    }
+    
+  )
+console.log(gqlResponse);
+  return gqlResponse || null
+}
 
 
 export const createCountry = async (countryData) => {

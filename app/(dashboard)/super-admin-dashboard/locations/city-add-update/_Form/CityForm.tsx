@@ -1,7 +1,6 @@
 "use client";
 
 import PageContainer from "@/components/ui/pageContainer";
-import { createCity } from "@/service/mutation/countryMutation";
 import {
   Button,
   FormControl,
@@ -11,12 +10,13 @@ import {
   TextField,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { addCity } from "./addCity";
+import { updatedCity } from "./updatedCity";
 
-
-const CityForm = ({ divisions, countries, id }) => {
-  const router = useRouter()
+const CityForm = ({ divisions, countries, id, city }) => {
+  const router = useRouter();
   const [divisionId, setDivisionId] = useState("");
   const [countryId, setCountryId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,43 +38,74 @@ const CityForm = ({ divisions, countries, id }) => {
     try {
       if (id) {
         setLoading(true);
-        console.log(formData)
-        setLoading(false);
-      } else {
-        setLoading(true);
-        console.log(formData)
-
-        const result = await createCity({
+        const result = await updatedCity({
           ...formData,
           divisionId,
           countryId,
-        })
+          id: id[0],
+        });
+
+        setLoading(false);
+
+        if (result?.updateCity?.id) {
+          setLoading(false);
+          router.refresh();
+          toast.success("City updated successfully");
+        }
+
+        if (result?.error) {
+          console.log(result);
+          setLoading(false);
+          toast.error(result?.error);
+        }
+        setLoading(false);
+      } else {
+        setLoading(true);
+        console.log(formData);
+
+        const result = await addCity({ ...formData, divisionId, countryId });
 
         if (result?.data?.id) {
-          console.log(result)
+          console.log(result);
           setLoading(false);
           router.refresh();
           toast.success("City added successfully");
         }
         if (result?.error) {
-          console.log(result)
+          console.log(result);
           setLoading(false);
-          toast.error(result?.error)
+          toast.error(result?.error);
         }
         setLoading(false);
       }
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
-
-
 
   const divisionFilter = (cid: string) => {
     let result = divisions?.filter((item) => item?.countryId == cid);
     return result;
   };
+
+  useEffect(() => {
+    if (id) {
+      setFormData({
+        name: city?.name,
+        description: city?.description,
+        photo: city?.photo,
+      });
+      setDivisionId(city?.divisionId);
+      setCountryId(city?.countryId);
+    }
+  }, [
+    city?.countryId,
+    city?.description,
+    city?.divisionId,
+    city?.name,
+    city?.photo,
+    id,
+  ]);
 
   function handleClear() {
     setFormData({
