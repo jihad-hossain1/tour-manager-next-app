@@ -160,3 +160,39 @@ export const updateCountry = async (countryData) => {
     data: gqlResponse?.updateCountry || null,
   }
 }
+
+export const createDivision = async (divisionData) => {
+  const client = getClient(false);
+  const gqlResponse = await client.request(
+    gql`
+      mutation addDivision(
+        $name: String
+        $description: String
+        $countryId: ID
+        $photo: String
+      ) {
+        addDivision(
+          name: $name
+          description: $description
+          countryId: $countryId
+          photo: $photo
+        ) {
+          id
+          name
+          photo
+          description
+        }
+      }
+    `,
+    {
+      name: divisionData.name,
+      description: divisionData.description,
+      countryId: divisionData.countryId,
+      photo: divisionData.photo,
+    }
+  );
+
+  return {
+    data: gqlResponse?.addDivision || null,
+  }
+}
