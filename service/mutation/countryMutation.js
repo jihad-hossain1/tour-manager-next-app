@@ -196,3 +196,44 @@ export const createDivision = async (divisionData) => {
     data: gqlResponse?.addDivision || null,
   }
 }
+
+
+export const updateDivision = async (divisionData) => {
+  const client = getClient();
+  const gqlResponse = await client.request(
+    gql`
+      mutation updateDivision(
+        $id: ID
+        $name: String
+        $description: String
+        $countryId: ID
+        $photo: String
+      ) {
+        updateDivision(
+          id: $id
+          name: $name
+          description: $description
+          countryId: $countryId
+          photo: $photo
+        ) {
+          id
+          name
+          photo 
+          description
+          countryId
+        }
+      }
+    `,
+    {
+      id: divisionData.id,
+      name: divisionData.name,
+      description: divisionData.description,
+      countryId: divisionData.countryId,
+      photo: divisionData.photo,
+    }
+  );
+
+  return {
+    data: gqlResponse?.updateDivision || null,
+  }
+}

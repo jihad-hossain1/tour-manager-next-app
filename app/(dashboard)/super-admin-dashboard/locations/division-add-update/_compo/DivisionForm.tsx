@@ -8,19 +8,20 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { addDivision } from "./addDivision";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { updatedDivision } from "./updateDivision";
 
-const DivisionForm = ({ countries, id }) => {
+const DivisionForm = ({ countries, id, division }) => {
+  const [countryId, setCountryId] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
   });
-  const [countryId, setCountryId] = useState("");
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,11 +29,30 @@ const DivisionForm = ({ countries, id }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  useEffect(() => {
+    if (id) {
+      setFormData({
+        name: division?.name || "",
+        description: division?.description || "",
+      });
+      setCountryId(division?.countryId || "");
+    }
+  }, [division?.countryId, division?.description, division?.name, id]);
+
   const handlSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if (id) {
         console.log(formData);
+        const response = await updatedDivision({
+          id: id[0],
+          ...formData,
+          countryId: countryId,
+        });
+        if (response?.data?.id) {
+          toast.success("Division updated successfully");
+          router.refresh();
+        }
       } else {
         setLoading(true);
         const response = await addDivision({
@@ -40,12 +60,7 @@ const DivisionForm = ({ countries, id }) => {
           countryId: countryId,
         });
 
-        if (!response?.data) {
-          setLoading(false);
-          toast.error("Something went wrong");
-        }
-
-        if (response?.data) {
+        if (response?.data?.id) {
           setLoading(false);
           toast.success("Division created successfully");
           router.refresh();
@@ -54,7 +69,10 @@ const DivisionForm = ({ countries, id }) => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      let error_message = error.message.split(":")[0].trim();
+      console.log(error_message);
+      toast.error(error_message);
     }
   };
 
