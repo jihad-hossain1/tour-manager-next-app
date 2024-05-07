@@ -16,6 +16,8 @@ export const getCountries = async (): Promise<CountryResponse> => {
           id
           name
           photo
+          description
+          continentId
         }
       }
     `

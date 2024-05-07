@@ -61,12 +61,12 @@ const CityForm = ({ divisions, countries, id, city }) => {
         setLoading(false);
       } else {
         setLoading(true);
-        console.log(formData);
+        
 
         const result = await addCity({ ...formData, divisionId, countryId });
 
         if (result?.data?.id) {
-          console.log(result);
+        
           setLoading(false);
           router.refresh();
           toast.success("City added successfully");
@@ -79,7 +79,10 @@ const CityForm = ({ divisions, countries, id, city }) => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      let error_message = error.message.split(":")[0].trim();
+      console.log(error_message);
+      toast.error(error_message);
     }
   };
 

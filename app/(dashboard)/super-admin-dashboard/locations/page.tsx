@@ -1,121 +1,72 @@
+/* eslint-disable react/no-children-prop */
 
-import PageContainer from '@/components/ui/pageContainer'
-import Link from 'next/link'
-import React from 'react'
-import { getCountries } from '@/service/query/countryQuery'
-import { FaEdit } from 'react-icons/fa'
-import { Button } from '@mui/material'
+import PageContainer from "@/components/ui/pageContainer";
+import React from "react";
+import { getCountries } from "@/service/query/countryQuery";
 import { getCities } from "@/service/query/cityQuery";
 import { getDivisions } from "@/service/query/divisionQuery";
+import { TbWorld, TbWorldCog } from "react-icons/tb";
+import { MdTour } from "react-icons/md";
+import { MdAccountBalance } from "react-icons/md";
+import { getAllContinents } from "@/service/query/continentQuery";
 
 const LocationPage = async () => {
   const { data } = await getCountries();
   const { data: cities } = await getCities();
   const { data: divisions } = await getDivisions();
+  const { data: continents } = await getAllContinents();
 
   return (
     <PageContainer>
       <main className="my-10">
-        <section className="grid md:grid-cols-2 gap-10 mt-5">
-          <div>
-            <Link href="/super-admin-dashboard/locations/country-add-update">
-              <Button
-                variant="contained"
-                className="bg-blue-500 hover:bg-blue-600"
-              >
-                Add Country
-              </Button>
-            </Link>
+        <div className="grid gap-4 grid-cols-2 lg:grid-cols-3">
+          <Card
+            title="Total Countries"
+            subtitle={data?.length || 0}
+            href="/super-admin-dashboard/locations/countries"
+            Icon={TbWorld}
+          />
+          <Card
+            title="Total Cities"
+            subtitle={cities?.length || 0}
+            href="/super-admin-dashboard/locations/cities"
+            Icon={TbWorldCog}
+          />
 
-            <h4 className="text-2xl">
-              Countries
-              <span className="text-sm px-3 rounded bg-blue-50 py-1">
-                {data?.length || 0}
-              </span>
-            </h4>
-            <div className="grid md:grid-cols-3 gap-2">
-              {data?.map((country) => (
-                <div
-                  key={country.id}
-                  className="flex gap-2 items-center hover:border-b hover:border-gray-300 transition-all duration-500 w-fit "
-                >
-                  <h4 className="text-xl">{country.name}</h4>
-                  <Link
-                    href={`/super-admin-dashboard/locations/country-add-update/${country.id}`}
-                  >
-                    <FaEdit />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Link href="/super-admin-dashboard/locations/division-add-update">
-              <Button
-                variant="contained"
-                className="bg-blue-500 hover:bg-blue-600"
-              >
-                Add Division
-              </Button>
-            </Link>
-
-            <h4 className="text-2xl">
-              Divisions
-              <span className="text-sm px-3 rounded bg-blue-50 py-1">
-                {divisions?.length || 0}
-              </span>
-            </h4>
-            <div className="grid md:grid-cols-3 gap-2">
-              {divisions?.map((division) => (
-                <div
-                  key={division.id}
-                  className="flex gap-2 items-center hover:border-b hover:border-gray-300 transition-all duration-500 w-fit "
-                >
-                  <h4 className="text-xl">{division.name}</h4>
-                  <Link
-                    href={`/super-admin-dashboard/locations/division-add-update/${division.id}`}
-                  >
-                    <FaEdit />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Link href="/super-admin-dashboard/locations/city-add-update">
-              <Button
-                variant="contained"
-                className="bg-blue-500 hover:bg-blue-600"
-              >
-                Add City
-              </Button>
-            </Link>
-            <h4 className="text-2xl">
-              Cities
-              <span className="text-sm px-3 rounded bg-blue-50 py-1">
-                {cities?.length || 0}
-              </span>
-            </h4>
-            <div className="grid md:grid-cols-3 gap-2">
-              {cities?.map((city) => (
-                <div
-                  key={city.id}
-                  className="flex gap-2 items-center hover:border-b hover:border-gray-300 transition-all duration-500 w-fit "
-                >
-                  <h4 className="text-xl">{city.name}</h4>
-                  <Link
-                    href={`/super-admin-dashboard/locations/city-add-update/${city.id}`}
-                  >
-                    <FaEdit />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+          <Card
+            title="Total Division"
+            subtitle={divisions?.length || 0}
+            href="/super-admin-dashboard/locations/divisions"
+            Icon={MdAccountBalance}
+          />
+          <Card
+            title="Total Continets"
+            subtitle={continents?.length || 0}
+            href="#"
+            Icon={MdTour}
+          />
+        </div>
       </main>
     </PageContainer>
   );
 };
+const Card = ({ title, subtitle, Icon, href }) => {
+  return (
+    <a
+      href={href}
+      className="w-full p-4 rounded border-[1px] border-slate-300 relative overflow-hidden group bg-white"
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-indigo-600 translate-y-[100%] group-hover:translate-y-[0%] transition-transform duration-300" />
 
-export default LocationPage
+      <Icon className="absolute z-10 -top-12 -right-12 text-9xl text-slate-100 group-hover:text-violet-400 group-hover:rotate-12 transition-transform duration-300" />
+      <Icon className="mb-2 text-5xl text-violet-600 group-hover:text-white transition-colors relative z-10 duration-300" />
+      <h3 className="font-medium text-lg text-slate-950 group-hover:text-white relative z-10 duration-300">
+        {title}
+      </h3>
+      <p className="text-slate-400 group-hover:text-violet-200  z-0 duration-300 text-3xl relative">
+        {subtitle}
+      </p>
+    </a>
+  );
+};
+export default LocationPage;

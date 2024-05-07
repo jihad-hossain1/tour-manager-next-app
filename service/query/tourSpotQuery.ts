@@ -81,3 +81,23 @@ export const getTourSpotByCountryId = async (
       : [],
   };
 };
+
+export const getAllTourSpots = async (): Promise<TourSpotResponse> => {
+  const client = getClient();
+  const gqlResponse = await client.request<{
+    tourSpots: TourSpotType[];
+  }>(
+    gql`
+      query getAllTourSpots {
+        tourSpots {
+          id
+          name
+          photo
+        }
+      }
+    `
+  );
+  return {
+    data: gqlResponse.tourSpots || [],
+  };
+}
