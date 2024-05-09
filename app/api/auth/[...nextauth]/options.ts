@@ -19,6 +19,7 @@ declare module "next-auth" {
     id: string;
     clientId: string;
     adminId: string;
+    type: string;
   }
 }
 
@@ -32,6 +33,7 @@ declare module "next-auth" {
       id: string;
       clientId: string;
       adminId: string;
+      type: string
     };
   }
 }
@@ -41,6 +43,7 @@ declare module "next-auth/jwt" {
     id?: string;
     clientId?: string;
     adminId?: string;
+    type: string;
   }
 }
 
@@ -114,6 +117,7 @@ export const options: NextAuthOptions = {
             name: foundClient?.name,
             role: foundClient?.role,
             clientId: foundClient?._id,
+            type: foundClient?.clientType
           };
           if (!foundClient)
             return Promise.reject(new Error("Email are not valid"));
@@ -146,6 +150,7 @@ export const options: NextAuthOptions = {
         token.id = user?.id;
         token.adminId = user.adminId;
         token.clientId = user.clientId;
+        token.type = user.type
       }
       return token;
     },
@@ -158,6 +163,7 @@ export const options: NextAuthOptions = {
         session.user.id = token?.id;
         session.user.clientId = token?.clientId;
         session.user.adminId = token?.adminId;
+        session.user.type = token?.type
       }
       return session;
     },

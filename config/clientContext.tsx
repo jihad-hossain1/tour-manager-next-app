@@ -1,5 +1,6 @@
 "use client";
 
+import Information from "@/components/auth/Information";
 import UnAuthenticate from "@/components/auth/UnAuthenticate";
 import UnAuthorized from "@/components/auth/UnAuthorized";
 import LoadingDiv from "@/components/loading/LoadingDiv";
@@ -14,6 +15,7 @@ const ClientContext = ({ children }) => {
   const clientRole = session?.user?.role == "client";
   const adminRole = session?.user?.role == "admin";
   const userRole = session?.user?.role == "user";
+  const clientType = session?.user?.type == "TourGuide";
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -32,7 +34,11 @@ const ClientContext = ({ children }) => {
   }
 
   if (clientRole) {
-    return <>{children}</>;
+    if (clientType) {
+      return <>{children}</>;
+    } else {
+      return <Information />;
+    }
   }
 };
 
