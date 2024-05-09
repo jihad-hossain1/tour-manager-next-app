@@ -8,15 +8,16 @@ const TourSpotpage = async () => {
   const updateLink = "/super-admin-dashboard/tour-spots/add-update";
   const tableHeadValue = [
     { tableName: "No." },
-    { tableName: "Image" },
+    // { tableName: "Image" },
     { tableName: "Name" },
     { tableName: "Action" },
   ];
   const tableRow = [
-    { tableName: "photo" },
+    // { tableName: "photo" },
     { tableName: "name" },
     { tableName: "Action" },
   ];
+
   return (
     <div>
       <Table

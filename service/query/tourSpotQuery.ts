@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 import { getClient } from "../graphqlClient";
-import { TourSpotDetailResponse, TourSpotResponse } from "@/helpers/interface";
+import { TSingleTourSpotResponse, TTourSpotResponse, TourSpotDetailResponse, TourSpotResponse } from "@/helpers/interface";
 import { TourSpotDetailType, TourSpotType } from "@/helpers/types";
 
 export const getTourSpotDetails = async (
@@ -100,4 +100,29 @@ export const getAllTourSpots = async (): Promise<TourSpotResponse> => {
   return {
     data: gqlResponse.tourSpots || [],
   };
+}
+
+export const getTourSpot = async (id: string): Promise<TSingleTourSpotResponse> => {
+  const client = getClient()
+  const response: { singleTourspot: TourSpotType } = await client.request(
+    gql`
+      query getTourSpot($id: ID){
+        singleTourspot(id: $id){
+          id 
+          name
+          photo 
+          description
+          cityId 
+          divisionId 
+          countryId
+        }
+      }
+    `, {
+      id: id
+    }
+  )
+
+  return {
+    data: response?.singleTourspot || null
+  }
 }

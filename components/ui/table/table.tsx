@@ -47,13 +47,13 @@ const Table = ({
                 <td key={index} className="py-4 px-6  mx-auto text-start">
                   {row?.tableName == "photo" ? (
                     <>
-                      <Image
+                      {/* <Image
                         src={item[row?.tableName]}
                         height={300}
                         width={300}
                         alt="image"
                         className="h-20 w-20 rounded-md border p-2"
-                      />
+                      /> */}
                     </>
                   ) : (
                     <td>{item[row?.tableName]}</td>

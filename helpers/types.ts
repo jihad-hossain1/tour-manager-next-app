@@ -40,6 +40,9 @@ export type TourSpotType = {
   photo: string;
   description: string;
   continentId: string;
+  countryId: string;
+  divisionId: string;
+  cityId: string;
   createdAt: string;
   updatedAt: string;
 };

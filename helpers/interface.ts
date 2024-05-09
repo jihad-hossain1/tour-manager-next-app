@@ -39,3 +39,36 @@ export interface DivisionResponse {
   [x: string]: any[];
   data: DivisionType[];
 }
+
+
+export interface TTourSpotData {
+  id: string;
+  name: string;
+  description: string;
+  divisionId: string;
+  photo: string;
+  countryId: string;
+  cityId: string
+}
+
+export interface TTourSpotResponse {
+  id: string;
+  name: string;
+  photo: string;
+  description: string;
+  divisionId: string;
+  countryId: string;
+  cityId: string
+}
+
+export interface TCreateTourSpotResponse {
+  data: TTourSpotResponse | null;
+}
+
+export interface TUpdateTourSpotResponse {
+  data: TTourSpotResponse | null
+}
+
+export interface TSingleTourSpotResponse {
+  data: TourSpotType | null
+}
