@@ -4,5 +4,5 @@
 
 
 .link{
-    @apply hover:underline hover:font-semibold text-blue-800 hover:text-blue-600 ;
+    @apply hover:underline hover:font-semibold text-blue-800 hover:text-blue-600 dark:text-white;
 }

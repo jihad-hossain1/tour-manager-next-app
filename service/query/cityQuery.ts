@@ -17,6 +17,7 @@ export const getCities = async (): Promise<CityResponse> => {
       photo
       divisionId
       description
+      countryId
     }
   }
     `

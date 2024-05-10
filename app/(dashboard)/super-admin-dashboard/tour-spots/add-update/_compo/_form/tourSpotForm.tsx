@@ -74,8 +74,6 @@ const TourSpotForm = ({ id, countries, divisions, cities, tourSpot }) => {
 
         setLoading(false);
 
-        console.log(response);
-
         if (response) {
           setLoading(false);
           toast.success("TourSpot update done");

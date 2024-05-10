@@ -72,3 +72,19 @@ export interface TUpdateTourSpotResponse {
 export interface TSingleTourSpotResponse {
   data: TourSpotType | null
 }
+
+export type TTourGuideData = {
+  description: string;
+  cityId: string;
+  uptoPeople: number;
+  profileImage: string;
+  responseTime: string;
+  languages: string[];
+  type: string;
+  clientId: string;
+  countryId: string;
+};
+
+export interface TCreateGuideProfileResponse {
+  data: TTourGuideData;
+}

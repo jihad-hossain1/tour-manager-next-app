@@ -5,7 +5,7 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <>
-      <div className="grid grid-cols-2 gap-5 lg:flex justify-between border-t bg-gray-100 pb-4 py-8">
+      <div className="grid grid-cols-2 gap-5 lg:flex justify-between border-t bg-gray-100 dark:bg-gray-800 dark:text-white pb-4 py-8">
         {footerData.map((section) => (
           <div
             className="max-w-6xl mx-auto print:hidden mb-10 md:mb-0 "
@@ -29,7 +29,7 @@ const Footer = () => {
           </div>
         ))}
       </div>
-      <div className="flex flex-wrap md:justify-center lg:justify-end gap-5 mx-5 lg:mr-10 h-10">
+      <div className="flex  flex-wrap md:justify-center lg:justify-end gap-5 mx-5 lg:mr-10 h-10">
         {paymentMethod.map((methods, index) => (
           <Image
             height={300}
@@ -43,7 +43,7 @@ const Footer = () => {
       </div>
 
       <hr className="border border-blue-400 container mx-auto my-5" />
-      <div className="p-3 text-center ">
+      <div className="p-3 dark:text-white dark:bg-gray-800 text-center ">
         <Typography
           variant="h6"
           noWrap
