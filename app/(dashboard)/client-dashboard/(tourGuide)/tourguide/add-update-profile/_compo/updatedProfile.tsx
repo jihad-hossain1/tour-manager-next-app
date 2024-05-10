@@ -1,5 +1,8 @@
-"use client";
+"use server";
 
-export const updatedProfile = () => {
-  return;
+import { updatedGuideProfile } from "@/service/mutation/tourGuideMutation";
+
+export const updatedProfile = async (updatedData) => {
+  const result = await updatedGuideProfile({ ...updatedData });
+  return result;
 };

@@ -1,0 +1,142 @@
+#description p {
+    @apply text-sm;
+}
+
+#description h1 {
+    @apply text-6xl;
+}
+
+#description h2 {
+    @apply text-4xl;
+}
+
+#description h3 {
+    @apply text-3xl;
+}
+
+#description h4 {
+    @apply text-2xl;
+}
+
+#description h5 {
+    @apply text-xl;
+}
+
+#description h6 {
+    @apply text-lg;
+}
+
+#description ul li {
+    @apply list-disc
+}
+
+#description ol li {
+    @apply list-decimal;
+}
+
+#description blockquote {
+    @apply border-l-4 border-gray-300 pl-4;
+}
+
+#description blockquote p {
+    @apply text-sm;
+}
+
+#description code {
+    @apply text-sm;
+}
+
+#description pre {
+    @apply text-sm;
+}
+
+#description pre code {
+    @apply text-sm;
+}
+
+#description img {
+    @apply w-full;
+}
+
+#description table {
+    @apply w-full;
+}
+
+#description table th {
+    @apply text-left;
+}
+
+#description table td {
+    @apply text-left;
+}
+
+#description table tr {
+    @apply border-b;
+}
+
+#description table tr:last-child {
+    @apply border-b-0;
+}
+
+#description table tr:nth-child(odd) {
+    @apply bg-gray-50;
+}
+
+#description table tr:nth-child(even) {
+    @apply bg-white;
+}
+
+#description table th {
+    @apply bg-gray-50;
+}
+
+#description table td {
+    @apply bg-white;
+}
+
+#description table th,
+#description table td {
+    @apply p-2;
+}
+
+#description table th:first-child,
+#description table td:first-child {
+    @apply border-l;
+}
+
+#description table th:last-child,
+#description table td:last-child {
+    @apply border-r;
+}
+
+#description br {
+    @apply block;
+}
+
+#description hr {
+    @apply border-gray-300;
+}
+
+#description a {
+    @apply text-blue-500;
+}
+
+#description a:hover {
+    @apply underline;
+}
+
+#description a:visited {
+    @apply text-purple-500;
+}
+
+#description a:active {
+    @apply text-red-500;
+}
+
+#description a:focus {
+    @apply text-green-500;
+}
+
+#description a:link {
+    @apply text-blue-700;
+}

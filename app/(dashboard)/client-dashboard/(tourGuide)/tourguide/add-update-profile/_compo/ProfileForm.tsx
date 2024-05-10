@@ -17,9 +17,9 @@ import { useSession } from "next-auth/react";
 import LoadingDiv from "@/components/loading/LoadingDiv";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { updatedProfile } from "./updatedProfile";
 
 const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
-  console.log("🚀 ~ ProfileForm ~ tourGuideProfile:", tourGuideProfile);
   const { data: session, status } = useSession();
   const clientId = session?.user?.clientId;
   const router = useRouter();
@@ -101,7 +101,34 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
 
     try {
       if (id) {
-        //
+        setLoading(true);
+
+        const _response = await updatedProfile({
+          ...formData,
+          description: description,
+          profileImage: photo,
+          uptoPeople: Number(formData.uptoPeople),
+          clientId: clientId,
+          cityId: cityId,
+          countryId: countryId,
+          id: id[0],
+        });
+
+        console.log(_response);
+
+        setLoading(false);
+
+        if (_response?.data) {
+          setLoading(false);
+          const { data } = _response as any;
+          let res = data?.split(":")[0]?.trim();
+          toast.error(res);
+          return;
+        }
+
+        setLoading(false);
+        toast.success("Profile info has saved.");
+        router.refresh();
       } else {
         setLoading(true);
 
@@ -127,7 +154,7 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
     } catch (error) {
       setLoading(false);
       let error_message = error.message.split(":")[0].trim();
-      console.log(error_message);
+      // console.log(error_message);
       toast.error(error_message);
     }
   };
@@ -140,12 +167,31 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
     return result;
   }
 
+  function handleClear() {
+    setimage(null);
+    setPhoto("");
+    setFormData({
+      uptoPeople: 0,
+      responseTime: 0,
+      type: "",
+      languages: ["English", "Bangla", "Arabic"],
+    });
+    setCityId("");
+    setCountryId("");
+    setFileLoading(false);
+    setLoading(false);
+    toast.success("Profile info has cleared.");
+  }
+
   if (status === "loading") {
     return <LoadingDiv />;
   }
 
   return (
     <div className="my-10">
+      <h4 className="my-10 text-center text-xl font-bold">
+        {id ? "Update" : "Add"} Profile
+      </h4>
       <form action="" onSubmit={handleSubmit} className="flex flex-col gap-3">
         <TextEditor formData={description} handleOnChange={setDescription} />
         <TextField
@@ -277,7 +323,7 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
               variant="contained"
               color="error"
               className=" bg-red-500 hover:bg-red-600"
-              // onClick={handleClear}
+              onClick={handleClear}
             >
               Clear
             </Button>

@@ -4,6 +4,7 @@ import { getTourGuideInfo } from "@/service/query/tourGuideQuery";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 import React from "react";
+import "./styles.css";
 
 const TourGuideProfile = async () => {
   const session = await getServerSession(options);
@@ -26,20 +27,16 @@ const TourGuideProfile = async () => {
               Udate Profile Info.
             </Link>
 
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Description</td>
-                  <td>{TourGuideProfile?.data?.description}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div>
+              <div
+                id="description"
+                className="danger"
+                dangerouslySetInnerHTML={{
+                  __html: TourGuideProfile?.data?.description,
+                }}
+                style={{ wordBreak: "break-all" }}
+              />
+            </div>
           </>
         ) : (
           <Link
