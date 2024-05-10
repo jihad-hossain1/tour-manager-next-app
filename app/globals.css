@@ -6,3 +6,6 @@
 .link{
     @apply hover:underline hover:font-semibold text-blue-800 hover:text-blue-600 dark:text-white;
 }
+.dark {
+    @apply dark:bg-gray-800 dark:text-white;
+}

@@ -6,6 +6,7 @@ import {
   TourSpotDetailType,
   TourSpotType,
 } from "./types";
+import { GraphQLID, GraphQLString, GraphQLList, GraphQLInt, GraphQLObjectType } from 'graphql';
 
 export interface ContinentResponse {
   [x: string]: any[];
@@ -74,6 +75,7 @@ export interface TSingleTourSpotResponse {
 }
 
 export type TTourGuideData = {
+  id: string;
   description: string;
   cityId: string;
   uptoPeople: number;
@@ -87,4 +89,12 @@ export type TTourGuideData = {
 
 export interface TCreateGuideProfileResponse {
   data: TTourGuideData;
+}
+
+export interface TUpdateGuideProfileResponse {
+  data: TTourGuideData
+}
+
+export interface TSingleGuideProfileResponse {
+  data: TTourGuideData
 }

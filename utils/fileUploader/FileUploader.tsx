@@ -23,6 +23,7 @@ const FileUploader = ({
   handleOnFileUpload,
   photo,
   formData,
+  fileLoading,
 }) => {
   // const [video, setVideo] = useState(null);
   return (
@@ -45,7 +46,7 @@ const FileUploader = ({
           />
         </Button>
         <Button color="success" variant="outlined" onClick={handleOnFileUpload}>
-          upLoad
+          {fileLoading ? "Uploading..." : "Upload"}
         </Button>
 
         <div>

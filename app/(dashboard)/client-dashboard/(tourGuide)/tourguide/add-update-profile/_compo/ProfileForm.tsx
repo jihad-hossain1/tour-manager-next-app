@@ -10,14 +10,16 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { addedProfile } from "./addProfile";
 import { useSession } from "next-auth/react";
 import LoadingDiv from "@/components/loading/LoadingDiv";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
-const ProfileForm = ({ id, cities, countries }) => {
+const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
+  console.log("🚀 ~ ProfileForm ~ tourGuideProfile:", tourGuideProfile);
   const { data: session, status } = useSession();
   const clientId = session?.user?.clientId;
   const router = useRouter();
@@ -27,6 +29,7 @@ const ProfileForm = ({ id, cities, countries }) => {
   const [image, setimage] = useState(null);
   const [cityId, setCityId] = useState("");
   const [countryId, setCountryId] = useState("");
+  const [fileLoading, setFileLoading] = useState(false);
 
   const [formData, setFormData] = React.useState({
     uptoPeople: 0,
@@ -54,25 +57,47 @@ const ProfileForm = ({ id, cities, countries }) => {
       data.append("file", image);
       data.append("upload_preset", "images_preset");
       let api = `https://api.cloudinary.com/v1_1/dqfi9zw3e/image/upload`;
-      const res = await fetch(api, {
-        method: "post",
-        body: data,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
 
-      let _up = await res.json();
+      setFileLoading(true);
+      const res = await axios.post(api, data);
 
-      setPhoto(_up?.secure_url);
+      let _up = await res?.data?.secure_url;
+
+      setFileLoading(false);
+      setPhoto(_up);
     } catch (error) {
-      console.log(error);
+      setFileLoading(false);
+      console.log(error.message);
     }
   };
 
+  useEffect(() => {
+    if (id) {
+      setFormData({
+        uptoPeople: tourGuideProfile?.data?.uptoPeople || "",
+        responseTime: tourGuideProfile?.data?.responseTime || "",
+        type: tourGuideProfile?.data?.type || "",
+        languages: tourGuideProfile?.data?.languages || "",
+      });
+      setCityId(tourGuideProfile?.data?.cityId || "");
+      setCountryId(tourGuideProfile?.data?.countryId || "");
+      setDescription(tourGuideProfile?.data?.description || "");
+      setPhoto(tourGuideProfile?.data?.profileImage || "");
+    }
+  }, [
+    id,
+    tourGuideProfile?.data?.cityId,
+    tourGuideProfile?.data?.countryId,
+    tourGuideProfile?.data?.description,
+    tourGuideProfile?.data?.languages,
+    tourGuideProfile?.data?.profileImage,
+    tourGuideProfile?.data?.responseTime,
+    tourGuideProfile?.data?.type,
+    tourGuideProfile?.data?.uptoPeople,
+  ]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log(formData);
 
     try {
       if (id) {
@@ -100,7 +125,6 @@ const ProfileForm = ({ id, cities, countries }) => {
         }
       }
     } catch (error) {
-      console.log(error);
       setLoading(false);
       let error_message = error.message.split(":")[0].trim();
       console.log(error_message);
@@ -217,6 +241,7 @@ const ProfileForm = ({ id, cities, countries }) => {
         </FormControl>
 
         <FileUploader
+          fileLoading={fileLoading}
           image={Image}
           setimage={setimage}
           handleOnFileUpload={handleOnFileUpload}
