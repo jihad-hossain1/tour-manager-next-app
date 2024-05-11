@@ -3,10 +3,17 @@ import {
   Continent,
   CountryType,
   DivisionType,
+  TTourGuidePlace,
   TourSpotDetailType,
   TourSpotType,
 } from "./types";
-import { GraphQLID, GraphQLString, GraphQLList, GraphQLInt, GraphQLObjectType } from 'graphql';
+import {
+  GraphQLID,
+  GraphQLString,
+  GraphQLList,
+  GraphQLInt,
+  GraphQLObjectType,
+} from "graphql";
 
 export interface ContinentResponse {
   [x: string]: any[];
@@ -41,7 +48,6 @@ export interface DivisionResponse {
   data: DivisionType[];
 }
 
-
 export interface TTourSpotData {
   id: string;
   name: string;
@@ -49,7 +55,7 @@ export interface TTourSpotData {
   divisionId: string;
   photo: string;
   countryId: string;
-  cityId: string
+  cityId: string;
 }
 
 export interface TTourSpotResponse {
@@ -59,7 +65,7 @@ export interface TTourSpotResponse {
   description: string;
   divisionId: string;
   countryId: string;
-  cityId: string
+  cityId: string;
 }
 
 export interface TCreateTourSpotResponse {
@@ -67,11 +73,11 @@ export interface TCreateTourSpotResponse {
 }
 
 export interface TUpdateTourSpotResponse {
-  data: TTourSpotResponse | null
+  data: TTourSpotResponse | null;
 }
 
 export interface TSingleTourSpotResponse {
-  data: TourSpotType | null
+  data: TourSpotType | null;
 }
 
 export type TTourGuideData = {
@@ -92,9 +98,13 @@ export interface TCreateGuideProfileResponse {
 }
 
 export interface TUpdateGuideProfileResponse {
-  data: TTourGuideData
+  data: TTourGuideData;
 }
 
 export interface TSingleGuideProfileResponse {
-  data: TTourGuideData
+  data: TTourGuideData;
+}
+
+export interface TTourGuidePlaceResponse {
+  data: TTourGuidePlace;
 }

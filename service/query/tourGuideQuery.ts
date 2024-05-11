@@ -41,6 +41,38 @@ export const getTourGuideInfo = async (
   }
 };
 
+
+export const getTourGuideInfoShort = async (
+  id: string
+): Promise<TSingleGuideProfileResponse> => {
+  try {
+    const client = getClient();
+
+    const gqlResponse = await client.request<{
+      tourGuideProfile: TTourGuideData;
+    }>(
+      gql`
+        query tourGuideProfile($id: ID!) {
+          tourGuideProfile(id: $id) {
+            id
+            uptoPeople
+            cityId
+            countryId
+            clientId
+          }
+        }
+      `,
+      { id }
+    );
+
+    return {
+      data: gqlResponse.tourGuideProfile,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getTourGuideProfile = async (
   id: string
 ): Promise<TSingleGuideProfileResponse> => {

@@ -1,5 +1,7 @@
 import { gql } from "graphql-request";
 import { getClient } from "@/service/graphqlClient";
+import { TTourGuidePlace } from "@/helpers/types";
+import { TTourGuidePlaceResponse } from "@/helpers/interface";
 
 export const createCity = async (cityData) => {
   const client = getClient(false);
@@ -17,7 +19,7 @@ export const createCity = async (cityData) => {
           description: $description
           divisionId: $divisionId
           photo: $photo
-         countryId: $countryId
+          countryId: $countryId
         ) {
           id
           name
@@ -30,7 +32,7 @@ export const createCity = async (cityData) => {
       description: cityData.description,
       photo: cityData.photo,
       divisionId: cityData.divisionId,
-      countryId: cityData.countryId
+      countryId: cityData.countryId,
     }
   );
 
@@ -50,7 +52,7 @@ export const updataCity = async (cityData) => {
         $divisionId: ID
         $countryId: ID
         $photo: String
-      ){
+      ) {
         updateCity(
           id: $id
           name: $name
@@ -66,7 +68,6 @@ export const updataCity = async (cityData) => {
           divisionId
           countryId
         }
-
       }
     `,
     {
@@ -75,14 +76,12 @@ export const updataCity = async (cityData) => {
       name: cityData.name,
       photo: cityData.photo,
       description: cityData.description,
-      countryId: cityData.countryId
+      countryId: cityData.countryId,
     }
-    
-  )
-console.log(gqlResponse);
-  return gqlResponse || null
-}
-
+  );
+  console.log(gqlResponse);
+  return gqlResponse || null;
+};
 
 export const createCountry = async (countryData) => {
   const client = getClient(false);
@@ -119,7 +118,6 @@ export const createCountry = async (countryData) => {
     data: gqlResponse?.addCountry || null,
   };
 };
-
 
 export const updateCountry = async (countryData) => {
   const client = getClient(false);
@@ -158,8 +156,8 @@ export const updateCountry = async (countryData) => {
 
   return {
     data: gqlResponse?.updateCountry || null,
-  }
-}
+  };
+};
 
 export const createDivision = async (divisionData) => {
   const client = getClient(false);
@@ -194,9 +192,8 @@ export const createDivision = async (divisionData) => {
 
   return {
     data: gqlResponse?.addDivision || null,
-  }
-}
-
+  };
+};
 
 export const updateDivision = async (divisionData) => {
   const client = getClient();
@@ -218,7 +215,7 @@ export const updateDivision = async (divisionData) => {
         ) {
           id
           name
-          photo 
+          photo
           description
           countryId
         }
@@ -235,5 +232,48 @@ export const updateDivision = async (divisionData) => {
 
   return {
     data: gqlResponse?.updateDivision || null,
+  };
+};
+
+export const createTourGuidePlace = async (placedData) => {
+  const client = getClient();
+  try {
+    const gqlResponse = await client.request(
+      gql`
+        #graphql
+
+        mutation AddGuideTourplace(
+          $contribute: [TourContributorInput]
+          $title: String
+          $price: Int
+          $clientProfileID: ID
+          $tourPlaceId: ID
+        ) {
+          addGuideTourplace(
+            contribute: $contribute
+            title: $title
+            price: $price
+            clientProfileID: $clientProfileID
+            tourPlaceId: $tourPlaceId
+          ) {
+            id
+          }
+        }
+      `,
+      {
+        contribute: placedData.contribute,
+        title: placedData.title,
+        price: placedData.price,
+        clientProfileID: placedData.clientProfileID,
+        tourPlaceId: placedData.tourPlaceId,
+      }
+    );
+
+    return {
+      data: gqlResponse?.addGuideTourplace || null,
+    };
+  } catch (error) {
+    console.log(error);
+    return { data: error.message };
   }
-}
+};

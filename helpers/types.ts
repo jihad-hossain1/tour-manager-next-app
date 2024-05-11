@@ -1,3 +1,16 @@
+export interface TTourGuidePlace {
+  id: string;
+  title: string;
+  price: number;
+  clientProfileID: string;
+  tourPlaceId: string;
+  contribute: Array<{
+    picTime: string;
+    contributeTitle: string;
+    content: string;
+  }>;
+}
+
 export type Continent = {
   length: number;
   map(
