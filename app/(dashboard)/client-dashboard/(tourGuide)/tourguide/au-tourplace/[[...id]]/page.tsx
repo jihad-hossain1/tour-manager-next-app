@@ -1,7 +1,7 @@
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import PageContainer from "@/components/ui/pageContainer";
 import {
-  getTourGuideInfo,
+  getGuidePlace,
   getTourGuideInfoShort,
 } from "@/service/query/tourGuideQuery";
 import { getServerSession } from "next-auth/next";
@@ -22,17 +22,21 @@ const AUTourPlacepage = async ({ params }) => {
   // get tourspots by countryid
   const { data: tourSpots } = await getTourSpotByCountryId(countryId);
 
-  console.log("🚀 ~ AUTourPlacepage ~ tourSpots:", tourSpots);
-
   // set initial value for dynamic form with update tour place
   let initial;
   if (id) {
-    //
+    const data = await getGuidePlace(id[0]);
+    initial = data;
   }
 
   return (
     <PageContainer>
-      <Form id={id} profile={clientProfile} tourSpots={tourSpots[0]} />
+      <Form
+        id={id}
+        profile={clientProfile}
+        tourSpots={tourSpots[0]}
+        guidePlaceData={initial}
+      />
     </PageContainer>
   );
 };

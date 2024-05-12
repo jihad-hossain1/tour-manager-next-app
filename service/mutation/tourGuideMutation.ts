@@ -124,10 +124,12 @@ export const updatedGuideProfile = async (
   }
 };
 
-export const updateTourGuidePlace = async (tourPlaceData: TTourGuidePlace) => {
+export const updateTourGuidePlace = async (
+  tourPlaceData: TTourGuidePlace
+): Promise<any> => {
   const client = getClient();
   try {
-    const gqlResponse: { updateTourGuidePlace: TTourGuidePlace } =
+    const gqlResponse: { updateTourGuidePlce: TTourGuidePlace } =
       await client.request(
         gql`
           mutation updateTourGuidePlace(
@@ -138,7 +140,7 @@ export const updateTourGuidePlace = async (tourPlaceData: TTourGuidePlace) => {
             $tourPlaceId: ID
             $contribute: [TourContributorInput]
           ) {
-            updateTourGuidePlace(
+            updateTourGuidePlce(
               id: $id
               title: $title
               price: $price
@@ -151,7 +153,11 @@ export const updateTourGuidePlace = async (tourPlaceData: TTourGuidePlace) => {
               price
               clientProfileID
               tourPlaceId
-              contribute
+              contribute {
+                picTime
+                contributeTitle
+                content
+              }
             }
           }
         `,
@@ -166,7 +172,7 @@ export const updateTourGuidePlace = async (tourPlaceData: TTourGuidePlace) => {
       );
 
     return {
-      data: gqlResponse?.updateTourGuidePlace,
+      data: gqlResponse?.updateTourGuidePlce,
     };
   } catch (error) {
     console.log(error);

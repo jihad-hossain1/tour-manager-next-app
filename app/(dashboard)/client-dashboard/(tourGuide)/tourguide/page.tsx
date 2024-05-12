@@ -23,12 +23,13 @@ const TourGuideProfile = async () => {
             <>
               <Link
                 href={`/client-dashboard/tourguide/add-update-profile/${TourGuideProfile?.data?.id}`}
-                className="link"
+                className="bg-blue-50 text-blue-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs w-fit"
               >
                 Udate Profile Info.
               </Link>
 
-              <div>
+              <div className="flex gap-2">
+                <h4>Description: </h4>
                 <div
                   id="description"
                   className="danger"
@@ -39,17 +40,43 @@ const TourGuideProfile = async () => {
                 />
               </div>
 
-              <Link
-                href={"/client-dashboard/tourguide/au-tourplace"}
-                className="link"
-              >
-                Add Tour Place
-              </Link>
+              <div className="flex flex-col gap-2 my-10">
+                <Link
+                  href={"/client-dashboard/tourguide/au-tourplace"}
+                  className="bg-blue-50 text-blue-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs w-fit"
+                >
+                  Add Tour Place
+                </Link>
+
+                <div className="flex flex-col gap-4">
+                  {TourGuideProfile?.data?.tourGuideContribution?.map(
+                    (item, index) => (
+                      <div
+                        key={index}
+                        className="border border-gray-100 p-3 shadow-sm hover:shadow transition duration-300 dark:border-gray-950"
+                      >
+                        <div className="flex items-center gap-2">
+                          <h4 className="">{item?.title}</h4>
+                          <Link
+                            href={`/client-dashboard/tourguide/au-tourplace/${item?.id}`}
+                            className="bg-blue-50 text-blue-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs"
+                          >
+                            Update
+                          </Link>
+                        </div>
+                        <h4>
+                          <span>Price : </span> ${item?.price}
+                        </h4>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
             </>
           ) : (
             <Link
               href={"/client-dashboard/tourguide/add-update-profile"}
-              className="link"
+              className="bg-blue-50 text-blue-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs w-fit"
             >
               Add Profile Info.
             </Link>

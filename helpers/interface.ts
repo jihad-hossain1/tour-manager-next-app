@@ -81,6 +81,7 @@ export interface TSingleTourSpotResponse {
 }
 
 export type TTourGuideData = {
+  tourGuideContribution: TTourGuidePlace[];
   id: string;
   description: string;
   cityId: string;

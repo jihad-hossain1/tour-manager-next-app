@@ -4,6 +4,7 @@ import {
   TSingleGuideProfileResponse,
   TTourGuideData,
 } from "@/helpers/interface";
+import { TTourGuidePlace } from "@/helpers/types";
 
 export const getTourGuideInfo = async (
   id: string
@@ -27,6 +28,11 @@ export const getTourGuideInfo = async (
             cityId
             countryId
             clientId
+            tourGuideContribution {
+              id
+              title
+              price
+            }
           }
         }
       `,
@@ -40,7 +46,6 @@ export const getTourGuideInfo = async (
     console.log(error);
   }
 };
-
 
 export const getTourGuideInfoShort = async (
   id: string
@@ -104,5 +109,36 @@ export const getTourGuideProfile = async (
     };
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getGuidePlace = async (id: string): Promise<any> => {
+  try {
+    const client = getClient();
+    const gqlResponse: { tourGuidePlace: TTourGuidePlace } =
+      await client.request(
+        gql`
+          query getGuidePlace($id: ID!) {
+            tourGuidePlace(id: $id) {
+              id
+              title
+              price
+              clientProfileID
+              tourPlaceId
+              contribute {
+                picTime
+                contributeTitle
+                content
+              }
+            }
+          }
+        `,
+        {
+          id,
+        }
+      );
+    return gqlResponse.tourGuidePlace;
+  } catch (error) {
+    return error.message;
   }
 };

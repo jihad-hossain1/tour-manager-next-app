@@ -9,10 +9,11 @@ import {
   OutlinedInput,
   FormControl,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { addedTourPlace } from "./addTourPlace";
 import TourGuideContributeForm from "./TourGuideContributeForm";
+import { updatedTourPlace } from "./updatedTourPlace";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -27,12 +28,27 @@ const MenuProps = {
 
 const emptyArray = [];
 
-const Form = ({ id, profile, tourSpots }) => {
+const Form = ({ id, profile, tourSpots, guidePlaceData }) => {
   const [conDatas, setConDatas] = useState(emptyArray ?? []);
   const [title, setTitle] = useState("");
   const [tourPlaceId, settourplaceid] = useState("");
   const [price, setprice] = useState<number | string>(0);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (id) {
+      setTitle(guidePlaceData?.title ?? "");
+      settourplaceid(guidePlaceData?.tourPlaceId ?? "");
+      setprice(guidePlaceData?.price ?? 0);
+      setConDatas(guidePlaceData?.contribute ?? emptyArray);
+    }
+  }, [
+    guidePlaceData?.contribute,
+    guidePlaceData?.price,
+    guidePlaceData?.title,
+    guidePlaceData?.tourPlaceId,
+    id,
+  ]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,7 +66,24 @@ const Form = ({ id, profile, tourSpots }) => {
 
     try {
       if (id) {
-        //
+        setLoading(true);
+
+        const response = await updatedTourPlace({
+          title: title,
+          tourPlaceId: tourPlaceId,
+          price: price,
+          contribute: conDatas,
+          clientProfileID: profile?.id,
+          id: id[0],
+        });
+
+        if (response?.data?.id) {
+          setLoading(false);
+          toast.success("Tour Place Updated Successfully");
+          return;
+        }
+
+        setLoading(false);
       } else {
         setLoading(true);
         const result = await addedTourPlace({
@@ -148,6 +181,7 @@ const Form = ({ id, profile, tourSpots }) => {
           </div>
           <div>
             <TourGuideContributeForm
+              id={id}
               conDatas={conDatas}
               setConDatas={setConDatas}
             />
@@ -187,20 +221,6 @@ const Form = ({ id, profile, tourSpots }) => {
             </div>
           </div>
         </form>
-
-        <div className="flex flex-col gap-3">
-          {conDatas?.map(
-            (
-              item: { contributeTitle: string; content: string },
-              index: number
-            ) => (
-              <div key={index}>
-                <h4>{item?.contributeTitle}</h4>
-                <p>{item?.content}</p>
-              </div>
-            )
-          )}
-        </div>
       </div>
     </div>
   );
