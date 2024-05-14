@@ -23,11 +23,12 @@ const TourGuideProfile = async () => {
             <>
               <Link
                 href={`/client-dashboard/tourguide/add-update-profile/${TourGuideProfile?.data?.id}`}
-                className="bg-blue-50 text-blue-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs w-fit"
+                className="link-btn"
               >
                 Udate Profile Info.
               </Link>
 
+              {/* guide profile  */}
               <div className="flex gap-2">
                 <h4>Description: </h4>
                 <div
@@ -40,10 +41,11 @@ const TourGuideProfile = async () => {
                 />
               </div>
 
+              {/* guide tour place section  */}
               <div className="flex flex-col gap-2 my-10">
                 <Link
                   href={"/client-dashboard/tourguide/au-tourplace"}
-                  className="bg-blue-50 text-blue-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs w-fit"
+                  className="link-btn"
                 >
                   Add Tour Place
                 </Link>
@@ -59,7 +61,7 @@ const TourGuideProfile = async () => {
                           <h4 className="">{item?.title}</h4>
                           <Link
                             href={`/client-dashboard/tourguide/au-tourplace/${item?.id}`}
-                            className="bg-blue-50 text-blue-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs"
+                            className="link-btn"
                           >
                             Update
                           </Link>
@@ -72,11 +74,22 @@ const TourGuideProfile = async () => {
                   )}
                 </div>
               </div>
+
+              {/* guide reserve section  */}
+              {TourGuideProfile?.data?.tourGuideContribution?.length > 0 ? (
+                <div>
+                  <Link href={'/client-dashboard/tourguide/au-guide-reserve'} className="link-btn">
+                    Add Guide Reserve
+                  </Link>
+
+                </div>
+              ) : ''}
+
             </>
           ) : (
             <Link
               href={"/client-dashboard/tourguide/add-update-profile"}
-              className="bg-blue-50 text-blue-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs w-fit"
+                className="link-btn"
             >
               Add Profile Info.
             </Link>

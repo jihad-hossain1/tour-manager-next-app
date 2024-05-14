@@ -142,3 +142,28 @@ export const getGuidePlace = async (id: string): Promise<any> => {
     return error.message;
   }
 };
+
+export const getGuideContributions = async (id: string): Promise<any> => {
+  try {
+    const client = getClient();
+    const gqlResponse: { getGuideContributions: TTourGuidePlace } =
+      await client.request(
+        gql`
+          query getGuideContribute($id: ID!) {
+            getGuideContributions(id: $id) {
+              id
+              title
+            }
+          }
+        `,
+        {
+          id,
+        }
+      );
+
+    console.log(gqlResponse);
+    return gqlResponse.getGuideContributions;
+  } catch (error) {
+    return error.message;
+  }
+};

@@ -12,3 +12,6 @@ export const dashNavData = [
     href: "/super-admin-dashboard/tour-spots",
   },
 ];
+
+
+export const uptoPeople_prefix = 20;

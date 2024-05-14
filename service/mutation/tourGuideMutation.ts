@@ -1,7 +1,11 @@
 import { gql } from "graphql-request";
 import { getClient } from "../graphqlClient";
-import { TCreateGuideProfileResponse, TTourGuideData } from "@/helpers/interface";
-import { TTourGuidePlace } from "@/helpers/types";
+import {
+  TCreateGuideProfileResponse,
+  TGuideReserveResponse,
+  TTourGuideData,
+} from "@/helpers/interface";
+import { TGuideReserve, TTourGuidePlace } from "@/helpers/types";
 
 export const createGuideProfile = async (
   profileData: TTourGuideData
@@ -12,7 +16,6 @@ export const createGuideProfile = async (
       mutation addGuideProfile(
         $description: String
         $cityId: ID
-        $uptoPeople: Int
         $responseTime: String
         $languages: [String]
         $profileImage: String
@@ -22,7 +25,7 @@ export const createGuideProfile = async (
       ) {
         addTourGuideProfile(
           description: $description
-          uptoPeople: $uptoPeople
+
           profileImage: $profileImage
           type: $type
           responseTime: $responseTime
@@ -34,7 +37,7 @@ export const createGuideProfile = async (
           id
           countryId
           cityId
-          uptoPeople
+
           description
           profileImage
           responseTime
@@ -46,7 +49,6 @@ export const createGuideProfile = async (
       description: profileData.description,
       profileImage: profileData.profileImage,
       cityId: profileData.cityId,
-      uptoPeople: profileData.uptoPeople,
       responseTime: profileData.responseTime,
       countryId: profileData.countryId,
       type: profileData.type,
@@ -71,7 +73,6 @@ export const updatedGuideProfile = async (
             $id: ID
             $description: String
             $cityId: ID
-            $uptoPeople: Int
             $responseTime: String
             $languages: [String]
             $profileImage: String
@@ -82,7 +83,6 @@ export const updatedGuideProfile = async (
             updateTourGuideProfile(
               id: $id
               description: $description
-              uptoPeople: $uptoPeople
               profileImage: $profileImage
               type: $type
               responseTime: $responseTime
@@ -94,7 +94,6 @@ export const updatedGuideProfile = async (
               id
               countryId
               cityId
-              uptoPeople
               description
               profileImage
               responseTime
@@ -107,7 +106,6 @@ export const updatedGuideProfile = async (
           description: profileData.description,
           profileImage: profileData.profileImage,
           cityId: profileData.cityId,
-          uptoPeople: profileData.uptoPeople,
           responseTime: profileData.responseTime,
           countryId: profileData.countryId,
           type: profileData.type,
@@ -176,6 +174,52 @@ export const updateTourGuidePlace = async (
     };
   } catch (error) {
     console.log(error);
+    return { data: error.message };
+  }
+};
+
+export const addTourGuideReserve = async (
+  reserveData: TGuideReserve
+): Promise<TGuideReserveResponse> => {
+  const client = getClient();
+
+  try {
+    const gqlResponse: { addTourGuideReserve: TGuideReserve } =
+      await client.request(
+        gql`
+          #graphql
+
+          mutation addTourGuideReserve(
+            $clientProfileID: ID
+            $personPic: PersonPicInputType
+            $startTime: [StartTimeInputType]
+            $guideContribution: ID
+          ) {
+            addTourGuideReserve(
+              clientProfileID: $clientProfileID
+              personPic: $personPic
+              startTime: $startTime
+              guideContribution: $guideContribution
+            ) {
+              id
+            }
+          }
+        `,
+        {
+          clientProfileID: reserveData.clientProfileID,
+          personPic: reserveData.personPic,
+          startTime: reserveData.startTime,
+          guideContribution: reserveData.guideContribution,
+        }
+      );
+
+    console.log(gqlResponse);
+
+    return {
+      data: gqlResponse?.addTourGuideReserve,
+    };
+  } catch (error) {
+    console.log(error.message);
     return { data: error.message };
   }
 };

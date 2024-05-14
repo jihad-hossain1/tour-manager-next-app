@@ -32,7 +32,6 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
   const [fileLoading, setFileLoading] = useState(false);
 
   const [formData, setFormData] = React.useState({
-    uptoPeople: 0,
     responseTime: 0,
     type: "",
     languages: ["English", "Bangla", "Arabic"],
@@ -74,7 +73,6 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
   useEffect(() => {
     if (id) {
       setFormData({
-        uptoPeople: tourGuideProfile?.data?.uptoPeople || "",
         responseTime: tourGuideProfile?.data?.responseTime || "",
         type: tourGuideProfile?.data?.type || "",
         languages: tourGuideProfile?.data?.languages || "",
@@ -93,7 +91,6 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
     tourGuideProfile?.data?.profileImage,
     tourGuideProfile?.data?.responseTime,
     tourGuideProfile?.data?.type,
-    tourGuideProfile?.data?.uptoPeople,
   ]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -107,7 +104,6 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           ...formData,
           description: description,
           profileImage: photo,
-          uptoPeople: Number(formData.uptoPeople),
           clientId: clientId,
           cityId: cityId,
           countryId: countryId,
@@ -136,7 +132,6 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           ...formData,
           description: description,
           profileImage: photo,
-          uptoPeople: Number(formData.uptoPeople),
           clientId: clientId,
           cityId: cityId,
           countryId: countryId,
@@ -171,7 +166,6 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
     setimage(null);
     setPhoto("");
     setFormData({
-      uptoPeople: 0,
       responseTime: 0,
       type: "",
       languages: ["English", "Bangla", "Arabic"],
@@ -205,18 +199,7 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           value={formData?.type}
           onChange={handleChange}
         />
-        <TextField
-          placeholder="uptoPeople"
-          label="uptoPeople"
-          name="uptoPeople"
-          value={formData?.uptoPeople}
-          // required
-          fullWidth
-          variant="outlined"
-          type="number"
-          onChange={handleChange}
-          className="dark:text-white dark:border-gray-50 dark:bg-transparent"
-        />
+
         <TextField
           value={formData?.responseTime}
           placeholder="responseTime"

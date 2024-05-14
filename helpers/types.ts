@@ -105,3 +105,22 @@ export type DivisionType = {
   description: string;
   countryId: string;
 };
+
+
+export type TGuideReserve = {
+  [x: string]: any;
+  id: string;
+  clientProfileID: string;
+  guideContribution: string;
+  personPic: {
+    id: string;
+    adult: number;
+    children: number;
+    infant: number;
+    totalPerson: number;
+  };
+  startTime: {
+    id: string;
+    timePic: string;
+  };
+};

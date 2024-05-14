@@ -3,6 +3,7 @@ import {
   Continent,
   CountryType,
   DivisionType,
+  TGuideReserve,
   TTourGuidePlace,
   TourSpotDetailType,
   TourSpotType,
@@ -108,4 +109,8 @@ export interface TSingleGuideProfileResponse {
 
 export interface TTourGuidePlaceResponse {
   data: TTourGuidePlace;
+}
+
+export interface TGuideReserveResponse {
+  data: TGuideReserve;
 }
