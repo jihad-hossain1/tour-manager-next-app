@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   return (
     <SuperAdminContext>
       <main className="flex gap-2">
-        <aside className="bg-slate-50 p-2 shadow-sm border-l border-blue-300">
+        <aside className="bg-slate-50 p-2 shadow-sm border-l border-blue-300 dark">
           <div className="flex flex-col gap-2">
             {dashNavData?.map((item, index) => (
               <Link key={index} href={item?.href} className="link text-nowrap">
@@ -16,7 +16,7 @@ const Layout = ({ children }) => {
             ))}
           </div>
         </aside>
-        <div className="w-full">{children}</div>
+        <div className="w-full dark">{children}</div>
       </main>
     </SuperAdminContext>
   );

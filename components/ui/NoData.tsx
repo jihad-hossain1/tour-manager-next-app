@@ -3,7 +3,7 @@ import React from 'react'
 
 const NoData = ({ title, LinkUrl }) => {
     return (
-        <div className='flex justify-center items-center min-h-[70vh]'>
+        <div className='flex justify-center items-center min-h-[70vh] dark'>
             <div className='flex flex-col gap-2 items-center'>
                 <p>
                     {title}

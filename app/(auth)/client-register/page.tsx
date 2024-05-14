@@ -84,7 +84,7 @@ const ClientRegister = () => {
 
 
   return <>
-    <PageContainer>
+    <div className="dark w-full">
       <CssBaseline />
       <Box
         sx={{
@@ -222,7 +222,7 @@ const ClientRegister = () => {
           </Grid>
         </Box>
       </Box>
-    </PageContainer>
+    </div>
   </ >
 };
 

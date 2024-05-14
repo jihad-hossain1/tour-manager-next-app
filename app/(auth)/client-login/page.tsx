@@ -76,8 +76,8 @@ const ClientLoginPage = () => {
   }
 
   return (
-    <PageContainer>
-      <div className="my-20">
+    <>
+      <div className="py-20 dark w-full">
         <CssBaseline />
         <Box
           sx={{
@@ -113,7 +113,7 @@ const ClientLoginPage = () => {
               required={true}
               fullWidth
               id="email"
-              label="email Number"
+              label="Email"
               name="email"
               value={formData?.email}
               onChange={handleChange}
@@ -162,7 +162,7 @@ const ClientLoginPage = () => {
           </Box>
         </Box>
       </div>
-    </PageContainer>
+    </>
   );
 };
 
