@@ -223,3 +223,46 @@ export const addTourGuideReserve = async (
     return { data: error.message };
   }
 };
+
+
+export const updateGuideReserve = async (
+  reserveData: TGuideReserve
+): Promise<TGuideReserveResponse> => {
+  const client = getClient();
+  try {
+    const gqlResponse: { updateGuideReserve: TGuideReserve } =
+      await client.request(
+        gql`
+          mutation updateGuideReserve(
+            $id: ID
+            $clientProfileID: ID
+            $personPic: PersonPicInputType
+            $startTime: [StartTimeInputUpType]
+            $guideContribution: ID
+          ) {
+            updateGuideReserve(
+              id: $id
+              clientProfileID: $clientProfileID
+              personPic: $personPic
+              startTime: $startTime
+              guideContribution: $guideContribution
+            ) {
+              id
+            }
+          }
+        `,
+        {
+          id: reserveData.id,
+          clientProfileID: reserveData.clientProfileID,
+          personPic: reserveData.personPic,
+          startTime: reserveData.startTime,
+          guideContribution: reserveData.guideContribution,
+        }
+      );
+
+    return { data: gqlResponse.updateGuideReserve };
+  } catch (error) {
+    console.log(error.message);
+    return { data: error.message };
+  }
+};

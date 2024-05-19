@@ -10,7 +10,7 @@ const PersonPickers = ({
   setChildren,
   infants,
   setInfants,
-
+  previousTotal
 }) => {
   const [totalPeople, setTotalPeople] = useState(0);
 
@@ -57,7 +57,7 @@ const PersonPickers = ({
     <div>
       <h2>Person choice</h2>
       <div className="flex items-center gap-4">
-        <p>Total People: {totalPeople}</p>
+        <p>Total People: {previousTotal || totalPeople}</p>
         <p>Max People {uptoPeople_prefix} </p>
       </div>
       <section className="flex items-center gap-4">

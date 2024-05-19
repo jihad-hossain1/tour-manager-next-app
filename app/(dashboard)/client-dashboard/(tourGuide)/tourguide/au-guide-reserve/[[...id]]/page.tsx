@@ -2,7 +2,7 @@ import React from 'react'
 import TourGuideReserveForm from '../_comp/TourGuideReserveForm'
 import { getServerSession } from 'next-auth/next';
 import { options } from '@/app/api/auth/[...nextauth]/options';
-import { getGuideContributions, getTourGuideInfoShort } from '@/service/query/tourGuideQuery';
+import { getGuideContributions, getGuideReserve, getTourGuideInfoShort } from '@/service/query/tourGuideQuery';
 
 const AUGuideReserve = async ({ params }) => {
     // get client id from session
@@ -17,9 +17,15 @@ const AUGuideReserve = async ({ params }) => {
 
     const data = await getGuideContributions(clientProfileID);
 
+    let initialData;
+    if (id) {
+        const guideReserve = await getGuideReserve(id[0])
+        initialData = guideReserve;
+    }
+
     return (
         <div>
-            <TourGuideReserveForm id={id} clientProfileID={clientProfile?.id} guideContributions={data} />
+            <TourGuideReserveForm guideReserveData={initialData} id={id} clientProfileID={clientProfile?.id} guideContributions={data} />
         </div>
     )
 }

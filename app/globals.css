@@ -12,3 +12,6 @@
 .link-btn{
     @apply bg-blue-50 text-blue-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs w-fit;
 }
+.btn-dlt{
+    @apply bg-red-50 text-red-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs w-fit;
+}

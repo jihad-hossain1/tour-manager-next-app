@@ -119,8 +119,11 @@ export type TGuideReserve = {
     infant: number;
     totalPerson: number;
   };
-  startTime: {
-    id: string;
-    timePic: string;
-  };
+  startTime: [
+    {
+      id: string;
+      timePic: string;
+    }
+  ];
+  contribution: TTourGuidePlace;
 };

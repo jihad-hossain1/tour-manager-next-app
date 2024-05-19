@@ -4,7 +4,7 @@ import {
   TSingleGuideProfileResponse,
   TTourGuideData,
 } from "@/helpers/interface";
-import { TTourGuidePlace } from "@/helpers/types";
+import { TGuideReserve, TTourGuidePlace } from "@/helpers/types";
 
 export const getTourGuideInfo = async (
   id: string
@@ -161,9 +161,80 @@ export const getGuideContributions = async (id: string): Promise<any> => {
         }
       );
 
-    console.log(gqlResponse);
     return gqlResponse.getGuideContributions;
   } catch (error) {
     return error.message;
+  }
+};
+
+export const getGuideReserves = async (id: string): Promise<TGuideReserve> => {
+  const client = getClient();
+  try {
+    const gqlResponse: { getGuideReservs: TGuideReserve } =
+      await client.request(
+        gql`
+          query getGuideReservs($id: ID!) {
+            getGuideReservs(id: $id) {
+              id
+              personPic {
+                id
+                infant
+                children
+                adult
+                totalPerson
+              }
+              startTime {
+                id
+                timePic
+              }
+              contribution {
+                title
+              }
+            }
+          }
+        `,
+        {
+          id,
+        }
+      );
+
+    return gqlResponse.getGuideReservs;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+export const getGuideReserve = async (id: string): Promise<TGuideReserve> => {
+  const client = getClient();
+  try {
+    const gqlResponse: { getGuideReserve: TGuideReserve } =
+      await client.request(
+        gql`
+          query getGuideReserve($id: ID!) {
+            getGuideReserve(id: $id) {
+              id
+              guideContribution
+              personPic {
+                id
+                infant
+                children
+                adult
+                totalPerson
+              }
+              startTime {
+                id
+                timePic
+              }
+            }
+          }
+        `,
+        {
+          id,
+        }
+      );
+
+    return gqlResponse.getGuideReserve;
+  } catch (error) {
+    console.error(error.message);
   }
 };
