@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -8,46 +8,47 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-
 const TimePickers = ({ startTime, setstartTime }) => {
-  const [timePic, settimePic] = useState<Dayjs>(dayjs());
+  const [timePic, setTimePic] = useState<Dayjs>(dayjs());
   const [isEdit, setIsEdit] = useState(false);
-  const router = useRouter()
-
-  const newData = { timePic };
+  const [editIndex, setEditIndex] = useState<number | null>(null);
+  const router = useRouter();
 
   const handleContributeData = () => {
     if (!timePic) {
-      return toast.error("selecet a start time");
+      return toast.error("Select a start time");
     }
-    setstartTime([...startTime, newData]);
-    toast.success("time added");
+    setstartTime([...startTime, { timePic }]);
+    toast.success("Time added");
+    setTimePic(dayjs()); // Reset the picker after adding
   };
 
-  function updteTimePic(timePic) {
-    // settimePic(timePic);
-    let pic = JSON.stringify(timePic);
-    pic = JSON.parse(pic);
-    settimePic(dayjs(pic));
-
+  const updateTimePic = (time: Dayjs, index: number) => {
+    setTimePic(dayjs(time));
     setIsEdit(true);
-  }
+    setEditIndex(index);
+  };
 
-  function updateContributeData() {
-    if (!timePic) {
-      return toast.error("selecet a start time");
+  const updateContributionTime = () => {
+    if (editIndex === null || !timePic) {
+      return;
     }
-
-    let pic = JSON.stringify(timePic);
-    pic = JSON.parse(pic);
-
-    setstartTime(startTime.map((item: { timePic: string; }) => item?.timePic == pic ? { timePic: timePic } : item));
-
+    const updatedStartTime = [...startTime];
+    updatedStartTime[editIndex] = { timePic };
+    setstartTime(updatedStartTime);
     setIsEdit(false);
-    settimePic(dayjs());
-    router.refresh()
-    toast.success("time updated");
-  }
+    setEditIndex(null);
+    toast.success("Time updated");
+    setTimePic(dayjs()); // Reset the picker after updating
+  };
+
+  const removeContributeTime = (index: number) => {
+    const newConDatas = [...startTime];
+    newConDatas.splice(index, 1);
+    setstartTime(newConDatas);
+    toast.success("Time removed from contribute data");
+  };
+
   return (
     <>
       <div className="flex flex-col gap-2">
@@ -55,21 +56,48 @@ const TimePickers = ({ startTime, setstartTime }) => {
           <TimePicker
             label="Start Time"
             value={timePic}
-            onChange={(newTime) => settimePic(newTime)} formatDensity={undefined} enableAccessibleFieldDOMStructure={undefined} selectedSections={undefined} onSelectedSectionsChange={undefined} />
+            onChange={(newTime) => setTimePic(newTime)}
+          />
         </LocalizationProvider>
         <div className="flex justify-end">
-          {isEdit ? <button onClick={updateContributeData} type="button" className="link-btn">Update</button> : <button onClick={handleContributeData} type="button" className="link-btn">Add</button>}
+          {isEdit ? (
+            <button
+              onClick={updateContributionTime}
+              type="button"
+              className="link-btn"
+            >
+              Update
+            </button>
+          ) : (
+            <button
+              onClick={handleContributeData}
+              type="button"
+              className="link-btn"
+            >
+              Add
+            </button>
+          )}
         </div>
         <div className="flex flex-col gap-3">
-          {startTime?.map((item: { pic: string; timePic: string }, index: number) => {
-            let pic = JSON.stringify(item?.timePic);
-            pic = JSON.parse(pic);
+          {startTime?.map((item: { timePic: Dayjs }, index: number) => {
             return (
-              <div key={index} className="flex  gap-2">
-                <h4>{new Date(pic).toLocaleTimeString()}</h4>
+              <div key={index} className="flex gap-2">
+                <h4>{dayjs(item.timePic).format("hh:mm A")}</h4>
                 <div>
-                  <button onClick={() => updteTimePic(pic)} type="button" className="link-btn">Up</button>
-                  <button type="button" className="btn-dlt">del</button>
+                  <button
+                    onClick={() => updateTimePic(item.timePic, index)}
+                    type="button"
+                    className="link-btn"
+                  >
+                    Up
+                  </button>
+                  <button
+                    onClick={() => removeContributeTime(index)}
+                    type="button"
+                    className="btn-dlt"
+                  >
+                    del
+                  </button>
                 </div>
               </div>
             );
