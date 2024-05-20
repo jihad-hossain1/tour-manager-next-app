@@ -8,6 +8,7 @@ import { SiGooglemaps } from 'react-icons/si'
 const TourSpotDetails = async ({ params }) => {
     const { id } = params as { id: string }
     const { data } = await getTourSpotDetails(id);
+    console.log("🚀 ~ TourSpotDetails ~ data:", data)
     return (
         <PageContainer>
             <div className="my-10">
@@ -18,7 +19,7 @@ const TourSpotDetails = async ({ params }) => {
                             <Image
                                 height={300}
                                 width={1000}
-                                src={data?.photo}
+                                src={data?.photo || ''}
                                 className="object-cover rounded-lg shadow-[2px_4px_15px_rgba(0,0,0,0.25)] w-full h-[400px]"
                                 alt="Tour spot image"
                             />
@@ -31,9 +32,10 @@ const TourSpotDetails = async ({ params }) => {
                             </h4>
                             <p className="text_under">
                                 <span className="c_underline">Tour Description: </span>
-                                {data?.description}
+
                             </p>
-                            <p className="text_under">
+                            <div dangerouslySetInnerHTML={{ __html: data?.description }}></div>
+                            {/* <p className="text_under">
                                 <span className="c_underline">How To Go There: </span>
                                 {data?.howToGoThere}
                             </p>
@@ -56,7 +58,7 @@ const TourSpotDetails = async ({ params }) => {
                             <p className="text_under">
                                 <span className="c_underline">Top Tour Place: </span>
                                 {data?.topTourPlace}
-                            </p>
+                            </p> */}
                         </div>
                         {/* review section  */}
                         <TourSpotReviewsSection

@@ -114,3 +114,19 @@ export interface TTourGuidePlaceResponse {
 export interface TGuideReserveResponse {
   data: TGuideReserve;
 }
+
+export type TGuidePlaceImages = {
+  id: string;
+  clientId: string;
+  clientProfileID: string;
+  contributionId: string;
+  title: string;
+  urls: {
+    id: string;
+    image: string;
+  }[];
+};
+
+export interface TGuidePlaceImagesResponse {
+  data: TGuidePlaceImages;
+}

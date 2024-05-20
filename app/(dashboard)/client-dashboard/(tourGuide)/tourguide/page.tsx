@@ -1,11 +1,12 @@
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import PageContainer from "@/components/ui/pageContainer";
-import { getGuideReserves, getTourGuideInfo } from "@/service/query/tourGuideQuery";
+import { getGuidePlaceImage, getGuideReserves, getTourGuideInfo } from "@/service/query/tourGuideQuery";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 import React from "react";
 import "./styles.css";
 import { TGuideReserve } from "@/helpers/types";
+import Image from "next/image";
 
 const TourGuideProfile = async () => {
   const session = await getServerSession(options);
@@ -17,6 +18,10 @@ const TourGuideProfile = async () => {
   const clientProfileId = TourGuideProfile?.data?.id;
 
   const guideReserves = await getGuideReserves(clientProfileId);
+
+  const imagesData = await getGuidePlaceImage(clientProfileId)
+  // console.log("🚀 ~ TourGuideProfile ~ imagesData:", imagesData)
+
 
   return (
     <PageContainer>
@@ -163,7 +168,38 @@ const TourGuideProfile = async () => {
                   Add Tour Place Images
                 </Link>
 
-                <div className="flex flex-col gap-4"></div>
+                <div className="flex flex-col gap-4">
+                  {imagesData?.map((item, index: number) => (
+                    <div
+                      key={index}
+                      className="border border-gray-100 p-3 shadow-sm hover:shadow transition duration-300 dark:border-gray-950 relative"
+                    >
+                      <div className="flex flex-col gap-2">
+                        <h4 className="">{item?.title}</h4>
+                      </div>
+                      <div className="flex flex-wrap gap-2 overflow-x-auto">
+                        {item?.urls?.map((ite, ind) => (
+                          <div key={ind}>
+                            <Image
+                              src={ite?.image}
+                              alt={item?.title}
+                              width={200}
+                              height={200}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <div className="absolute z-10 bottom-1 right-1">
+                        <Link
+                          href={`/client-dashboard/tourguide/au-images/${item?.id}`}
+                          className="link-btn"
+                        >
+                          Update
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </>
           ) : (

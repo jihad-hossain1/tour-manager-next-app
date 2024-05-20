@@ -2,6 +2,8 @@ import { gql } from "graphql-request";
 import { getClient } from "../graphqlClient";
 import {
   TCreateGuideProfileResponse,
+  TGuidePlaceImages,
+  TGuidePlaceImagesResponse,
   TGuideReserveResponse,
   TTourGuideData,
 } from "@/helpers/interface";
@@ -268,21 +270,6 @@ export const updateGuideReserve = async (
 };
 
 
-export type TGuidePlaceImages = {
-  id: string;
-  clientId: string;
-  clientProfileID: string;
-  contributionId: string;
-  title: string;
-  urls: {
-    id: string;
-    image: string;
-  }[];
-};
-
-export interface TGuidePlaceImagesResponse {
-  data: TGuidePlaceImages;
-}
 
 export const addTourPlaceImages = async (
   imagesData: TGuidePlaceImages

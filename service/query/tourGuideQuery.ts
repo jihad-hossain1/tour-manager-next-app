@@ -1,6 +1,7 @@
 import { gql } from "graphql-request";
 import { getClient } from "../graphqlClient";
 import {
+  TGuidePlaceImages,
   TSingleGuideProfileResponse,
   TTourGuideData,
 } from "@/helpers/interface";
@@ -234,6 +235,37 @@ export const getGuideReserve = async (id: string): Promise<TGuideReserve> => {
       );
 
     return gqlResponse.getGuideReserve;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+export const getGuidePlaceImage = async (
+  clientProfileID: string
+): Promise<TGuidePlaceImages[]> => {
+  const client = getClient();
+
+  try {
+    const gqlResponse: { getGuidePlaceImages: TGuidePlaceImages[] } =
+      await client.request(
+        gql`
+          query getGuidePlaceImages($clientProfileID: ID!) {
+            getGuidePlaceImages(clientProfileID: $clientProfileID) {
+              id
+              title
+              urls {
+                id
+                image
+              }
+            }
+          }
+        `,
+        {
+          clientProfileID,
+        }
+      );
+
+    return gqlResponse.getGuidePlaceImages;
   } catch (error) {
     console.error(error.message);
   }
