@@ -20,8 +20,8 @@ const TourGuideProfile = async () => {
   const guideReserves = await getGuideReserves(clientProfileId);
 
   const imagesData = await getGuidePlaceImage(clientProfileId)
-  // console.log("🚀 ~ TourGuideProfile ~ imagesData:", imagesData)
-
+  
+  console.log("🚀 ~ TourGuideProfile ~ imagesData:", imagesData);
 
   return (
     <PageContainer>
@@ -176,6 +176,9 @@ const TourGuideProfile = async () => {
                     >
                       <div className="flex flex-col gap-2">
                         <h4 className="">{item?.title}</h4>
+                        <h4>
+                          Contribute for: <span>{item?.contribute?.title}</span>
+                        </h4>
                       </div>
                       <div className="flex flex-wrap gap-2 overflow-x-auto">
                         {item?.urls?.map((ite, ind) => (

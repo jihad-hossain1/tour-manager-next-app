@@ -253,6 +253,9 @@ export const getGuidePlaceImage = async (
             getGuidePlaceImages(clientProfileID: $clientProfileID) {
               id
               title
+              contribute {
+                title
+              }
               urls {
                 id
                 image

@@ -71,7 +71,7 @@ const Form = ({ id, profile, tourSpots, guidePlaceData }) => {
         const response = await updatedTourPlace({
           title: title,
           tourPlaceId: tourPlaceId,
-          price: price,
+          price: +price,
           contribute: conDatas,
           clientProfileID: profile?.id,
           id: id[0],

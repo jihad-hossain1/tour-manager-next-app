@@ -121,6 +121,10 @@ export type TGuidePlaceImages = {
   clientProfileID: string;
   contributionId: string;
   title: string;
+  contribute: {
+    title: string;
+    id: string;
+  };
   urls: {
     id: string;
     image: string;
