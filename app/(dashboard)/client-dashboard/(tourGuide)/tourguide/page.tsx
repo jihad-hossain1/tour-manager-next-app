@@ -8,6 +8,7 @@ import "./styles.css";
 import { TGuideReserve } from "@/helpers/types";
 import Image from "next/image";
 import { client } from "@/service/query/clientQuery";
+import { Button } from "@mui/material";
 
 const TourGuideProfile = async () => {
   const session = await getServerSession(options);
@@ -39,6 +40,8 @@ const TourGuideProfile = async () => {
             <>
               {/* guide profile photo  */}
               <GuideProfilePhoto
+                clientId={clientId}
+                clientImage={getClient?.image}
                 TourGuideProfilePhoto={TourGuideProfile?.data?.profileImage}
               />
               {/* guide profile  */}
@@ -86,20 +89,70 @@ const ClientInfo = ({ clientData }) => {
   );
 };
 
-const GuideProfilePhoto = ({ TourGuideProfilePhoto }) => {
+const GuideProfilePhoto = ({
+  TourGuideProfilePhoto,
+  clientImage,
+  clientId,
+}) => {
   return (
-    <div className="h-[300px] w-full">
+    <div className="min-h-[200px] w-full my-3">
       {TourGuideProfilePhoto ? (
-        <div className="relative">
+        <div className="relative w-full p-1">
           <Image
             src={TourGuideProfilePhoto || ""}
             alt="tour-guide"
-            width={300}
+            width={800}
             height={300}
+            className="w-full object-cover rounded-lg"
           />
+          <div className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            {clientImage ? (
+              <div className="relative group">
+                <Image
+                  src={clientImage || ""}
+                  alt="client Images"
+                  width={800}
+                  height={300}
+                  className="border shadow-md hover:shadow-lg bg-blue-50 bg-opacity-50 w-[80px] lg:w-[200px] h-[80px] lg:h-[200px] rounded-full object-cover "
+                />
+                <div className="hidden group-hover:block absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 rounded-full overflow-hidden ease-in-out transition duration-500"></div>
+                <Link
+                  href={`/client-dashboard/au-client-image/${clientId}`}
+                  className=" absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-nowrap lg:bg-white lg:text-xs lg:rounded-md lg:px-3 lg:py-1 text-green-600"
+                >
+                  <span className="lg:block hidden">Up Image</span>
+                  <span className="lg:hidden block text-white text-3xl ">
+                    +
+                  </span>
+                </Link>
+              </div>
+            ) : (
+              <div className="border shadow-md hover:shadow-lg bg-blue-50 bg-opacity-50 w-[80px] lg:w-[200px] h-[80px] lg:h-[200px] rounded-full object-cover flex flex-col justify-center items-center gap-2">
+                <h3 className="text-center text-xs lg:text-xl lg:font-bold text-red-400">
+                  No Image
+                </h3>
+                <Link
+                  href={"/client-dashboard/au-client-image"}
+                  className=" text-nowrap lg:bg-white lg:text-xs lg:rounded-md lg:px-3 lg:py-1 text-green-600"
+                >
+                  <span className="lg:block hidden">Add Image</span>
+                  <span className="lg:hidden block text-white text-3xl ">
+                    +
+                  </span>
+                </Link>
+              </div>
+            )}
+          </div>
+          <div className="absolute top-1 left-1  hover:bg-zinc-900 w-full h-full hover:bg-opacity-50 transition ease-in-out duration-300"></div>
 
           <div className="absolute bottom-1 right-1">
-            <button className="link-btn">Update</button>
+            <Button
+              variant="contained"
+              color="primary"
+              className="bg-green-500 hover:bg-green-600 w-full"
+            >
+              Update
+            </Button>
           </div>
         </div>
       ) : (
