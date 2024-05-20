@@ -266,3 +266,62 @@ export const updateGuideReserve = async (
     return { data: error.message };
   }
 };
+
+
+export type TGuidePlaceImages = {
+  id: string;
+  clientId: string;
+  clientProfileID: string;
+  contributionId: string;
+  title: string;
+  urls: {
+    id: string;
+    image: string;
+  }[];
+};
+
+export interface TGuidePlaceImagesResponse {
+  data: TGuidePlaceImages;
+}
+
+export const addTourPlaceImages = async (
+  imagesData: TGuidePlaceImages
+): Promise<TGuidePlaceImagesResponse> => {
+  const client = getClient();
+  try {
+    const gqlResponse: { uploadTourImages: TGuidePlaceImages } =
+      await client.request(
+        gql`
+          mutation uploadTourImages(
+            $clientId: ID
+            $clientProfileID: ID
+            $contributionId: ID
+            $title: String
+            $urls: [ImageInput]
+          ) {
+            uploadTourImages(
+              clientId: $clientId
+              clientProfileID: $clientProfileID
+              contributionId: $contributionId
+              title: $title
+              urls: $urls
+            ) {
+              id
+            }
+          }
+        `,
+        {
+          clientProfileID: imagesData.clientProfileID,
+          contributionId: imagesData.contributionId,
+          title: imagesData.title,
+          urls: imagesData.urls,
+          clientId: imagesData.clientId,
+        }
+      );
+
+    return { data: gqlResponse.uploadTourImages };
+  } catch (error) {
+    console.log(error.message);
+    return { data: error.message };
+  }
+};

@@ -65,7 +65,9 @@ const TourGuideProfile = async () => {
                       >
                         <div className="flex flex-col gap-2">
                           <h4 className="">{item?.title}</h4>
-                          <h4><span>Price : </span> ${item?.price}</h4>
+                          <h4>
+                            <span>Price : </span> ${item?.price}
+                          </h4>
                         </div>
                         <div className="absolute z-10 bottom-1 right-1">
                           <Link
@@ -84,58 +86,90 @@ const TourGuideProfile = async () => {
               {/* guide reserve section  */}
               {TourGuideProfile?.data?.tourGuideContribution?.length > 0 ? (
                 <div className="flex flex-col gap-2">
-                  <Link href={'/client-dashboard/tourguide/au-guide-reserve'} className="link-btn">
+                  <Link
+                    href={"/client-dashboard/tourguide/au-guide-reserve"}
+                    className="link-btn"
+                  >
                     Add Guide Reserve
                   </Link>
                   <div className="flex flex-col gap-3">
-                    {guideReserves?.map((item: TGuideReserve, index: number) => (<div key={index} className="shadow hover:shadow-md rounded-md border border-gray-100 dark:border-gray-950 p-3 relative">
-                      <div className="flex flex-col gap-2">
-                        <h4 className="font-semibold">
-                          {item?.contribution?.title}
-                        </h4>
-                        <h4 className="flex gap-4 items-center">
-                          <span className="text-green-600 font-semibold">Total Person: </span>
-                          <span>
-                            {item?.personPic?.totalPerson}
-                          </span>
-                          <span>Infant: </span>
-                          <span>
-                            {item?.personPic?.infant || 0}
-                          </span>
-                          <span>Children: </span>
-                          <span>
-                            {item?.personPic?.children || 0}
-                          </span>
-                          <span>Adult: </span>
-                          <span>
-                            {item?.personPic?.adult}
-                          </span>
-                        </h4>
-                        <div className="flex items-center gap-6">
-                          <h4>Start Time: </h4>
+                    {guideReserves?.map(
+                      (item: TGuideReserve, index: number) => (
+                        <div
+                          key={index}
+                          className="shadow hover:shadow-md rounded-md border border-gray-100 dark:border-gray-950 p-3 relative"
+                        >
+                          <div className="flex flex-col gap-2">
+                            <h4 className="font-semibold">
+                              {item?.contribution?.title}
+                            </h4>
+                            <h4 className="flex gap-4 items-center">
+                              <span className="text-green-600 font-semibold">
+                                Total Person:{" "}
+                              </span>
+                              <span>{item?.personPic?.totalPerson}</span>
+                              <span>Infant: </span>
+                              <span>{item?.personPic?.infant || 0}</span>
+                              <span>Children: </span>
+                              <span>{item?.personPic?.children || 0}</span>
+                              <span>Adult: </span>
+                              <span>{item?.personPic?.adult}</span>
+                            </h4>
+                            <div className="flex items-center gap-6">
+                              <h4>Start Time: </h4>
 
-                          <div className="flex items-center gap-5">
-                            {item?.startTime?.map((ite: { id: string; timePic: string }, ind: number) => <div key={ind}>
-                              <h4>
-                                <span>{new Date(ite?.timePic).toLocaleTimeString()}</span>
-                              </h4>
-                            </div>)}
+                              <div className="flex items-center gap-5">
+                                {item?.startTime?.map(
+                                  (
+                                    ite: { id: string; timePic: string },
+                                    ind: number
+                                  ) => (
+                                    <div key={ind}>
+                                      <h4>
+                                        <span>
+                                          {new Date(
+                                            ite?.timePic
+                                          ).toLocaleTimeString()}
+                                        </span>
+                                      </h4>
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="absolute z-10 bottom-1 right-1">
+                            <Link
+                              href={`/client-dashboard/tourguide/au-guide-reserve/${item?.id}`}
+                              className="link-btn "
+                            >
+                              Update
+                            </Link>
                           </div>
                         </div>
-                      </div>
-                      <div className="absolute z-10 bottom-1 right-1">
-                        <Link href={`/client-dashboard/tourguide/au-guide-reserve/${item?.id}`} className="link-btn ">Update</Link>
-                      </div>
-                    </div>))}
+                      )
+                    )}
                   </div>
                 </div>
-              ) : ''}
+              ) : (
+                ""
+              )}
 
+              <div className="flex flex-col gap-2 my-10">
+                <Link
+                  href={"/client-dashboard/tourguide/au-images"}
+                  className="link-btn"
+                >
+                  Add Tour Place Images
+                </Link>
+
+                <div className="flex flex-col gap-4"></div>
+              </div>
             </>
           ) : (
             <Link
               href={"/client-dashboard/tourguide/add-update-profile"}
-                className="link-btn"
+              className="link-btn"
             >
               Add Profile Info.
             </Link>
