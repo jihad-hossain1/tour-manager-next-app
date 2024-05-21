@@ -1,9 +1,6 @@
 import { CityResponse } from './../../helpers/interface';
 import { gql } from "graphql-request";
-
 import { getClient } from "../graphqlClient";
-import { CityType } from '@/helpers/types';
-
 
 
 export const getCities = async (): Promise<CityResponse> => {
