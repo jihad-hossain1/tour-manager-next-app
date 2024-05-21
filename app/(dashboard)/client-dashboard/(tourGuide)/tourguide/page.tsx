@@ -8,7 +8,6 @@ import "./styles.css";
 import { TGuideReserve } from "@/helpers/types";
 import Image from "next/image";
 import { client } from "@/service/query/clientQuery";
-import { Button } from "@mui/material";
 
 const TourGuideProfile = async () => {
   const session = await getServerSession(options);
@@ -16,8 +15,6 @@ const TourGuideProfile = async () => {
   const clientId = session?.user?.clientId;
 
   const getClient = await client(clientId);
-
-  console.log(getClient);
 
   const TourGuideProfile = await getTourGuideInfo(clientId);
 
@@ -40,6 +37,7 @@ const TourGuideProfile = async () => {
             <>
               {/* guide profile photo  */}
               <GuideProfilePhoto
+                clientProfileId={clientProfileId}
                 clientId={clientId}
                 clientImage={getClient?.image}
                 TourGuideProfilePhoto={TourGuideProfile?.data?.profileImage}
@@ -93,9 +91,10 @@ const GuideProfilePhoto = ({
   TourGuideProfilePhoto,
   clientImage,
   clientId,
+  clientProfileId,
 }) => {
   return (
-    <div className="min-h-[200px] w-full my-3">
+    <div className="min-h-[200px] max-h-[400px] w-full my-3">
       {TourGuideProfilePhoto ? (
         <div className="relative w-full p-1">
           <Image
@@ -103,7 +102,7 @@ const GuideProfilePhoto = ({
             alt="tour-guide"
             width={800}
             height={300}
-            className="w-full object-cover rounded-lg"
+            className="w-full max-h-[400px] object-cover rounded-lg"
           />
           <div className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             {clientImage ? (
@@ -145,14 +144,14 @@ const GuideProfilePhoto = ({
           </div>
           <div className="absolute top-1 left-1  hover:bg-zinc-900 w-full h-full hover:bg-opacity-50 transition ease-in-out duration-300"></div>
 
-          <div className="absolute bottom-1 right-1">
-            <Button
-              variant="contained"
+          <div className="absolute bottom-2 right-1">
+            <Link
+              href={`/client-dashboard/tourguide/au-profileimage/${clientProfileId}`}
               color="primary"
-              className="bg-green-500 hover:bg-green-600 w-full"
+              className="bg-green-500 hover:bg-green-600 px-6 py-2 rounded-md"
             >
               Update
-            </Button>
+            </Link>
           </div>
         </div>
       ) : (

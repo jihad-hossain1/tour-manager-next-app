@@ -7,6 +7,52 @@ import {
 } from "@/helpers/interface";
 import { TGuideReserve, TTourGuidePlace } from "@/helpers/types";
 
+export type TTGuideInfo = {
+  id: string;
+  clientInfo: {
+    name: string;
+    image: string;
+  };
+  about: string;
+  city: {
+    name: string;
+  };
+};
+
+export interface TTGuideResponse {
+  map(
+    arg0: (_guide: any, index: any) => import("react").JSX.Element
+  ): import("react").ReactNode;
+  getTourGuides: TTGuideInfo[];
+}
+
+export const getTourGuides = async (): Promise<TTGuideResponse> => {
+  const client = getClient();
+
+  try {
+    const gqlResponse: { getTourGuides: TTGuideResponse } =
+      await client.request(gql`
+        query getTourGuides {
+          getTourGuides {
+            id
+            about
+            clientInfo {
+              name
+              image
+            }
+            city {
+              name
+            }
+          }
+        }
+      `);
+
+    return gqlResponse.getTourGuides;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
 export const getTourGuideInfo = async (
   id: string
 ): Promise<TSingleGuideProfileResponse> => {
@@ -65,6 +111,7 @@ export const getTourGuideInfoShort = async (
             cityId
             countryId
             clientId
+            profileImage
           }
         }
       `,

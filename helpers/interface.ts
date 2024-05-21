@@ -93,6 +93,7 @@ export type TTourGuideData = {
   type: string;
   clientId: string;
   countryId: string;
+  about: string;
 };
 
 export interface TCreateGuideProfileResponse {

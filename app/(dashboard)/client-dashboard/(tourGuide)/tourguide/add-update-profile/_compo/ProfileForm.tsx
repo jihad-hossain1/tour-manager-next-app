@@ -25,6 +25,7 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState("");
+  const [about, setAbout] = useState("");
   const [photo, setPhoto] = useState("");
   const [image, setimage] = useState(null);
   const [cityId, setCityId] = useState("");
@@ -36,6 +37,9 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
     type: "",
     languages: ["English", "Bangla", "Arabic"],
   });
+
+  const [uploadTime, setUploadTime] = useState(null);
+  const [timer, setTimer] = useState(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -57,11 +61,14 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
       data.append("upload_preset", "images_preset");
       let api = `https://api.cloudinary.com/v1_1/dqfi9zw3e/image/upload`;
 
+      setUploadTime(Date.now());
       setFileLoading(true);
       const res = await axios.post(api, data);
 
       let _up = await res?.data?.secure_url;
 
+      setUploadTime(null);
+      //   setTimer(null);
       setFileLoading(false);
       setPhoto(_up);
     } catch (error) {
@@ -81,9 +88,11 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
       setCountryId(tourGuideProfile?.data?.countryId || "");
       setDescription(tourGuideProfile?.data?.description || "");
       setPhoto(tourGuideProfile?.data?.profileImage || "");
+      setAbout(tourGuideProfile?.data?.about || "");
     }
   }, [
     id,
+    tourGuideProfile?.data?.about,
     tourGuideProfile?.data?.cityId,
     tourGuideProfile?.data?.countryId,
     tourGuideProfile?.data?.description,
@@ -107,6 +116,7 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           clientId: clientId,
           cityId: cityId,
           countryId: countryId,
+          about,
           id: id[0],
         });
 
@@ -135,6 +145,7 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           clientId: clientId,
           cityId: cityId,
           countryId: countryId,
+          about,
         });
 
         setLoading(false);
@@ -212,7 +223,18 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           onChange={handleChange}
           className="dark:text-white dark:border-gray-50 dark:bg-transparent dark:placeholder:text-white"
         />
-
+        <TextField
+          placeholder="About"
+          label="About"
+          name="about"
+          className="dark:text-white dark:border-gray-50 dark:bg-transparent dark:placeholder:text-white dark:border-1"
+          fullWidth
+          variant="outlined"
+          type="text"
+          multiline
+          value={about}
+          onChange={(e) => setAbout(e.target.value)}
+        />
         <FormControl>
           <InputLabel id="cid">Choice Country</InputLabel>
           <Select
@@ -276,6 +298,9 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           handleOnFileUpload={handleOnFileUpload}
           photo={photo}
           formData={undefined}
+          uploadTime={uploadTime}
+          setTimer={setTimer}
+          timer={timer}
         />
 
         <div className="flex justify-end">

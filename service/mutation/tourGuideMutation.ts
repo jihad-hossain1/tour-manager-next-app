@@ -24,10 +24,11 @@ export const createGuideProfile = async (
         $type: String
         $clientId: ID
         $countryId: ID
+        $about: String
       ) {
         addTourGuideProfile(
           description: $description
-
+          about: $about
           profileImage: $profileImage
           type: $type
           responseTime: $responseTime
@@ -39,7 +40,7 @@ export const createGuideProfile = async (
           id
           countryId
           cityId
-
+          about
           description
           profileImage
           responseTime
@@ -55,6 +56,7 @@ export const createGuideProfile = async (
       countryId: profileData.countryId,
       type: profileData.type,
       languages: profileData.languages,
+      about: profileData.about,
     }
   );
 
@@ -81,6 +83,7 @@ export const updatedGuideProfile = async (
             $type: String
             $clientId: ID
             $countryId: ID
+            $about: String
           ) {
             updateTourGuideProfile(
               id: $id
@@ -92,8 +95,10 @@ export const updatedGuideProfile = async (
               clientId: $clientId
               languages: $languages
               countryId: $countryId
+              about: $about
             ) {
               id
+              about
               countryId
               cityId
               description
@@ -112,6 +117,7 @@ export const updatedGuideProfile = async (
           countryId: profileData.countryId,
           type: profileData.type,
           languages: profileData.languages,
+          about: profileData.about,
         }
       );
 
@@ -226,7 +232,6 @@ export const addTourGuideReserve = async (
   }
 };
 
-
 export const updateGuideReserve = async (
   reserveData: TGuideReserve
 ): Promise<TGuideReserveResponse> => {
@@ -269,8 +274,6 @@ export const updateGuideReserve = async (
   }
 };
 
-
-
 export const addTourPlaceImages = async (
   imagesData: TGuidePlaceImages
 ): Promise<TGuidePlaceImagesResponse> => {
@@ -310,5 +313,44 @@ export const addTourPlaceImages = async (
   } catch (error) {
     console.log(error.message);
     return { data: error.message };
+  }
+};
+
+export type TTGProfileImage = {
+  id: string;
+  profileImage: string;
+};
+
+export interface TTGProfileImageResponse {
+  data: TTGProfileImage;
+}
+
+export const createTourGuideProfileImage = async (
+  data: TTGProfileImage
+): Promise<TTGProfileImageResponse> => {
+  const client = getClient();
+
+  try {
+    const gqlResponse: { addProfileImage: TTGProfileImage } =
+      await client.request(
+        gql`
+          mutation addProfileImage($id: ID, $profileImage: String) {
+            addProfileImage(id: $id, profileImage: $profileImage) {
+              id
+              profileImage
+            }
+          }
+        `,
+        {
+          id: data.id,
+          profileImage: data.profileImage,
+        }
+      );
+    console.log(gqlResponse);
+
+    return { data: gqlResponse?.addProfileImage };
+  } catch (error) {
+    console.log(error?.message);
+    return { data: error?.message };
   }
 };

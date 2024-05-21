@@ -15,10 +15,8 @@ const TourGuideAddUpdateProfilePage = async ({ params }) => {
   if (id) {
     const data = await getTourGuideProfile(id[0]);
     initialData = data;
-    // console.log(data);
   }
 
-  console.log(initialData);
   return (
     <PageContainer>
       <ProfileForm

@@ -1,14 +1,15 @@
 "use client";
 
+import { errorResponse } from "@/utils/errorResponse";
+import axios from "axios";
+import React, { useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { addGuideProfileImage } from "./addGuideProfileImage";
 import FileUploader from "@/utils/fileUploader/FileUploader";
 import { Button } from "@mui/material";
-import axios from "axios";
-import React, { useState } from "react";
-import { addClientImage } from "./addClientImage";
-import { errorResponse } from "@/utils/errorResponse";
-import toast from "react-hot-toast";
+import Image from "next/image";
 
-const Form = ({ id, clientId }) => {
+const Form = ({ id, clientProfileID, profileImage }) => {
   const [loading, setLoading] = useState(false);
   const [fileLoading, setFileLoading] = useState(false);
   const [photo, setPhoto] = useState("");
@@ -46,9 +47,9 @@ const Form = ({ id, clientId }) => {
       if (id) {
         setLoading(true);
 
-        const response = await addClientImage({
-          image: photo,
-          id: clientId,
+        const response = await addGuideProfileImage({
+          profileImage: photo,
+          id: id[0],
         });
 
         if (response) {
@@ -63,14 +64,12 @@ const Form = ({ id, clientId }) => {
       } else {
         setLoading(true);
 
-        const response = await addClientImage({
-          image: photo,
-          id: clientId,
+        const response = await addGuideProfileImage({
+          profileImage: photo,
+          id: clientProfileID,
         });
 
         setLoading(false);
-
-        // console.log(response);
 
         if (response) {
           toast.success("Image added successfully");
@@ -81,6 +80,8 @@ const Form = ({ id, clientId }) => {
       }
     } catch (error) {
       console.log(error?.message);
+      setLoading(false);
+      errorResponse(error);
     }
   };
 
@@ -88,7 +89,6 @@ const Form = ({ id, clientId }) => {
     setimage(null);
     setPhoto("");
   };
-
   return (
     <div className="my-20">
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -103,6 +103,17 @@ const Form = ({ id, clientId }) => {
           setTimer={setTimer}
           timer={timer}
         />
+
+        {profileImage ? (
+          <Image
+            sizes="100vw"
+            src={profileImage}
+            alt="profile"
+            width={500}
+            height={500}
+            className="object-cover rounded-lg"
+          />
+        ) : null}
 
         <div className="flex justify-end">
           <div className="flex gap-4">
