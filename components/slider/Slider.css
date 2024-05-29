@@ -7,7 +7,7 @@ body {
 }
 
 .carousel {
-    height: 85vh;
+    height: 40vh;
     overflow: hidden;
     position: relative;
 }

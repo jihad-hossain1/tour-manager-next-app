@@ -14,12 +14,44 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { addCity } from "./addCity";
 import { updatedCity } from "./updatedCity";
+import FileUploader from "@/utils/fileUploader/FileUploader";
+import axios from "axios";
+import Image from "next/image";
 
 const CityForm = ({ divisions, countries, id, city }) => {
   const router = useRouter();
   const [divisionId, setDivisionId] = useState("");
   const [countryId, setCountryId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fileLoading, setFileLoading] = useState(false);
+  const [photo, setPhoto] = useState("");
+  const [image, setimage] = useState(null);
+  const [uploadTime, setUploadTime] = useState(null);
+  const [timer, setTimer] = useState(null);
+
+  const handleOnFileUpload = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
+      let data = new FormData();
+      data.append("file", image);
+      data.append("upload_preset", "images_preset");
+      let api = `https://api.cloudinary.com/v1_1/dqfi9zw3e/image/upload`;
+
+      setUploadTime(Date.now());
+      setFileLoading(true);
+      const res = await axios.post(api, data);
+
+      let _up = await res?.data?.secure_url;
+
+      setUploadTime(null);
+      //   setTimer(null);
+      setFileLoading(false);
+      setPhoto(_up);
+    } catch (error) {
+      setFileLoading(false);
+      console.log(error.message);
+    }
+  };
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -35,6 +67,7 @@ const CityForm = ({ divisions, countries, id, city }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    console.log(image);
     try {
       if (id) {
         setLoading(true);
@@ -42,6 +75,7 @@ const CityForm = ({ divisions, countries, id, city }) => {
           ...formData,
           divisionId,
           countryId,
+          photo: photo,
           id: id[0],
         });
 
@@ -61,12 +95,15 @@ const CityForm = ({ divisions, countries, id, city }) => {
         setLoading(false);
       } else {
         setLoading(true);
-        
 
-        const result = await addCity({ ...formData, divisionId, countryId });
+        const result = await addCity({
+          ...formData,
+          divisionId,
+          countryId,
+          photo: photo,
+        });
 
         if (result?.data?.id) {
-        
           setLoading(false);
           router.refresh();
           toast.success("City added successfully");
@@ -98,6 +135,7 @@ const CityForm = ({ divisions, countries, id, city }) => {
         description: city?.description,
         photo: city?.photo,
       });
+      setimage(city?.photo);
       setDivisionId(city?.divisionId);
       setCountryId(city?.countryId);
     }
@@ -106,8 +144,9 @@ const CityForm = ({ divisions, countries, id, city }) => {
     city?.description,
     city?.divisionId,
     city?.name,
-    city?.photo,
+    city?.image,
     id,
+    city?.photo,
   ]);
 
   function handleClear() {
@@ -123,7 +162,9 @@ const CityForm = ({ divisions, countries, id, city }) => {
   return (
     <PageContainer>
       <form onSubmit={handleSubmit}>
-        <h1 className="text-2xl font-bold mb-4">Add City</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center my-6">
+          {id ? "Update" : "Add"} City
+        </h1>
         <div className="flex flex-col gap-4">
           <TextField
             variant="outlined"
@@ -188,6 +229,30 @@ const CityForm = ({ divisions, countries, id, city }) => {
               ))}
             </Select>
           </FormControl>
+          <div>
+            <div className="my-5">
+              {image && (
+                <Image
+                  src={image || ""}
+                  alt="image"
+                  width={200}
+                  height={200}
+                  className="mt-4"
+                />
+              )}
+            </div>
+            <FileUploader
+              fileLoading={fileLoading}
+              image={Image}
+              setimage={setimage}
+              handleOnFileUpload={handleOnFileUpload}
+              photo={photo}
+              formData={undefined}
+              uploadTime={uploadTime}
+              setTimer={setTimer}
+              timer={timer}
+            />
+          </div>
 
           <div className="flex gap-4">
             {id ? (

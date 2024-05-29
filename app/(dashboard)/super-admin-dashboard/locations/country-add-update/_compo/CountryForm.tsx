@@ -8,6 +8,9 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { addCountry } from "./addCountry";
 import { updatedCountry } from './updateCountry'
+import axios from "axios";
+import Image from "next/image";
+import FileUploader from "@/utils/fileUploader/FileUploader";
 
 const CountryForm = ({ id, continents, country }) => {
   const [loading, setLoading] = useState(false);
@@ -19,6 +22,35 @@ const CountryForm = ({ id, continents, country }) => {
     description: "",
     photo: "",
   });
+  const [fileLoading, setFileLoading] = useState(false);
+  const [photo, setPhoto] = useState("");
+  const [image, setimage] = useState(null);
+  const [uploadTime, setUploadTime] = useState(null);
+  const [timer, setTimer] = useState(null);
+
+  const handleOnFileUpload = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
+      let data = new FormData();
+      data.append("file", image);
+      data.append("upload_preset", "images_preset");
+      let api = `https://api.cloudinary.com/v1_1/dqfi9zw3e/image/upload`;
+
+      setUploadTime(Date.now());
+      setFileLoading(true);
+      const res = await axios.post(api, data);
+
+      let _up = await res?.data?.secure_url;
+
+      setUploadTime(null);
+      //   setTimer(null);
+      setFileLoading(false);
+      setPhoto(_up);
+    } catch (error) {
+      setFileLoading(false);
+      console.log(error.message);
+    }
+  };
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -35,8 +67,15 @@ const CountryForm = ({ id, continents, country }) => {
       });
       setContinentId(country?.continentId || "");
       setIsEdit(true);
+      setimage(country?.photo);
     }
-  }, [country?.continentId, country?.description, country?.name, country?.photo, id]);
+  }, [
+    country?.continentId,
+    country?.description,
+    country?.name,
+    country?.photo,
+    id,
+  ]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,6 +87,7 @@ const CountryForm = ({ id, continents, country }) => {
           ...formData,
           continentId,
           id: id[0],
+          photo: photo,
         });
 
         setLoading(false);
@@ -63,7 +103,11 @@ const CountryForm = ({ id, continents, country }) => {
         }
       } else {
         setLoading(true);
-        const result = await addCountry({ ...formData, continentId });
+        const result = await addCountry({
+          ...formData,
+          continentId,
+          photo: photo,
+        });
 
         if (result?.data?.id) {
           router.refresh();
@@ -83,7 +127,6 @@ const CountryForm = ({ id, continents, country }) => {
     }
   };
 
-  
   function handleClear() {
     setFormData({
       name: "",
@@ -139,6 +182,30 @@ const CountryForm = ({ id, continents, country }) => {
               ))}
             </Select>
           </FormControl>
+          <div>
+            <div className="my-5">
+              {image && (
+                <Image
+                  src={image || ""}
+                  alt="image"
+                  width={200}
+                  height={200}
+                  className="mt-4"
+                />
+              )}
+            </div>
+            <FileUploader
+              fileLoading={fileLoading}
+              image={Image}
+              setimage={setimage}
+              handleOnFileUpload={handleOnFileUpload}
+              photo={photo}
+              formData={undefined}
+              uploadTime={uploadTime}
+              setTimer={setTimer}
+              timer={timer}
+            />
+          </div>
 
           <div className="flex gap-4">
             {id ? (
