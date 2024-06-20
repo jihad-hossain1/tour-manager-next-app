@@ -5,8 +5,18 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import { Card, CardMedia } from "@mui/material";
 import Link from "next/link";
+const images = [
+  { img: "https://i.ibb.co/3Mvr2cx/141344.jpg" },
+  { img: "https://i.ibb.co/LrtBvtD/141347.jpg" },
+  { img: "https://i.ibb.co/C2LnVJ7/141343.jpg" },
+  { img: "https://i.ibb.co/0FHwFPv/141348.jpg" },
+  { img: "https://i.ibb.co/PCLcQVt/141345.jpg" },
+  { img: "https://i.ibb.co/mFYrB32/141346.jpg" },
+  { img: "https://i.ibb.co/y8b22cj/141341.jpg" },
+  { img: "https://i.ibb.co/1K2M2Sr/141349.jpg" },
+];
 
-const SingleTourGuidePerson = ({ personAllTour, gid }) => {
+const SingleTourGuidePerson = ({ tourGuideContribution }) => {
   const options = {
     items: 1,
     loop: false,
@@ -26,17 +36,20 @@ const SingleTourGuidePerson = ({ personAllTour, gid }) => {
 
   return (
     <div>
-
       <h4 className="text-3xl">
         <span className="border-b-[3px] pb-1 border-blue-600 w-fit">Tours</span>
       </h4>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5 lg:mt-10">
-        {[1, 2, 3, 4, 5].map((it, _i) => (
-          <Link href={`/tour-guide/single-guide-review/${gid}`} className="" key={_i}>
+        {tourGuideContribution?.map((it, _i) => (
+          <Link
+            href={`/tour-guide/single-guide-review/${it?.id}`}
+            className=""
+            key={_i}
+          >
             <Card key={_i} sx={{ maxWidth: 375 }}>
               <OwlCarousel className="owl-theme" {...options}>
-                {personAllTour?.map((itm, _i) => (
+                {images?.map((itm, _i) => (
                   <CardMedia
                     key={_i}
                     component="img"
@@ -47,9 +60,7 @@ const SingleTourGuidePerson = ({ personAllTour, gid }) => {
                 ))}
               </OwlCarousel>
               <div className="mt-2 p-3 lg:p-4  flex flex-col gap-2">
-                <h4 className="font-semibold text-xl">
-                  Cultural day tour of Tangier
-                </h4>
+                <h4 className="font-semibold text-xl">{it?.title}</h4>
                 <div className="mt-5 flex flex-col gap-2">
                   <div className="flex items-center gap-2">
                     <h5 className="w-fit px-3 text-xs bg-black/10 rounded-md py-1">{`Tangier`}</h5>

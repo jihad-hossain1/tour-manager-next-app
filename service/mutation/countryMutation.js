@@ -1,7 +1,6 @@
 import { gql } from "graphql-request";
 import { getClient } from "@/service/graphqlClient";
-import { TTourGuidePlace } from "@/helpers/types";
-import { TTourGuidePlaceResponse } from "@/helpers/interface";
+
 
 export const createCity = async (cityData) => {
   const client = getClient(false);
@@ -248,11 +247,13 @@ export const createTourGuidePlace = async (placedData) => {
           $price: Int
           $clientProfileID: ID
           $tourPlaceId: ID
+          $about: String
         ) {
           addGuideTourplace(
             contribute: $contribute
             title: $title
             price: $price
+            about: $about
             clientProfileID: $clientProfileID
             tourPlaceId: $tourPlaceId
           ) {
@@ -264,6 +265,7 @@ export const createTourGuidePlace = async (placedData) => {
         contribute: placedData.contribute,
         title: placedData.title,
         price: placedData.price,
+        about: placedData.about,
         clientProfileID: placedData.clientProfileID,
         tourPlaceId: placedData.tourPlaceId,
       }

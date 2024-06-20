@@ -18,8 +18,10 @@ import LoadingDiv from "@/components/loading/LoadingDiv";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { updatedProfile } from "./updatedProfile";
+import Link from "next/link";
 
 const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
+  console.log("🚀 ~ ProfileForm ~ tourGuideProfile:", tourGuideProfile);
   const { data: session, status } = useSession();
   const clientId = session?.user?.clientId;
   const router = useRouter();
@@ -120,12 +122,11 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           id: id[0],
         });
 
-        console.log(_response);
-
         setLoading(false);
 
         if (_response?.data) {
           setLoading(false);
+          router.refresh();
           const { data } = _response as any;
           let res = data?.split(":")[0]?.trim();
           toast.error(res);
@@ -194,6 +195,14 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
 
   return (
     <div className="my-10">
+      <div>
+        <Link
+          href={"/client-dashboard/tourguide"}
+          className="border p-2 text-sm rounded"
+        >
+          Back
+        </Link>
+      </div>
       <h4 className="my-10 text-center text-xl font-bold">
         {id ? "Update" : "Add"} Profile
       </h4>
@@ -203,7 +212,7 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           placeholder="TourGuide Type"
           label="TourGuide Type"
           name="type"
-          className="dark:text-white dark:border-gray-50 dark:bg-transparent dark:placeholder:text-white dark:border-1"
+          className=" dark:border-gray-50 dark:bg-transparent dark:placeholder:text-white dark:border-1"
           fullWidth
           variant="outlined"
           type="text"
@@ -221,13 +230,13 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           variant="outlined"
           type="number"
           onChange={handleChange}
-          className="dark:text-white dark:border-gray-50 dark:bg-transparent dark:placeholder:text-white"
+          className=" dark:border-gray-50 dark:bg-transparent dark:placeholder:text-white"
         />
         <TextField
           placeholder="About"
           label="About"
           name="about"
-          className="dark:text-white dark:border-gray-50 dark:bg-transparent dark:placeholder:text-white dark:border-1"
+          className=" dark:border-gray-50 dark:bg-transparent dark:placeholder:text-white dark:border-1"
           fullWidth
           variant="outlined"
           type="text"
@@ -245,7 +254,7 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
             name="countryId"
             label="Choice Country"
             placeholder="Choice Country"
-            className="dark:text-white dark:border-gray-50 dark:bg-transparent"
+            className=" dark:border-gray-50 dark:bg-transparent"
           >
             {countries?.map(
               (country: { id: string; name: string }, index: number) => (
@@ -266,7 +275,7 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
             name="cityId"
             label="Choice City"
             placeholder="Choice City"
-            className="dark:text-white dark:border-gray-50 dark:bg-transparent"
+            className=" dark:border-gray-50 dark:bg-transparent"
           >
             {countryId === "" ? (
               <MenuItem disabled value={""} className="text-red-500">

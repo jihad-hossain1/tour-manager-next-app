@@ -9,23 +9,22 @@ import TimePickers from "./TimePickers";
 import { addedGuideResrve } from "./addGuideResrve";
 import { updateReserve } from "./updateReserve";
 import { useRouter } from "next/navigation";
-
+import Link from "next/link";
 
 const TourGuideReserveForm = ({
   clientProfileID,
   id,
   guideContributions,
-  guideReserveData
+  guideReserveData,
 }) => {
-
   const [open, setOpen] = useState(false);
   const [startTime, setstartTime] = useState<any>([]);
-  const [loading, setLoading] = useState(false)
-  const [guideContribute, setGuideContribute] = useState('')
+  const [loading, setLoading] = useState(false);
+  const [guideContribute, setGuideContribute] = useState("");
   const [adults, setAdults] = useState(0);
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
-  const router = useRouter()
+  const router = useRouter();
 
   // const maxAdults = 14;
   let totalPerson = adults + children + infants;
@@ -37,50 +36,68 @@ const TourGuideReserveForm = ({
     totalPerson: totalPerson,
   };
 
-
   useEffect(() => {
     if (id) {
       setstartTime(guideReserveData?.startTime || []);
-      setGuideContribute(guideReserveData?.guideContribution || '')
-      setInfants(guideReserveData?.personPic?.infant || 0)
-      setChildren(guideReserveData?.personPic?.children || 0)
-      setAdults(guideReserveData?.personPic?.adult || 0)
+      setGuideContribute(guideReserveData?.guideContribution || "");
+      setInfants(guideReserveData?.personPic?.infant || 0);
+      setChildren(guideReserveData?.personPic?.children || 0);
+      setAdults(guideReserveData?.personPic?.adult || 0);
     }
-  }, [guideReserveData?.guideContribution, guideReserveData?.personPic?.adult, guideReserveData?.personPic?.children, guideReserveData?.personPic?.infant, guideReserveData?.startTime, id])
+  }, [
+    guideReserveData?.guideContribution,
+    guideReserveData?.personPic?.adult,
+    guideReserveData?.personPic?.children,
+    guideReserveData?.personPic?.infant,
+    guideReserveData?.startTime,
+    id,
+  ]);
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     try {
       if (id) {
         setLoading(true);
 
-        const response = await updateReserve({ clientProfileID, personPic, startTime, guideContribution: guideContribute, id: id[0] })
+        const response = await updateReserve({
+          clientProfileID,
+          personPic,
+          startTime,
+          guideContribution: guideContribute,
+          id: id[0],
+        });
 
-        setLoading(false)
+        setLoading(false);
 
         if (response?.data?.id) {
           setLoading(false);
-          toast.success('Guide Reserve data updated')
+          toast.success("Guide Reserve data updated");
+          router.refresh();
         } else {
           setLoading(false);
-          let error_message = response?.data?.split(":")[0].trim() as any
+          let error_message = response?.data?.split(":")[0].trim() as any;
           toast.error(error_message);
         }
       } else {
-        setLoading(true)
+        setLoading(true);
 
-        const response = await addedGuideResrve({ clientProfileID, personPic, startTime, guideContribution: guideContribute });
+        const response = await addedGuideResrve({
+          clientProfileID,
+          personPic,
+          startTime,
+          guideContribution: guideContribute,
+        });
 
         if (response?.data?.id) {
           setLoading(false);
-          toast.success('Guide Reserve data added')
+          toast.success("Guide Reserve data added");
+          router.refresh();
         } else {
           setLoading(false);
-          let error_message = response?.data?.split(":")[0].trim() as any
+          let error_message = response?.data?.split(":")[0].trim() as any;
           toast.error(error_message);
         }
-
 
         setLoading(false);
       }
@@ -93,14 +110,17 @@ const TourGuideReserveForm = ({
     setOpen(false);
   };
 
-
-
   // console.log(addTourGuideRes);
   return (
-
-    <div
-      className="my-20 max-w-2xl mx-auto"
-    >
+    <div className="my-10 max-w-2xl mx-auto">
+      <div>
+        <Link
+          href={"/client-dashboard/tourguide"}
+          className="border p-2 text-sm rounded"
+        >
+          Back
+        </Link>
+      </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <h4 className="text-center my-10 text-xl">
           <span>{id ? "Update" : "Add"}</span>
@@ -115,23 +135,28 @@ const TourGuideReserveForm = ({
           infants={infants}
           setInfants={setInfants}
           previousTotal={guideReserveData?.personPic?.totalPerson}
-
         />
 
         <TimePickers startTime={startTime} setstartTime={setstartTime} />
 
         <FormControl>
           <InputLabel id="lb1"> Select Contribution area</InputLabel>
-          <Select id="lb1" label={"Select Contribution area"} onChange={(e) => setGuideContribute(e.target.value)} value={guideContribute} >
-
-            <MenuItem disabled value='#'>
+          <Select
+            id="lb1"
+            label={"Select Contribution area"}
+            onChange={(e) => setGuideContribute(e.target.value)}
+            value={guideContribute}
+          >
+            <MenuItem disabled value="#">
               Select Contribution area
             </MenuItem>
-            {
-              guideContributions?.map((item: { title: string; id: string }, index: number) => <MenuItem key={index} value={item?.id}>
-                {item?.title}
-              </MenuItem>)
-            }
+            {guideContributions?.map(
+              (item: { title: string; id: string }, index: number) => (
+                <MenuItem key={index} value={item?.id}>
+                  {item?.title}
+                </MenuItem>
+              )
+            )}
           </Select>
         </FormControl>
 
@@ -169,11 +194,8 @@ const TourGuideReserveForm = ({
             </Button>
           </div>
         </div>
-
       </form>
-
     </div>
-
   );
 };
 

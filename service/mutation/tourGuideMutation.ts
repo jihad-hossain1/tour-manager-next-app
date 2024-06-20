@@ -144,6 +144,7 @@ export const updateTourGuidePlace = async (
             $price: Int
             $clientProfileID: ID
             $tourPlaceId: ID
+            $about: String
             $contribute: [TourContributorInput]
           ) {
             updateTourGuidePlce(
@@ -153,12 +154,14 @@ export const updateTourGuidePlace = async (
               clientProfileID: $clientProfileID
               tourPlaceId: $tourPlaceId
               contribute: $contribute
+              about: $about
             ) {
               id
               title
               price
               clientProfileID
               tourPlaceId
+              about
               contribute {
                 picTime
                 contributeTitle
@@ -169,6 +172,7 @@ export const updateTourGuidePlace = async (
         `,
         {
           id: tourPlaceData.id,
+          about: tourPlaceData.about,
           title: tourPlaceData.title,
           price: tourPlaceData.price,
           clientProfileID: tourPlaceData.clientProfileID,

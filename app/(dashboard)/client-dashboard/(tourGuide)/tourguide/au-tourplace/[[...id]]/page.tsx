@@ -28,7 +28,7 @@ const AUTourPlacepage = async ({ params }) => {
     const data = await getGuidePlace(id[0]);
     initial = data;
   }
-
+  console.log("🚀 ~ AUTourPlacepage ~ initial:", initial);
   return (
     <PageContainer>
       <Form
@@ -40,5 +40,6 @@ const AUTourPlacepage = async ({ params }) => {
     </PageContainer>
   );
 };
+
 
 export default AUTourPlacepage;

@@ -12,23 +12,26 @@ const Continentpage = async ({ params }) => {
     const countries = data[0];
 
     return (
-        <PageContainer>
-          <div className="py-20">
-              {countries?.length > 0 ? (
-                  <div className=" grid grid-cols-2 lg:grid-cols-4 gap-4">
-                      {countries?.map((item, _i) => (
-                          <Link key={_i} href={`/tour-place/single-tour-place/${item?.id}`}>
-                              <Card className=" h-96 relative overflow-hidden">
-                                  {/* <Image width={300} height={300} alt="continent image" src={item?.photo} /> */}
-                                  <h4>{item?.name}</h4>
-                              </Card>
-                          </Link>
-            ))}
-                  </div>
-              ) : (
-                  <NoData title="No Tour Spot Found" LinkUrl="/tour-place" />
-              )}
-          </div>
+      <PageContainer>
+        <div className="py-20">
+          {countries?.length > 0 ? (
+            <div className=" grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {countries?.map((item, _i) => (
+                <Link
+                  key={_i}
+                  href={`/tour-place/single-tour-place/${item?.id}=${id}`}
+                >
+                  <Card className=" h-96 relative overflow-hidden">
+                    {/* <Image width={300} height={300} alt="continent image" src={item?.photo} /> */}
+                    <h4>{item?.name}</h4>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <NoData title="No Tour Spot Found" LinkUrl="/tour-place" />
+          )}
+        </div>
       </PageContainer>
     );
 };

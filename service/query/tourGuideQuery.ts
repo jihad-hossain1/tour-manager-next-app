@@ -93,6 +93,92 @@ export const getTourGuideInfo = async (
     console.log(error);
   }
 };
+export const getTourGuideDetails = async (id: string): Promise<any> => {
+  try {
+    const client = getClient();
+
+    const gqlResponse = await client.request<{
+      getTourGuide: any;
+    }>(
+      gql`
+        query getTourGuide($id: ID!) {
+          getTourGuide(id: $id) {
+            id
+            description
+            about
+            responseTime
+            type
+            profileImage
+            clientInfo {
+              id
+              name
+              image
+            }
+            images {
+              id
+              title
+              urls {
+                id
+                image
+              }
+            }
+            tourGuideContribution {
+              id
+              title
+              price
+            }
+            tourGuideReserve {
+              id
+              guideContribution
+              datePic
+              startTime {
+                id
+                timePic
+              }
+              personPic {
+                id
+                adult
+                children
+                infant
+                totalPerson
+              }
+            }
+            guideReview {
+              id
+              title
+              content
+              rating
+              replies {
+                id
+                title
+                content
+              }
+            }
+            tourGuideContributionDetail {
+              id
+              notice
+              notIncludes {
+                id
+                notInclude
+              }
+              additionalInfo {
+                id
+                info
+              }
+            }
+          }
+        }
+      `,
+      { id }
+    );
+
+    return {
+      data: gqlResponse.getTourGuide,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getTourGuideInfoShort = async (
   id: string
@@ -146,6 +232,7 @@ export const getTourGuideProfile = async (
             cityId
             countryId
             clientId
+            about
           }
         }
       `,
@@ -171,6 +258,7 @@ export const getGuidePlace = async (id: string): Promise<any> => {
               id
               title
               price
+              about
               clientProfileID
               tourPlaceId
               contribute {
@@ -320,3 +408,4 @@ export const getGuidePlaceImage = async (
     console.error(error.message);
   }
 };
+

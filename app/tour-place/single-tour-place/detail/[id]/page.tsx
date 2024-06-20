@@ -8,7 +8,6 @@ import { SiGooglemaps } from 'react-icons/si'
 const TourSpotDetails = async ({ params }) => {
     const { id } = params as { id: string }
     const { data } = await getTourSpotDetails(id);
-    console.log("🚀 ~ TourSpotDetails ~ data:", data)
     return (
         <PageContainer>
             <div className="my-10">

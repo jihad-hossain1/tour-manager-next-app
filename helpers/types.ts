@@ -2,6 +2,7 @@ export interface TTourGuidePlace {
   id: string;
   title: string;
   price: number;
+  about: string;
   clientProfileID: string;
   tourPlaceId: string;
   contribute: Array<{

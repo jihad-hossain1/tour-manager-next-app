@@ -14,6 +14,8 @@ import toast from "react-hot-toast";
 import { addedTourPlace } from "./addTourPlace";
 import TourGuideContributeForm from "./TourGuideContributeForm";
 import { updatedTourPlace } from "./updatedTourPlace";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,27 +33,15 @@ const emptyArray = [];
 const Form = ({ id, profile, tourSpots, guidePlaceData }) => {
   const [conDatas, setConDatas] = useState(emptyArray ?? []);
   const [title, setTitle] = useState("");
+  const [about, setAbout] = useState("");
   const [tourPlaceId, settourplaceid] = useState("");
   const [price, setprice] = useState<number | string>(0);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (id) {
-      setTitle(guidePlaceData?.title ?? "");
-      settourplaceid(guidePlaceData?.tourPlaceId ?? "");
-      setprice(guidePlaceData?.price ?? 0);
-      setConDatas(guidePlaceData?.contribute ?? emptyArray);
-    }
-  }, [
-    guidePlaceData?.contribute,
-    guidePlaceData?.price,
-    guidePlaceData?.title,
-    guidePlaceData?.tourPlaceId,
-    id,
-  ]);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (title == "") {
       return toast.error("Title are required");
     } else if (tourPlaceId == "") {
@@ -74,10 +64,12 @@ const Form = ({ id, profile, tourSpots, guidePlaceData }) => {
           price: +price,
           contribute: conDatas,
           clientProfileID: profile?.id,
+          about: about,
           id: id[0],
         });
 
         if (response?.data?.id) {
+          router.refresh();
           setLoading(false);
           toast.success("Tour Place Updated Successfully");
           return;
@@ -92,16 +84,19 @@ const Form = ({ id, profile, tourSpots, guidePlaceData }) => {
           tourPlaceId: tourPlaceId,
           contribute: conDatas,
           clientProfileID: profile?.id,
+          about: about,
         });
 
         if (result?.data?.id) {
           setLoading(false);
           toast.success("Tour Place Added Successfully");
+          router.refresh();
           return;
         }
 
         if (result?.data) {
           setLoading(false);
+          //  router.refresh();
           const data = result?.data as any;
           let res = data?.split(":")[0]?.trim();
           toast.error(res);
@@ -113,7 +108,7 @@ const Form = ({ id, profile, tourSpots, guidePlaceData }) => {
     } catch (error) {
       setLoading(false);
       let error_message = error.message.split(":")[0].trim();
-      console.log(error_message);
+      // console.log(error_message);
       toast.error(error_message);
     }
   };
@@ -122,12 +117,39 @@ const Form = ({ id, profile, tourSpots, guidePlaceData }) => {
     setConDatas([]);
     setTitle("");
     settourplaceid("");
+    setAbout("");
     setprice(0);
     setLoading(false);
     toast.success("Form cleared successfully");
   }
+
+  useEffect(() => {
+    if (id) {
+      setTitle(guidePlaceData?.title ?? "");
+      setAbout(guidePlaceData?.about ?? "");
+      settourplaceid(guidePlaceData?.tourPlaceId ?? "");
+      setprice(guidePlaceData?.price ?? 0);
+      setConDatas(guidePlaceData?.contribute ?? emptyArray);
+    }
+  }, [
+    guidePlaceData?.about,
+    guidePlaceData?.contribute,
+    guidePlaceData?.price,
+    guidePlaceData?.title,
+    guidePlaceData?.tourPlaceId,
+    id,
+  ]);
+
   return (
     <div className="mx-6 my-10">
+      <div>
+        <Link
+          href={"/client-dashboard/tourguide"}
+          className="border p-2 text-sm rounded"
+        >
+          Back
+        </Link>
+      </div>
       <h4 className="my-4 text-center">Add Tour Place</h4>
       <div className="max-w-2xl mx-auto p-3">
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -140,6 +162,17 @@ const Form = ({ id, profile, tourSpots, guidePlaceData }) => {
             id="any"
             onChange={(e) => setTitle(e.target.value)}
             value={title}
+          />
+          <TextField
+            multiline
+            variant="outlined"
+            placeholder="About"
+            label="About"
+            type="text"
+            name="About"
+            id="any"
+            onChange={(e) => setAbout(e.target.value)}
+            value={about}
           />
           <TextField
             variant="outlined"

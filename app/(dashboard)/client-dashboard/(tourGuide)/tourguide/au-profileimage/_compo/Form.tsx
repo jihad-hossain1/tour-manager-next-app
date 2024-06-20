@@ -8,6 +8,8 @@ import { addGuideProfileImage } from "./addGuideProfileImage";
 import FileUploader from "@/utils/fileUploader/FileUploader";
 import { Button } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Form = ({ id, clientProfileID, profileImage }) => {
   const [loading, setLoading] = useState(false);
@@ -16,6 +18,7 @@ const Form = ({ id, clientProfileID, profileImage }) => {
   const [image, setimage] = useState(null);
   const [uploadTime, setUploadTime] = useState(null);
   const [timer, setTimer] = useState(null);
+  const router = useRouter();
 
   const handleOnFileUpload = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -55,6 +58,7 @@ const Form = ({ id, clientProfileID, profileImage }) => {
         if (response) {
           setLoading(false);
           toast.success("Image updated successfully");
+          router.refresh();
           return;
         } else {
           setLoading(false);
@@ -73,6 +77,8 @@ const Form = ({ id, clientProfileID, profileImage }) => {
 
         if (response) {
           toast.success("Image added successfully");
+          router.refresh();
+          return;
         } else {
           errorResponse(response);
           setLoading(false);
@@ -90,7 +96,16 @@ const Form = ({ id, clientProfileID, profileImage }) => {
     setPhoto("");
   };
   return (
-    <div className="my-20">
+    <div className="my-10">
+      <div>
+        <Link
+          href={"/client-dashboard/tourguide"}
+          className="border p-2 text-sm rounded"
+        >
+          Back
+        </Link>
+      </div>
+      <h1 className="text-xl font-bold py-6 text-center">Profile Image</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <FileUploader
           fileLoading={fileLoading}
