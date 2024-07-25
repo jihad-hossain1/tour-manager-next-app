@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import { FiChevronRight } from "react-icons/fi";
 
 const AccountDropDown = () => {
   const navigate = useRouter();
@@ -39,19 +40,20 @@ const AccountDropDown = () => {
   }, []);
 
   return (
-    <div ref={dropDownRef} className="relative mx-auto w-fit text-white">
+    <div ref={dropDownRef} className="relative lg:mx-auto w-fit text-white">
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="rounded-sm transition-all duration-300  hover:bg-gray-700 px-6 py-2"
+        className="rounded-sm transition-all duration-300  lg:hover:bg-gray-700 lg:px-6 lg:py-2 max-sm:flex max-sm:gap-8 max-sm:items-center"
       >
         Account
+         <FiChevronRight size={20} className="lg:hidden" />
       </button>
       <ul
         className={`${
           open
             ? "visible translate-y-0 duration-300"
-            : "invisible translate-y-4"
-        } absolute top-12 z-50 w-full space-y-1 rounded-sm bg-gray-800`}
+            : "invisible translate-y-4 max-sm:translate-x-4"
+        } absolute max-sm:top-0 lg:top-14 max-sm:right-[-230px] z-50 max-sm:w-[140px] space-y-1 rounded-sm bg-black bg-opacity-80 `}
       >
         {status === 'authenticated' ? (
           <>

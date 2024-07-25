@@ -21,7 +21,7 @@ const TourPlacepage = () => {
   const [tourSpots, setTourSpots] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
-  const [limit, setLimit] = useState(12);
+  const [limit, setLimit] = useState(16);
   const [page, setPage] = useState(1);
 
   const fetchTourSpots = useCallback(async (searchTerm) => {
@@ -48,10 +48,10 @@ const TourPlacepage = () => {
   }, [search, debouncedFetchTourSpots]);
 
   return (
-    <main className="bg-slate-100 min-h-screen py-6">
+    <main className="bg-slate-100 min-h-screen pb-6">
       <div className="px-2 container m-auto">
         <section>
-          <h4 className="text-3xl text-center py-10">Tour Place</h4>
+          <h4 className="text-3xl text-center py-3">Tour Place</h4>
           <div className="w-full flex items-center justify-center py-4">
             <TextField
               placeholder="Search Tour Place ..."
@@ -62,15 +62,13 @@ const TourPlacepage = () => {
             />
           </div>
           <div>
-            {loading && (
+            {loading ? (
               <div className="grid lg:grid-cols-4 gap-3">
                 {[...Array(16)].map((item, index) => (
                   <div key={index} className="w-[300px] h-96 bg-slate-200 animate-pulse" />
                 ))}
               </div>
-            )}
-            
-            {tourSpots?.length > 0 ? (
+            ): (
               <div className="grid lg:grid-cols-4 gap-3">
                 {tourSpots.map((tourSpot, index) => (
                   <div key={index} className="bg-white w-fit shadow group">
@@ -94,13 +92,7 @@ const TourPlacepage = () => {
                   </div>
                 ))}
               </div>
-            ): <div className="flex justify-center items-center min-h-[60vh]">
-            <h4 className="font-semibold">
-              No TourSpot Found.
-            </h4>
-          </div>}
-
-
+            )}
           </div>
           {tourSpots?.length > 0 && (
             <div className="flex justify-end gap-3 mt-3">

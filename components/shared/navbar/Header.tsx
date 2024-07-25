@@ -2,13 +2,15 @@
 
 import "./Header.css";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AccountDropDown from "./AccountDropDown";
 import Container from "@/components/ui/container";
 import { usePathname } from "next/navigation";
 import { paths } from "@/constat";
+import { FiAlignLeft } from "react-icons/fi";
 
 const Header = () => {
+  const dropDownRef = useRef(null);
   const path = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
@@ -36,33 +38,41 @@ const Header = () => {
         About Us
       </Link>
     </li>,
-    <li className="hidden md:block" key={3}>
+    <li className="" key={3}>
       <AccountDropDown />
     </li>,
   ];
 
+  useEffect(() => {
+    const close = (e: { target: any }) => {
+      if (dropDownRef.current && !dropDownRef.current.contains(e.target))
+        setIsMenuOpen(false);
+    };
 
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
 
   return (
-    <div className={paths.includes(path) ? "hidden": " w-full bg-black bg-opacity-60 lg:h-[85px] text-white p-4"}>
-      <Container>
-        <div className="flex items-center justify-between pt-3">
-          <div className="flex items-center space-x-4">
+    <div className={paths.includes(path) ? "hidden": " w-full bg-black bg-opacity-60 lg:h-[85px] text-white max-sm:p-0 p-4"}>
+      <>
+        <div className="flex items-center justify-between py-3">
+          <div ref={dropDownRef} className="flex items-center justify-between  gap-4">
             <div className="group relative">
               <button
                 onClick={toggleMenu}
-                className="lg:hidden focus:outline-none"
+                className="lg:hidden focus:outline-none px-2"
               >
-                =
+                <FiAlignLeft className="text-3xl" />
               </button>
               {isMenuOpen && (
-                <ul className="mt-[28px] z-10 p-2 shadow bg-black bg-opacity-80 rounded w-52 absolute">
+                <ul  className="absolute z-20 mt-[12px] p-2 shadow bg-black bg-opacity-80 rounded-br-sm w-52  flex flex-col  gap-5">
                   {menuItems}
                 </ul>
               )}
             </div>
-            <Link href={"/"} className="lg:text-3xl text-lg flex items-center">
-              <span className="text-[#3081D0] mr-2">Travel</span>Master
+            <Link href={"/"} className="text-2xl max-sm:-mt-2 flex items-center">
+              Travel Master
             </Link>
           </div>
 
@@ -70,7 +80,7 @@ const Header = () => {
             <ul className="flex gap-6 items-center">{menuItems}</ul>
           </div>
         </div>
-      </Container>
+      </>
     </div>
   );
 };
