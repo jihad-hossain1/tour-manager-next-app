@@ -5,8 +5,11 @@ import Link from "next/link";
 import { useState } from "react";
 import AccountDropDown from "./AccountDropDown";
 import Container from "@/components/ui/container";
+import { usePathname } from "next/navigation";
+import { paths } from "@/constat";
 
 const Header = () => {
+  const path = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -38,8 +41,10 @@ const Header = () => {
     </li>,
   ];
 
+
+
   return (
-    <div className=" w-full bg-black bg-opacity-60 lg:h-[85px] text-white p-4">
+    <div className={paths.includes(path) ? "hidden": " w-full bg-black bg-opacity-60 lg:h-[85px] text-white p-4"}>
       <Container>
         <div className="flex items-center justify-between pt-3">
           <div className="flex items-center space-x-4">

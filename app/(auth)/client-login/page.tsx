@@ -3,7 +3,6 @@
 import { Avatar, Box, Button, Checkbox, CssBaseline, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import PageContainer from "@/components/ui/pageContainer";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { signIn, useSession } from "next-auth/react";
@@ -76,23 +75,13 @@ const ClientLoginPage = () => {
   }
 
   return (
-    <>
-      <div className="py-20 dark w-full">
+    <div className="bg-slate-200  h-screen flex justify-center items-center">
+      <div className="max-sm:px-5 px-10 py-8 rounded-2xl bg-white max-sm:w-[380px] w-[500px] shadow relative">
+
         <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            maxWidth: "500px",
-            margin: "0 auto",
-            padding: "20px",
-          }}
-        >
+        
           <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+           className="flex justify-center flex-col items-center"
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <IoLockClosedOutline />
@@ -101,11 +90,8 @@ const ClientLoginPage = () => {
               Login for Client
             </Typography>
           </div>
-          <Box
-            component="form"
+          <form
             onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
           >
             {errors && <p className="text-red-500 text-sm py-3">{errors}</p>}
             <TextField
@@ -159,10 +145,13 @@ const ClientLoginPage = () => {
                 </Link>
               </Grid>
             </Grid>
-          </Box>
-        </Box>
+          </form>
+       
+       <div className="absolute z-10 bottom-0 right-0">
+        <Link href={'/'} className="rounded-br-xl rounded-tl-xl shadow-md px-3 py-2 bg-blue-600 text-white">Back to Home</Link>
+       </div>
       </div>
-    </>
+    </div>
   );
 };
 

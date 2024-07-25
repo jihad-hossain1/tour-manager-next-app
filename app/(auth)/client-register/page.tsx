@@ -83,8 +83,9 @@ const ClientRegister = () => {
   }
 
 
-  return <>
-    <div className="dark w-full">
+  return (
+   <div className="bg-slate-200  min-h-screen py-10 flex justify-center items-center">
+   <div className="max-sm:px-1 px-5 py-2 rounded-2xl bg-white max-sm:w-[380px] w-[500px] shadow relative">
       <CssBaseline />
       <Box
         sx={{
@@ -106,9 +107,8 @@ const ClientRegister = () => {
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           {errors && <p className="text-red-500 text-sm my-3">{errors}</p>}
           {success && <p className="text-green-500 text-sm my-3">{success}</p>}
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
+          <div className="flex flex-col gap-5">
+          <TextField
                 autoComplete="given-name"
                 name="name"
                 required
@@ -119,10 +119,7 @@ const ClientRegister = () => {
                 onChange={handleChange}
                 autoFocus
               />
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
+            <TextField
                 required
                 fullWidth
                 id="email"
@@ -132,21 +129,19 @@ const ClientRegister = () => {
                 onChange={handleChange}
                 autoComplete="email"
               />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
+            
+
+            <TextField
                 required
                 fullWidth
                 id="mobile"
-                label="mobile Number"
+                label="Mobile Number"
                 name="mobile"
                 value={formData?.mobile}
                 onChange={handleChange}
                 autoComplete="mobile"
               />
-            </Grid>
-            <Grid item xs={12}>
-              <div className="relative">
+               <div className="relative">
                 <TextField
                   required
                   fullWidth
@@ -162,8 +157,7 @@ const ClientRegister = () => {
                   {isVisible ? <IoMdEyeOff onClick={toggle} /> : <IoMdEye onClick={toggle} />}
                 </span>
               </div>
-            </Grid>
-            <Grid item xs={12}>
+
               <FormControl sx={{ m: 0, minWidth: 120 }} fullWidth>
                 <InputLabel id="demo-simple-select-label">Client Type</InputLabel>
                 <Select
@@ -183,27 +177,14 @@ const ClientRegister = () => {
                   <MenuItem value="Blogger">Blogger</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-            {/* <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="image"
-                label="Image Url"
-                type="text"
-                id="image"
-                defaultValue={formData?.image}
-                onChange={handleChange}
-                autoComplete="new-image"
-              />
-            </Grid> */}
-            <Grid item xs={12}>
+            
+
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, marketing promotions and updates via email."
               />
-            </Grid>
-          </Grid>
+          </div>
+
           <Button
             type="submit"
             fullWidth
@@ -213,6 +194,7 @@ const ClientRegister = () => {
           >
             {loading ? "Loading..." : "Register"}
           </Button>
+
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/client-login" >
@@ -222,8 +204,13 @@ const ClientRegister = () => {
           </Grid>
         </Box>
       </Box>
+      <div className="absolute z-10 bottom-0 left-0">
+        <Link href={'/'} className="rounded-bl-xl rounded-tr-xl shadow-md px-3 py-2 bg-blue-600 text-white">Back to Home</Link>
+       </div>
     </div>
-  </ >
+    </div>
+
+)
 };
 
 export default ClientRegister;
