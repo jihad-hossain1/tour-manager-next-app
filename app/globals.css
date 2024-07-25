@@ -7,7 +7,7 @@
     @apply hover:underline hover:font-semibold text-blue-800 hover:text-blue-600 ;
 }
 .dark {
-    @apply dark:bg-gray-50 dark:bg-opacity-5 ;
+    @apply dark:bg-opacity-5 ;
 }
 .link-btn{
     @apply bg-blue-50 text-blue-500 shadow-sm hover:shadow px-3 py-1 rounded ml-2 text-xs w-fit;

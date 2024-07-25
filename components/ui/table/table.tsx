@@ -41,7 +41,7 @@ const Table = ({
 
         <tbody>
           {datas?.map((item: any, ind: number) => (
-            <tr key={ind} className="hover:bg-gray-50 dark:hover:bg-slate-900 transition duration-300 dark">
+            <tr key={ind} className="hover:bg-gray-50  transition duration-300 dark">
               <td className="py-4 px-6  mx-auto text-start">{ind + 1}</td>
               {tableRow?.map((row: any, index: number) => (
                 <td key={index} className="py-4 px-6  mx-auto text-start">

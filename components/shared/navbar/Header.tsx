@@ -62,7 +62,7 @@ const Header = () => {
           </div>
 
           <div className="hidden lg:flex">
-            <ul className="flex gap-6">{menuItems}</ul>
+            <ul className="flex gap-6 items-center">{menuItems}</ul>
           </div>
         </div>
       </Container>

@@ -42,7 +42,7 @@ const LocationPage = async () => {
           <Card
             title="Total Continets"
             subtitle={continents?.length || 0}
-            href="#"
+            href="/super-admin-dashboard/locations/continets"
             Icon={MdTour}
           />
         </div>

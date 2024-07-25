@@ -100,23 +100,39 @@ export async function POST(reques: NextRequest) {
       );
     }
 
-    const newClient = new Client({
-      name,
+    
+
+    const roles = await Client.find();
+
+    const findUnique = roles?.find((role) => role.role == "admin");
+
+    // if(user.role !== 'admin')
+
+    if (!findUnique) {
+      await Client.create({
+        name,
+        email,
+        password,
+        mobile,
+        clientType,
+        role: "admin",
+      });
+
+      return NextResponse.json(
+        { message: "client created you are admin now" },
+        { status: 201 }
+      );
+    }
+
+    await Client.create({ name,
       email,
       password,
       mobile,
-      clientType,
-    });
+      clientType, });
 
-    await newClient.save();
-    return NextResponse.json(
-      {
-        message: "Client created successfully",
-      },
-      {
-        status: 201,
-      }
-    );
+    return NextResponse.json({ message: "Client created" }, { status: 201 });
+
+    
   } catch (error) {
     return NextResponse.json(
       {

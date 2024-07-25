@@ -13,6 +13,7 @@ const AUClientImagepage = async ({ params }) => {
   return (
     <PageContainer>
       <Form id={id} clientId={clientId} />
+    
     </PageContainer>
   );
 };
