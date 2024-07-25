@@ -22,4 +22,5 @@ export const paths = [
   "/client-register",
   "/user-login",
   "/user-register",
+  "/super-admin-dashboard",
 ];

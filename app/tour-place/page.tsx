@@ -6,6 +6,7 @@ import tourImage from '@/public/Images/tourspot/spot.webp'
 import Image from "next/image";
 import Link from "next/link";
 import { Button, TextField } from "@mui/material";
+import { FiSearch } from "react-icons/fi";
 
 const debounce = (func, delay) => {
   let timerId;
@@ -54,11 +55,23 @@ const TourPlacepage = () => {
           <h4 className="text-3xl text-center py-3">Tour Place</h4>
           <div className="w-full flex items-center justify-center py-4">
             <TextField
-              placeholder="Search Tour Place ..."
+              id="outlined-basic"
+              variant="standard"
+              // label="Search Tour Place"
+              placeholder="Search Tour Place"
               className="border w-[500px] max-sm:w-[300px]"
               type="search"
               onChange={(e) => setSearch(e.target.value)}
               value={search}
+              InputProps={{
+                // disableUnderline: true,
+                sx: { height: 40, borderRadius: 1, fontSize: 14, fontWeight: 400, padding: '0px' },
+
+                endAdornment: <button className={search?.length > 0 ? "hidden" : "block"} >
+                  <FiSearch className="text-xl text-gray-600" />
+                </button>,
+
+              }}
             />
           </div>
           <div>
@@ -68,24 +81,25 @@ const TourPlacepage = () => {
                   <div key={index} className="w-[300px] h-96 bg-slate-200 animate-pulse" />
                 ))}
               </div>
-            ): (
-              <div className="grid lg:grid-cols-4 gap-3">
+            ) : (
+              <div className="grid max-sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {tourSpots.map((tourSpot, index) => (
                   <div key={index} className="bg-white w-fit shadow group">
-                    <div className="relative flex flex-col gap-2 border">
-                      <Image
-                        alt="tour spot"
-                        height={200}
-                        width={1000}
-                        className="w-[300px]"
-                        src={tourSpot?.photo ? tourSpot?.photo : tourImage}
-                      />
+                    <div className="relative flex flex-col gap-2 max-sm:gap-1 border">
+                      <Link href={`/tour-place/${tourSpot?.slug}`}>
+                        <Image
+                          alt="tour spot"
+                          height={200}
+                          width={1000}
+                          className="w-[300px]"
+                          src={tourSpot?.photo ? tourSpot?.photo : tourImage}
+                        /></Link>
                       <div className="p-2">
-                        <h4 className="font-semibold">
+                        <h4 className="lg:font-semibold max-sm:text-sm">
                           {tourSpot?.name?.length > 35 ? `${tourSpot?.name?.slice(0, 35)}...` : tourSpot?.name}
                         </h4>
                       </div>
-                      <div className="group-hover:block absolute hidden z-10 bottom-0 w-full bg-blue-600 py-3 text-white text-center group-hover:transition duration-500">
+                      <div className="lg:group-hover:block absolute hidden z-10 bottom-0 w-full bg-blue-600 py-3 text-white text-center group-hover:transition duration-500">
                         <Link href={`/tour-place/${tourSpot?.slug}`}>Read More</Link>
                       </div>
                     </div>

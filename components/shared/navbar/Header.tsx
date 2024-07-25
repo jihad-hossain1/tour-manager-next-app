@@ -53,8 +53,12 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", close);
   }, []);
 
+  const hiddenPath = paths.find((item) => item.search(path) )
+  console.log("🚀 ~ Header ~ hiddenPath:", hiddenPath)
   return (
-    <div className={paths.includes(path) ? "hidden": " w-full bg-black bg-opacity-60 lg:h-[85px] text-white max-sm:p-0 p-4"}>
+    <div className={ 
+      hiddenPath
+       ? "hidden": " w-full bg-black bg-opacity-60 lg:h-[85px] text-white max-sm:p-0 p-4"}>
       <>
         <div className="flex items-center justify-between py-3">
           <div ref={dropDownRef} className="flex items-center justify-between  gap-4">
