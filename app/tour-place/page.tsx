@@ -1,21 +1,67 @@
-import SingleContinent from "@/components/SingleComponents/SingleContinent";
-import Title from "@/components/ui/Title/Title";
+'use client'
+
 import PageContainer from "@/components/ui/pageContainer";
-import { getAllContinents } from "@/service/query/continentQuery";
-import React from "react";
+import { getPaginatatedTourSpots } from "@/service/query/tourSpotQuery";
+import React, { useEffect, useState } from "react";
+import tourImage from '@/public/Images/tourspot/spot.webp'
+import Image from "next/image";
+import Link from "next/link";
 
-const TourPlacepage = async () => {
-  const { data } = await getAllContinents();
+const TourPlacepage = () => {
+  const [tourSpots, setTourSpots] = useState([]);
+  const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState('');
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
 
-  return <PageContainer>
-    <div className="mt-6 md:my-10  px-2">
-      <h4 className="text-3xl text-center py-10">Tour Place By Continents</h4>
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      {data?.map((continent, _i) => (
-        <SingleContinent key={_i} index={_i} continent={continent} />
-      ))}
+  useEffect(() => {
+    async function fetchTourSpots() {
+      try {
+        setLoading(true)
+        const response = await getPaginatatedTourSpots(search, limit, page);
+        setLoading(false)
+        if (response?.data) {
+          setTourSpots(response?.data)
+        }
+      } catch (error) {
+        console.error(error?.message)
+      }
+    }
+    fetchTourSpots()
+  }, [search,limit,page])
+
+  return (
+    <div className=" bg-slate-100 min-h-screen">
+      <div className=" px-2 container mx-auto">
+        <h4 className="text-3xl text-center py-10">Tour Place</h4>
+    <div>
+      <input className="border p-2 w-1/3 " type="search" name="" onChange={(e)=>setSearch(e.target.value)} value={search} id="" />
     </div>
-  </div></PageContainer>;
+        {
+          !loading && tourSpots?.length > 0 && <div className="grid lg:grid-cols-4 gap-3 ">
+            {
+              tourSpots?.map((tourSpot, index) => <div key={index} className=" bg-white w-fit shadow group">
+                <div className="relative flex flex-col gap-2 border">
+                <Image alt="tour spot" height={200} width={1000} className="w-[300px]" src={tourSpot?.photo ? tourSpot?.photo : tourImage} />
+                <div className="p-2">
+                <h4 className="font-semibold">
+                  {
+                    tourSpot?.name?.length > 35 ? `${tourSpot?.name?.slice(0,35)}...` : tourSpot?.name
+                  }
+                </h4>
+                
+                </div>
+                <div className="group-hover:block absolute hidden z-10 bottom-0 w-full bg-blue-600 py-3 text-white text-center group-hover:transition duration-500 ">
+                  <Link className="" href={`/tour-place/${tourSpot?.slug}`}>Read More</Link>
+                </div>
+                </div>
+              </div>)
+            }
+          </div>
+        }
+      </div>
+    </div>
+  );
 };
 
 export default TourPlacepage;

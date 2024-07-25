@@ -1,5 +1,4 @@
 import { gql } from "graphql-request";
-// import { getClient } from "@/service/graphqlClient";
 import { ContinentResponse } from "@/helpers/interface";
 import { Continent } from "@/helpers/types";
 import { getClient } from "../graphqlClient";
@@ -43,3 +42,5 @@ export const getContinent = async (id: string): Promise<ContinentResponse> => {
     data: gqlResponse.singleContinent ? [gqlResponse.singleContinent] : [],
   };
 };
+
+

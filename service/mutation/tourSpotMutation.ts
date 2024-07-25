@@ -11,6 +11,7 @@ export const createTourSpot = async (tourSpot: TTourSpotData): Promise<TCreateTo
     gql`
       mutation addTourSpot(
         $name: String
+        $slug: String
         $description: String
         $divisionId: ID
         $photo: String
@@ -19,6 +20,7 @@ export const createTourSpot = async (tourSpot: TTourSpotData): Promise<TCreateTo
       ) {
         addTourSpot(
           name: $name
+          slug: $slug
           description: $description
           divisionId: $divisionId
           photo: $photo
@@ -33,6 +35,7 @@ export const createTourSpot = async (tourSpot: TTourSpotData): Promise<TCreateTo
     `,
     {
       name: tourSpot.name,
+      slug: tourSpot.slug,
       description: tourSpot.description,
       photo: tourSpot.photo,
       cityId: tourSpot.cityId,
@@ -54,6 +57,7 @@ export const updateTourSpot = async (tourSpot: TTourSpotData): Promise<TUpdateTo
     mutation updateTourSpot(
         $id: ID
         $name: String
+        $slug: String
         $description: String
         $divisionId: ID
         $photo: String
@@ -62,6 +66,7 @@ export const updateTourSpot = async (tourSpot: TTourSpotData): Promise<TUpdateTo
           updateTourspot(
           id: $id
           name: $name
+          slug: $slug
           description: $description
           divisionId: $divisionId
           photo: $photo
@@ -74,12 +79,14 @@ export const updateTourSpot = async (tourSpot: TTourSpotData): Promise<TUpdateTo
             countryId 
             cityId
             name
+            slug
           }
         }
     `,
     {
       id: tourSpot.id,
       name: tourSpot.name,
+      slug: tourSpot.slug,
       description: tourSpot.description,
       countryId: tourSpot.countryId,
       photo: tourSpot.photo,

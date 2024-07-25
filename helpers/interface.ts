@@ -57,6 +57,7 @@ export interface TTourSpotData {
   photo: string;
   countryId: string;
   cityId: string;
+  slug: string
 }
 
 export interface TTourSpotResponse {
@@ -67,6 +68,7 @@ export interface TTourSpotResponse {
   divisionId: string;
   countryId: string;
   cityId: string;
+  slug: string
 }
 
 export interface TCreateTourSpotResponse {

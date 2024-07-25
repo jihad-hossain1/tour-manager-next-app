@@ -26,6 +26,7 @@ const TourSpotForm = ({ id, countries, divisions, cities, tourSpot }) => {
   const [description, setDescription] = useState("");
   const [formData, setFormData] = useState({
     name: "",
+    slug: ""
   });
 
   const handleOnChange = (
@@ -38,6 +39,7 @@ const TourSpotForm = ({ id, countries, divisions, cities, tourSpot }) => {
     if (id) {
       setFormData({
         name: tourSpot?.name || "",
+        slug: tourSpot?.slug || ""
       });
       setCityId(tourSpot?.cityId || "");
       setCountryId(tourSpot?.countryId || "");
@@ -52,6 +54,7 @@ const TourSpotForm = ({ id, countries, divisions, cities, tourSpot }) => {
     tourSpot?.description,
     tourSpot?.divisionId,
     tourSpot?.name,
+    tourSpot?.slug,
     tourSpot?.photo,
   ]);
 
@@ -116,6 +119,7 @@ const TourSpotForm = ({ id, countries, divisions, cities, tourSpot }) => {
     setPhoto("");
     setFormData({
       name: "",
+      slug: ""
     });
     setDescription("");
   }
@@ -145,6 +149,14 @@ const TourSpotForm = ({ id, countries, divisions, cities, tourSpot }) => {
           name="name"
           onChange={handleOnChange}
           value={formData?.name}
+          label="TourSpot Name"
+          sx={{ minWidth: 290 }}
+        />
+        <TextField
+          type="text"
+          name="slug"
+          onChange={handleOnChange}
+          value={formData?.slug}
           label="TourSpot Name"
           sx={{ minWidth: 290 }}
         />
