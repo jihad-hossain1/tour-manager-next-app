@@ -8,8 +8,10 @@ import { usePathname } from "next/navigation";
 
 const Footer = () => {
   const path = usePathname()
+
+  const hiddenPath = paths.some((item) => path.startsWith(item));
   return (
-    <div className= {paths.includes(path) ? "hidden" : "block"} >
+    <div className= {hiddenPath ? "hidden" : "block"} >
       <div className= {"grid grid-cols-2 gap-5 lg:flex justify-between border-t bg-gray-100  pb-4 py-8"} >
         {footerData.map((section) => (
           <div

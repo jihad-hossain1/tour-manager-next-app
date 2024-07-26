@@ -11,10 +11,10 @@ import { getTourGuideDetails } from "@/service/query/tourGuideQuery";
 import { TTourGuide } from "@/helpers/guideType";
 
 const SingleTourGuidepage = async ({ params }) => {
-  const { id } = params;
-  const splitId = id?.split("%3D")[1];
-  const guideDetails: TTourGuide = await getTourGuideDetails(splitId);
-  console.log("🚀 ~ SingleTourGuidepage ~ guideDetails:", guideDetails);
+  const { slug } = params;
+  // const splitId = slug?.split("%3D")[1];
+  const guideDetails: TTourGuide = await getTourGuideDetails(slug);
+  // console.log("🚀 ~ SingleTourGuidepage ~ guideDetails:", guideDetails);
 
   const _images = guideDetails?.data?.images;
   const _review = guideDetails?.data?.guideReview;
@@ -29,7 +29,6 @@ const SingleTourGuidepage = async ({ params }) => {
           <ShareTourGuidePerson />
         </div>
         <ImageGellary images={_images} />
-        {/* <div className="w-full bg-slate-400 h-1"></div> */}
         <section className="flex gap-10 my-12 ">
           {/* details section  */}
           <main className="relative flex flex-col gap-6 lg:gap-10 lg:w-[60%]">

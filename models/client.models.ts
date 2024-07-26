@@ -23,7 +23,12 @@ const ClientSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      max: 30,
+      max: 100,
+    },
+    slug: {
+      type: String,
+      max: 100,
+      min: 2,
     },
     mobile: {
       type: String,

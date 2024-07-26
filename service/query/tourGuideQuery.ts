@@ -36,6 +36,7 @@ export const getTourGuides = async (): Promise<TTGuideResponse> => {
           getTourGuides {
             id
             about
+            slug
             clientInfo {
               name
               image
@@ -93,7 +94,7 @@ export const getTourGuideInfo = async (
     console.log(error);
   }
 };
-export const getTourGuideDetails = async (id: string): Promise<any> => {
+export const getTourGuideDetails = async (slug: string): Promise<any> => {
   try {
     const client = getClient();
 
@@ -101,8 +102,8 @@ export const getTourGuideDetails = async (id: string): Promise<any> => {
       getTourGuide: any;
     }>(
       gql`
-        query getTourGuide($id: ID!) {
-          getTourGuide(id: $id) {
+        query getTourGuide($slug: String) {
+          getTourGuide(slug: $slug) {
             id
             description
             about
@@ -169,7 +170,7 @@ export const getTourGuideDetails = async (id: string): Promise<any> => {
           }
         }
       `,
-      { id }
+      { slug }
     );
 
     return {

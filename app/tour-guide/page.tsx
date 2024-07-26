@@ -22,7 +22,7 @@ const TourGuide = async () => {
       <div className="mb-10 flex flex-col items-center md:grid lg:grid-cols-4 grid-cols-1 md:grid-cols-2 gap-4">
         {tourGuides?.map((_guide, index) => (
           <Link
-            href={`/tour-guide/${_guide?.clientInfo?.name}=${_guide?.id}`}
+            href={`/tour-guide/${_guide?.slug}`}
             key={index}
             className="dark"
           >

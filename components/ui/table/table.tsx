@@ -13,25 +13,25 @@ const Table = ({
   title,
 }) => {
   return (
-    <div className="my-20">
+    <div className="w-full">
       <div>
         <h4 className="text-center text-2xl font-bold">{title}</h4>
       </div>
-      <table className="min-w-[90%] mx-auto my-6 border shadow">
-        <caption className="text-right p-4 border border-gray-300 bg-gray-100 dark">
+      <table className="w-full border shadow my-6 relative ">
+        <caption className="absolute top-[-26px] right-0 text-right  border-gray-300 bg-gray-100">
           <Link
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-4 shadow text-xs"
             href={createLink}
           >
             Create New
           </Link>
         </caption>
         <thead>
-          <tr className="font-lg text-[16px] leading-[24px] uppercase text-blue-400">
+          <tr className="font-lg text-[16px] leading-[24px] uppercase bg-gray-500/15 shadow border-b border-gray-300">
             {tableHeadValue?.map((row) => (
               <th
                 key={row?.tableName}
-                className="py-3 px-6 text-left text-sm md:text-lg text-nowrap w-[39px]"
+                className="py-3 px-6 text-start text-sm md:text-lg text-nowrap "
               >
                 {row?.tableName}
               </th>
@@ -41,10 +41,10 @@ const Table = ({
 
         <tbody>
           {datas?.map((item: any, ind: number) => (
-            <tr key={ind} className="hover:bg-gray-50  transition duration-300 dark">
-              <td className="py-4 px-6  mx-auto text-start">{ind + 1}</td>
+            <tr key={ind} className="hover:bg-gray-100 transition duration-300 border-b border-gray-300 text-sm">
+              <td className="py-1 px-6 text-start">{ind + 1}</td>
               {tableRow?.map((row: any, index: number) => (
-                <td key={index} className="py-4 px-6  mx-auto text-start">
+                <td key={index} className="py-1 px-6 text-start">
                   {row?.tableName == "photo" ? (
                     <>
                       {/* <Image
@@ -61,7 +61,7 @@ const Table = ({
                   {row?.tableName == "Action" && (
                     <td className="flex rounded-md gap-2">
                       <Link href={`${updateLink}/${item?.id}`}>
-                        <button className="bg-blue-500 hover:bg-blue-600 hover:text-gray-50 text-white rounded-full p-2 duration-300">
+                        <button className="bg-blue-500 hover:bg-blue-600 hover:text-gray-50 text-white rounded-full p-1 transition duration-300">
                           <MdEdit />
                         </button>
                       </Link>

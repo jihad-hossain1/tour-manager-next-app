@@ -53,8 +53,8 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", close);
   }, []);
 
-  const hiddenPath = paths.find((item) => item.search(path) )
-  console.log("🚀 ~ Header ~ hiddenPath:", hiddenPath)
+  const hiddenPath = paths.some((item) => path.startsWith(item));
+
   return (
     <div className={ 
       hiddenPath

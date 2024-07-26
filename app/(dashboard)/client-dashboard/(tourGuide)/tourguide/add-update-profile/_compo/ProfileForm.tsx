@@ -146,7 +146,7 @@ const ProfileForm = ({ id, cities, countries, tourGuideProfile }) => {
           clientId: clientId,
           cityId: cityId,
           countryId: countryId,
-          about,
+          about: about,
         });
 
         setLoading(false);
