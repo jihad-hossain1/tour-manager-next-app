@@ -14,7 +14,7 @@ const PopularDestination = async () => {
       <Title firstText="Popular" secondText="Tour Destinations" />
       <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data?.slice(0, 8)?.map((city) => (
-          <Link href={`/countries/cities/${city?.id}`} key={city?.id} className="max-w-[300px] relative">
+          <Link href={`/countries/cities/${city?.slug}`} key={city?.id} className="max-w-[300px] relative">
             <div>
               <Image src={city?.photo} width={1000} height={300} className="w-[300px]" alt="city" />
             </div>

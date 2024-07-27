@@ -26,6 +26,7 @@ export type Continent = {
 };
 
 export type CityType = {
+  slug: any;
   id: string;
   name: string;
   photo: string;

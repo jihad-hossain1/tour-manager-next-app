@@ -12,9 +12,11 @@ export const getCities = async (): Promise<CityResponse> => {
       id
       name
       photo
+      slug
       divisionId
       description
       countryId
+      
     }
   }
     `
@@ -32,6 +34,7 @@ export const getCity = async (id:string) => {
         getCity(id: $id) {
           id
           name
+          slug
           photo
           description
           countryId
@@ -47,3 +50,28 @@ export const getCity = async (id:string) => {
 
   return gqlResponse 
 }
+
+
+export const getCityWithTourSpots = async (slug: string) => {
+  const client = getClient();
+  const gqlResponse = await client.request<CityResponse>(
+    gql`
+      query getCityWithTourSpots($slug: String) {
+        getCityWithTourSpots(slug: $slug) {
+          id
+          name
+          slug
+          photo
+          description
+          totalTourSpots {
+            name
+            photo
+          }
+        }
+      }
+    `,
+    { slug: slug },
+  );
+
+  return gqlResponse;
+};
