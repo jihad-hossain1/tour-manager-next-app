@@ -66,6 +66,7 @@ export const getCityWithTourSpots = async (slug: string) => {
           totalTourSpots {
             name
             photo
+            slug
           }
         }
       }
