@@ -20,6 +20,7 @@ const debounce = (func, delay) => {
 
 const TourPlacepage = () => {
   const [tourSpots, setTourSpots] = useState([]);
+  console.log("🚀 ~ TourPlacepage ~ tourSpots:", tourSpots)
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [limit, setLimit] = useState(16);
@@ -83,10 +84,10 @@ const TourPlacepage = () => {
               </div>
             ) : (
               <div className="grid max-sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {tourSpots.map((tourSpot, index) => (
+                {tourSpots?.map((tourSpot, index) => (
                   <div key={index} className="bg-white w-fit shadow group">
                     <div className="relative flex flex-col gap-2 max-sm:gap-1 border">
-                      <Link href={`/tour-place/${tourSpot?.slug}`}>
+                      <Link href={`/tour-place/${tourSpot?.country?.name}/${tourSpot?.division?.name}/${tourSpot?.city?.name}/${tourSpot?.slug}`}>
                         <Image
                           alt="tour spot"
                           height={200}
@@ -100,7 +101,7 @@ const TourPlacepage = () => {
                         </h4>
                       </div>
                       <div className="lg:group-hover:block absolute hidden z-10 bottom-0 w-full bg-blue-600 py-3 text-white text-center group-hover:transition duration-500">
-                        <Link href={`/tour-place/${tourSpot?.slug}`}>Read More</Link>
+                        <Link href={`/tour-place/${tourSpot?.country?.name}/${tourSpot?.division?.name}/${tourSpot?.city?.name}/${tourSpot?.slug}`}>Read More</Link>
                       </div>
                     </div>
                   </div>

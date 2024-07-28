@@ -1,10 +1,15 @@
 import { gql } from "graphql-request";
 import { getClient } from "../graphqlClient";
-import { TSingleTourSpotResponse, TTourSpotResponse, TourSpotDetailResponse, TourSpotResponse } from "@/helpers/interface";
+import {
+  TSingleTourSpotResponse,
+  TTourSpotResponse,
+  TourSpotDetailResponse,
+  TourSpotResponse,
+} from "@/helpers/interface";
 import { TourSpotDetailType, TourSpotType } from "@/helpers/types";
 
 export const getTourSpotDetails = async (
-  slug: string
+  slug: string,
 ): Promise<TourSpotDetailResponse> => {
   const client = getClient();
   const gqlResponse = await client.request<{
@@ -17,16 +22,14 @@ export const getTourSpotDetails = async (
           name
           description
           photo
-          perfectTourTime
-          howToGoThere
-          howToStayThere
-          howDoHere
-          whereToEat
-          tourTipsGuide
-          topTourPlace
           cityId
+          division {
+            name
+          }
           city {
-            id
+            name
+          }
+          country {
             name
           }
           reviews {
@@ -50,7 +53,7 @@ export const getTourSpotDetails = async (
         }
       }
     `,
-    { slug: slug }
+    { slug: slug },
   );
   return {
     data: gqlResponse.singleTourspotDetails,
@@ -58,7 +61,7 @@ export const getTourSpotDetails = async (
 };
 
 export const getTourSpotByCountryId = async (
-  countryId: string
+  countryId: string,
 ): Promise<TourSpotResponse> => {
   const client = getClient();
   const gqlResponse = await client.request<{
@@ -73,7 +76,7 @@ export const getTourSpotByCountryId = async (
         }
       }
     `,
-    { countryId: countryId }
+    { countryId: countryId },
   );
   return {
     data: gqlResponse.tourSpotsByCountryId
@@ -95,15 +98,18 @@ export const getAllTourSpots = async (): Promise<TourSpotResponse> => {
           photo
         }
       }
-    `
+    `,
   );
   return {
     data: gqlResponse.tourSpots || [],
   };
-}
+};
 
-
-export const getPaginatatedTourSpots = async (search:string, limit:number, page:number): Promise<TourSpotResponse> =>{
+export const getPaginatatedTourSpots = async (
+  search: string,
+  limit: number,
+  page: number,
+): Promise<TourSpotResponse> => {
   const client = getClient();
   const gqlResponse = await client.request<{
     tourSpotsPagination: TourSpotType[];
@@ -115,41 +121,51 @@ export const getPaginatatedTourSpots = async (search:string, limit:number, page:
           name
           photo
           slug
+          division {
+            name
+          }
+          city {
+            name
+          }
+          country {
+            name
+          }
         }
       }
     `,
-    { search: search, limit: limit, page: page }
-  )
+    { search: search, limit: limit, page: page },
+  );
 
   return {
-    data: gqlResponse.tourSpotsPagination || []
-  }
-}
+    data: gqlResponse.tourSpotsPagination || [],
+  };
+};
 
-
-export const getTourSpot = async (id: string): Promise<TSingleTourSpotResponse> => {
-  const client = getClient()
+export const getTourSpot = async (
+  id: string,
+): Promise<TSingleTourSpotResponse> => {
+  const client = getClient();
   const response: { singleTourspot: TourSpotType } = await client.request(
     gql`
-      query getTourSpot($id: ID){
-        singleTourspot(id: $id){
-          id 
+      query getTourSpot($id: ID) {
+        singleTourspot(id: $id) {
+          id
           name
-          photo 
+          photo
           description
-          cityId 
-          divisionId 
+          cityId
+          divisionId
           countryId
           slug
         }
       }
-    `, {
-      id: id
-    }
-  )
+    `,
+    {
+      id: id,
+    },
+  );
 
   return {
-    data: response?.singleTourspot || null
-  }
-}
-
+    data: response?.singleTourspot || null,
+  };
+};

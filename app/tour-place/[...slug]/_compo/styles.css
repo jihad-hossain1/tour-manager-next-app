@@ -1,0 +1,56 @@
+
+
+#details p {
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.5;
+    /* word-break:  ; */
+    break-inside: unset;
+  }
+
+  #details h1 {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 38px;
+  }
+  #details h2 {
+    font-size: 26px;
+    font-weight: 500;
+  }
+  #details h3 {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  #details h4 {
+    color: #222;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  /* You can add more styles for other tags as needed */
+  #details ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  #details ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+  }
+  
+  #details a {
+    color: rgb(0, 94, 255);
+    text-decoration: underline;
+  }
+  
+  #details img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .sticky-custome {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5px;
+}
