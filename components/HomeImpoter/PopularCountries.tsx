@@ -6,14 +6,14 @@ import Link from "next/link";
 import Image from "next/image";
 
 const PopularCountries = async () => {
-  const { data } = await getCountries();
+  const data  = await getCountries();
   return (
     <Container>
       <div className="mt-6 md:mt-10  px-2">
         <Title firstText="Popular Tour" secondText="Countries" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {data?.slice(0, 8)?.map((country, _i) => (
-            <Link href={`/countries/${country?.id}`} key={_i} className="max-w-[300px] relative">
+          {data?.data?.slice(0, 8)?.map((country, _i) => (
+            <Link href={`/countries/${country?.slug}`} key={_i} className="max-w-[300px] relative">
               <div>
                 <Image
                   width={1000}

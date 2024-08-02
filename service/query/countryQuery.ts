@@ -18,6 +18,7 @@ export const getCountries = async (): Promise<CountryResponse> => {
           photo
           description
           continentId
+          slug
         }
       }
     `
@@ -47,5 +48,42 @@ export const getCountry = async (id: string): Promise<CountryTypeResponse> => {
   );
   return {
     data: gqlResponse.country,
+  };
+};
+
+export const getCountryWithTourSpot = async (slug: string): Promise<CountryTypeResponse> => {
+  const client = getClient();
+  const gqlResponse = await client.request<{
+    country_by_slug: CountryType;
+  }>(
+    gql`
+      query getCountry($slug: String!) {
+        country_by_slug(slug: $slug) {
+          id
+          name
+          description
+          photo
+          continentId
+          touristSpots{
+            name
+            slug 
+            photo
+            division {
+            name
+          }
+          city {
+            name
+          }
+          country {
+            name
+          }
+          }
+        }
+      }
+    `,
+    { slug: slug }
+  );
+  return {
+    data: gqlResponse.country_by_slug,
   };
 };

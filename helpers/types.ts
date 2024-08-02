@@ -38,6 +38,7 @@ export type CityType = {
 };
 
 export type CountryType = {
+  slug: string;
   id: string;
   name: string;
   photo: string;

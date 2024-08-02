@@ -4,7 +4,7 @@ import { getCityWithTourSpots } from "@/service/query/cityQuery";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import tourImage from "@/public/Images/tourspot/spot.webp";
-import cityImage from "@/public/Images/city/city.jpg"
+import cityImage from "@/public/Images/city/city.jpg";
 import Link from "next/link";
 
 const Cities = ({ params }) => {
@@ -49,31 +49,35 @@ const Cities = ({ params }) => {
         {cityInfo?.totalTourSpots?.length > 0 ? (
           <div className="grid max-sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {cityInfo?.totalTourSpots?.map((tourSpot, index: number) => (
-                <div key={index} className="bg-white w-fit shadow group">
-                  <div className="relative flex flex-col gap-2 max-sm:gap-1 border">
-                    <Link href={`/tour-place/${tourSpot?.slug}`}>
-                      <Image
-                        alt="tour spot"
-                        height={200}
-                        width={1000}
-                        className="w-[350px]"
-                        src={tourSpot?.photo ? tourSpot?.photo : tourImage}
-                      />
-                    </Link>
-                    <div className="p-2">
-                      <h4 className="lg:font-semibold max-sm:text-sm">
-                        {tourSpot?.name?.length > 35
-                          ? `${tourSpot?.name?.slice(0, 35)}...`
-                          : tourSpot?.name}
-                      </h4>
-                    </div>
-                    <div className="lg:group-hover:block absolute hidden z-10 bottom-0 w-full bg-blue-600 py-3 text-white text-center group-hover:transition duration-500">
-                      <Link href={`/tour-place/${tourSpot?.slug}`}>
-                        Read More
-                      </Link>
-                    </div>
+              <div key={index} className="bg-white w-fit shadow group">
+                <div className="relative flex flex-col gap-2 max-sm:gap-1 border">
+                  <Link
+                    href={`/tour-place/${tourSpot?.country?.name}/${tourSpot?.division?.name}/${tourSpot?.city?.name}/${tourSpot?.slug}`}
+                  >
+                    <Image
+                      alt="tour spot"
+                      height={200}
+                      width={1000}
+                      className="w-[350px]"
+                      src={tourSpot?.photo ? tourSpot?.photo : tourImage}
+                    />
+                  </Link>
+                  <div className="p-2">
+                    <h4 className="lg:font-semibold max-sm:text-sm">
+                      {tourSpot?.name?.length > 35
+                        ? `${tourSpot?.name?.slice(0, 35)}...`
+                        : tourSpot?.name}
+                    </h4>
                   </div>
+                  <Link
+                    href={`/tour-place/${tourSpot?.country?.name}/${tourSpot?.division?.name}/${tourSpot?.city?.name}/${tourSpot?.slug}`}
+                  >
+                    <div className="lg:group-hover:block absolute hidden z-10 bottom-0 w-full bg-blue-600 py-3 text-white text-center group-hover:transition duration-500">
+                      Read More
+                    </div>
+                  </Link>
                 </div>
+              </div>
             ))}
           </div>
         ) : (

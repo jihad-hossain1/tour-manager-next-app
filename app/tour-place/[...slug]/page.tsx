@@ -1,4 +1,3 @@
-import PageContainer from '@/components/ui/pageContainer';
 import { getTourSpotDetails } from '@/service/query/tourSpotQuery';
 import React from 'react'
 import Details from './_compo/Details';

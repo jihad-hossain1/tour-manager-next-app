@@ -67,6 +67,15 @@ export const getCityWithTourSpots = async (slug: string) => {
             name
             photo
             slug
+            division {
+            name
+          }
+          city {
+            name
+          }
+          country {
+            name
+          }
           }
         }
       }
