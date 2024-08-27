@@ -24,7 +24,7 @@ const Homepage = () => {
       <PopularPrivateCars />
       <PopularVirtualTours />
       <LatestArticles />
-      <PopularArticles />
+      <PopularArticles /> 
     </div>
   );
 };

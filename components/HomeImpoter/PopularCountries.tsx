@@ -4,6 +4,7 @@ import Container from "../ui/container";
 import Title from "../ui/Title/Title";
 import Link from "next/link";
 import Image from "next/image";
+import countryPhoto from '@/public/Images/tourspot/spot.webp'
 
 const PopularCountries = async () => {
   const data  = await getCountries();
@@ -19,7 +20,7 @@ const PopularCountries = async () => {
                   width={1000}
                   height={300}
                   alt="continent image"
-                  src={country?.photo}
+                  src={country?.photo ? country?.photo : countryPhoto}
                   className="w-[300px] object-cover"
                 />
               </div>

@@ -62,15 +62,10 @@ const UserLoginpage = () => {
   }
 
   return <PageContainer>
-    <div className="my-20">
+    <div className="flex items-center justify-center min-h-[70vh] ">
       <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          maxWidth: "500px",
-          margin: "0 auto",
-          padding: "20px",
-        }}
+      <div
+  className="max-sm:w-[350px] w-[700px] border max-sm:p-3 p-20 shadow-[0px_0px_2px_rgba(0,0,0,0.25)] rounded-lg"        
       >
 
         <div style={{
@@ -146,7 +141,7 @@ const UserLoginpage = () => {
             </Grid>
           </Grid>
         </Box>
-      </Box>
+      </div>
     </div>
 
   </PageContainer>;

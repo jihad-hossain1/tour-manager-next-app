@@ -7,5 +7,5 @@ export const getClient = () => {
       cache: "no-store",
     }
   );
-  return client;
+  return client
 };

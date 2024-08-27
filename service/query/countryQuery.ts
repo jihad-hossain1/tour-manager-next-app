@@ -23,6 +23,7 @@ export const getCountries = async (): Promise<CountryResponse> => {
       }
     `
   );
+  console.log("🚀 ~ getCountries ~ gqlResponse:", gqlResponse)
   return {
     data: gqlResponse.countries || [],
   };
