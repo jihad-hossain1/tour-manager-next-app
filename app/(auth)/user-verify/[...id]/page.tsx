@@ -21,7 +21,7 @@ const VerifyPage = ({ params }: { params: { id: string[] } }) => {
     setIsLoading(true);
     setError("");
     try {
-      const response = await fetch("/api/v1/users/verify-user", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/users/verify-user`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const VerifyPage = ({ params }: { params: { id: string[] } }) => {
     setcodeAgain(true);
     setError("");
     try {
-      const response = await fetch("/api/v1/users/verify-user", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/users/verify-user`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

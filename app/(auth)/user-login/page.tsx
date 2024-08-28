@@ -62,7 +62,7 @@ const UserLoginpage = () => {
 
   const handleSendAgain = async () => {
     try {
-      const response = await fetch("/api/v1/users/verify-user", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/users/verify-user`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const UserLoginpage = () => {
 
       const data = await response.json();
 
-
+      
     } catch (error) {
       console.error("Error verifying:", error);
 
