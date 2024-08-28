@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { TbLoaderQuarter } from "react-icons/tb";
+import { verifyUser } from "../server-action";
 
 const VerifyPage = ({ params }: { params: { id: string[] } }) => {
   const [mailFromLocal, setmailFromLocal] = useState("");
@@ -21,15 +22,8 @@ const VerifyPage = ({ params }: { params: { id: string[] } }) => {
     setIsLoading(true);
     setError("");
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/users/verify-user`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ vcode, email: mailFromLocal }),
-      });
-
-      const data = await response.json();
+      const data = await verifyUser({ email: mailFromLocal, vcode: vcode });
+      console.log("🚀 ~ handleVerify ~ data:", data)
 
       if (data.error) {
         setError(data.error);
@@ -50,16 +44,9 @@ const VerifyPage = ({ params }: { params: { id: string[] } }) => {
     setcodeAgain(true);
     setError("");
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/v1/users/verify-user`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({email: mailFromLocal,sendAgain:'sendAgain' }),
-      });
-
-      const data = await response.json();
-
+     
+      const data  = await verifyUser({email: mailFromLocal,sendAgain:'sendAgain' })
+      console.log("🚀 ~ handleSendAgain ~ data:", data)
       if (data.error) {
         setError(data.error);
       }
