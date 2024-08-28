@@ -106,7 +106,7 @@ const UserLoginpage = () => {
         >
           {errors && <p className="text-red-500 text-sm">{errors}  {errors == "email Number are not verifyed" && <button onClick={() => {
             handleSendAgain()
-            router.push(`/verify-email/${formData?.email}`)
+            router.push(`/user-verify/${formData?.email}`)
           }} className="text-blue-500 underline font-bold">Verify Email</ button >} </p>}
           <TextField
             margin="normal"
