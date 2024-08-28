@@ -2,6 +2,7 @@
 
 import { Avatar, Box, Button, Checkbox, CssBaseline, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
@@ -13,7 +14,7 @@ const RegisterUser = () => {
   const [loading, setloading] = useState<boolean>(false);
   const [errors, setErrors] = useState<string | null>('');
   const [isVisible, setVisible] = useState<boolean>(false);
-
+  const router = useRouter();
   function toggle() {
     setVisible(!isVisible);
   };
@@ -53,8 +54,6 @@ const RegisterUser = () => {
           duration: 3000, position: 'top-right', style: {
             border: 'solid 2px #4ade80',
             color: '#000000',
-            fontSize: '20px',
-            fontWeight: 'bolder',
             borderRadius: '10px',
             padding: '10px',
           }
@@ -65,7 +64,12 @@ const RegisterUser = () => {
           email: '',
           name: ''
         })
+
+        setTimeout(() => {
+          router.push(`/user-verify/${json?.result?.email}`);
+        }, 500);
       }
+    
     } catch (error) {
       console.log((error as Error).message);
     }

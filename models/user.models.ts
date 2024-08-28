@@ -37,8 +37,9 @@ const userSchema = new mongoose.Schema(
             enum: ["active", "inactive"],
             default: "inactive",
         },
-        verifiedToken: {
+        vcode: {
             type: String,
+            maxlength: [10, "Code can not be more than 10 characters"],
         },
     },
     { timestamps: true },

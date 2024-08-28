@@ -1,9 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-// import prisma from "../../../../prisma/prisma";
 import User from "@/models/user.models";
 import Client from "@/models/client.models";
 import bcrypt from "bcryptjs";
-import { JWT } from "next-auth/jwt";
 import { NextAuthOptions } from "next-auth";
 import mongooseConnection from "@/config/connectDB";
 
@@ -57,10 +55,10 @@ export const options: NextAuthOptions = {
           type: "email",
           placeholder: "your-Email",
         },
-        mobile: {
-          label: "mobile number:",
+        uemail: {
+          label: "email number:",
           type: "text",
-          placeholder: "your mobile numer",
+          placeholder: "your email numer",
         },
         password: {
           label: "password:",
@@ -75,21 +73,24 @@ export const options: NextAuthOptions = {
       },
 
       async authorize(
-        credentials: Record<"email" | "password" | "mobile" | "for", string>
+        credentials: Record<"email" | "password" | "uemail" | "for", string>
       ) {
         if (!credentials) return null;
 
-        const { email, password, mobile } = credentials;
+        const { email, password, uemail } = credentials;
 
         await mongooseConnection();
 
         if (credentials.for == "user") {
           const user = await User.findOne({
-            mobile: mobile,
+            email: uemail,
           });
 
           if (!user) {
-            return Promise.reject(new Error("Mobile Number are not valid"));
+            return Promise.reject(new Error("email Number are not valid"));
+          }
+          if (user.verifyed === 'inactive') {
+            return Promise.reject(new Error("email Number are not verifyed"));
           }
 
           const validPassword = await bcrypt.compare(password, user?.password);

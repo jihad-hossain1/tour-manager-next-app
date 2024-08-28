@@ -21,7 +21,7 @@ const UserLoginpage = () => {
   };
 
   const [formData, setFormData] = useState({
-    mobile: '',
+    email: '',
     password: ''
   })
 
@@ -37,11 +37,9 @@ const UserLoginpage = () => {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    console.log(formData)
-
     try {
       const res = await signIn("credentials", {
-        mobile: formData?.mobile,
+        uemail: formData?.email,
         password: formData?.password,
         redirect: false,
         for: "user",
@@ -61,11 +59,31 @@ const UserLoginpage = () => {
     }
   }
 
+
+  const handleSendAgain = async () => {
+    try {
+      const response = await fetch("/api/v1/users/verify-user", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData?.email, sendAgain: 'sendAgain' }),
+      });
+
+      const data = await response.json();
+
+
+    } catch (error) {
+      console.error("Error verifying:", error);
+
+    }
+  };
+
   return <PageContainer>
     <div className="flex items-center justify-center min-h-[70vh] ">
       <CssBaseline />
       <div
-  className="max-sm:w-[350px] w-[700px] border max-sm:p-3 p-20 shadow-[0px_0px_2px_rgba(0,0,0,0.25)] rounded-lg"        
+        className="max-sm:w-[350px] w-[700px] border max-sm:p-3 p-20 shadow-[0px_0px_2px_rgba(0,0,0,0.25)] rounded-lg"
       >
 
         <div style={{
@@ -86,15 +104,18 @@ const UserLoginpage = () => {
           noValidate
           sx={{ mt: 1 }}
         >
-          {errors && <p className="text-red-500 text-sm">{errors}</p>}
+          {errors && <p className="text-red-500 text-sm">{errors}  {errors == "email Number are not verifyed" && <button onClick={() => {
+            handleSendAgain()
+            router.push(`/verify-email/${formData?.email}`)
+          }} className="text-blue-500 underline font-bold">Verify Email</ button >} </p>}
           <TextField
             margin="normal"
             required={true}
             fullWidth
-            id="mobile"
-            label="Mobile Number"
-            name="mobile"
-            defaultValue={formData?.mobile}
+            id="email"
+            label="Email"
+            name="email"
+            defaultValue={formData?.email}
             onChange={handleChange}
             autoFocus
           />
