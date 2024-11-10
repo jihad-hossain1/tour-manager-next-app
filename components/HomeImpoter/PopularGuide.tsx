@@ -40,7 +40,7 @@ const PopularGuide = () => {
           {
             [...Array(8)].map((_, index) => <div className="h-[200px] w-[300px] bg-slate-200 animate-pulse" key={index} />)
           }
-        </div> : <div className="flex flex-col items-center md:grid lg:grid-cols-4 grid-cols-1 md:grid-cols-2 gap-4">
+        </div> : <div className="grid md:grid lg:grid-cols-4 grid-cols-2 gap-4">
           {
             tourGuides?.map((guide, index) => (
               <Link  href={`/tour-guide/${guide?.slug}`} key={index}>
@@ -55,15 +55,15 @@ const PopularGuide = () => {
                   />
 
                   <CardContent className="flex flex-col gap-2">
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography gutterBottom variant="h5" component="div" className=" max-sm:text-sm">
                       {guide?.clientInfo?.name}
                     </Typography>
-                    <div className="flex gap-1 items-center text-xs">
+                    <div className="flex gap-1 md:items-center text-xs flex-col md:flex-row ">
                       <div className="w-fit flex items-center gap-1">
-                        <Rating readOnly value={5} />
-                        <span className="font-semibold"> {`${5.0}/5`}</span>
+                        <Rating readOnly value={5} className=" max-sm:text-sm" />
+                        <span className="font-semibold  max-sm:text-sm"> {`${5.0}/5`}</span>
                       </div>
-                      <div className="w-fit font-bold">{`(${1} reviews)`}</div>
+                      <div className="w-fit font-bold max-sm:text-sm">{`(${1} reviews)`}</div>
                     </div>
                     <div className="w-fit bg-gray-200 px-3 rounded-md text-sm">{
                       guide?.city?.name}</div>
